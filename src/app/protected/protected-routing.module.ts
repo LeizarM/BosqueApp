@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { DocumentoComponent } from './cartas-cite/pages/documento/documento.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AutorizacionComponent } from './precios/pages/autorizacion/autorizacion.component';
 
-const routes: Routes = [
+ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'tprAutorizacion/Autorizacion',
         component: AutorizacionComponent
+      },
+      {
+        path: 'tcrDocumento/Documento',
+        component: DocumentoComponent
       },
       {
         path: '**',

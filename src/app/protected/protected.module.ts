@@ -5,6 +5,7 @@ import { ProtectedRoutingModule } from './protected-routing.module';
 import { LayoutComponent } from './layout/layout.component';
 import { SharedModule } from './shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DocumentoComponent } from './cartas-cite/pages/documento/documento.component';
 
 
 
@@ -12,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   declarations: [
     LayoutComponent,
     DashboardComponent,
+    DocumentoComponent,
 
   ],
   imports: [

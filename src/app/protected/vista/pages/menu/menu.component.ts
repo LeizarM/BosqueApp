@@ -17,18 +17,15 @@ export class MenuComponent {
   ) { }
 
   ngOnInit(): void {
-    this.obtenerMenuXUsuario(2);
+    this.obtenerMenuXUsuario(34);
   }
   /**
    * Procedimiento para obtener el menu dinamico por usuario
    * @param codUsuario
    */
   obtenerMenuXUsuario(codUsuario: number): void {
-    console.log("entro en obtenerMenuXUsuario");
-
     this.hayError = false;
-
-    this.vistaService.obtenerMenuDinamico(34).subscribe((items) => {
+    this.vistaService.obtenerMenuDinamico(codUsuario).subscribe((items) => {
       this.items = items;
       console.log(this.items);
     }, (err) => {

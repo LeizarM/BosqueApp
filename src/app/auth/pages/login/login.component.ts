@@ -16,8 +16,6 @@ export class LoginComponent {
    */
   verficarLogin(login: string = "mjaimes", password: string = "houki123"): void {
 
-
-
     this.loginService.verificarLogin(login, password)
       .subscribe(resp => {
         console.log(resp);
