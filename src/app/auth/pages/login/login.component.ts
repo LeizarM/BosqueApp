@@ -22,7 +22,7 @@ export class LoginComponent {
       .subscribe(resp => {
         console.log(resp);
         if (resp.codUsuario! > 0) {
-          this.router.navigate(['./dashboard']);
+          this.router.navigate(['./bosque/dashboard']);
         }
       });
 

@@ -8,9 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule )
   },
   {
-    path: 'dashboard',
+    path: 'bosque',
     loadChildren: () => import('./protected/protected.module').then( m => m.ProtectedModule )
   },
+
   {
     path: '**',
     redirectTo: 'auth'
