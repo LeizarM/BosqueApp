@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<!-- NAVBAR-->
+<app-navbar></app-navbar>
+<!-- END NAVBAR-->
+<div id="layoutSidenav">
+  <!-- SIDEBAR-->
+  <div id="layoutSidenav_nav">
+      <app-sidebar></app-sidebar>
+  </div>
+  <!-- END SIDEBAR-->
+
+  <!-- CONTENT -->
+  <div id="layoutSidenav_content">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+    <!-- FOOTER -->
+    <app-footer></app-footer>
+    <!-- END FOOTER -->
+  </div>
+  <!-- END CONTENT -->
+</div>
