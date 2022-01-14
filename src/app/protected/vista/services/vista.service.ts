@@ -19,7 +19,7 @@ export class VistaService {
    */
    obtenerMenuDinamico(  codUsuario: number ): Observable<Vista[]> {
 
-    const url = `${this.baseUrl}/login/vistaDinamica`;
+    const url = `${this.baseUrl}/auth/vistaDinamica`;
     console.log("el url es= "+url);
     const cabecera = new HttpHeaders();
     cabecera.append('Content-Type', 'application/json');

@@ -43,9 +43,12 @@ export class LoginService {
   }
 
   /**
-   * ========== ATRIBUTOS ENCAPSULADOS ================
+   * ========== PROCEDIMIENTOS ================
    */
 
+  /**
+   * Devolvera datos del usuario
+   * */
   get obtenerUsuario(): Login {
       return {... this._usuario! };
   }
