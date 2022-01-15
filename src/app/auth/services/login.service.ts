@@ -28,7 +28,7 @@ export class LoginService {
    */
   verificarLogin( codUsuario : string, password : string ): Observable<Login>{
 
-    const url = `${this.baseUrl}/login/login`;
+    const url = `${this.baseUrl}/auth/login`;
     const cabecera = new HttpHeaders();
     cabecera.append('Content-Type', 'application/json');
     const data = {
