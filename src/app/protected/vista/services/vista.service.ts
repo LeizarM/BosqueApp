@@ -9,6 +9,7 @@ import { Vista } from '../interface/Vista';
 })
 export class VistaService {
 
+  private bearer: string ='Bearer ';
   private baseUrl: string = environment.baseUrl;
 
 
@@ -19,10 +20,12 @@ export class VistaService {
    */
    obtenerMenuDinamico(  codUsuario: number ): Observable<Vista[]> {
 
-    const url = `${this.baseUrl}/auth/vistaDinamica`;
-    console.log("el url es= "+url);
-    const cabecera = new HttpHeaders();
-    cabecera.append('Content-Type', 'application/json');
+    const url = `${this.baseUrl}/view/vistaDinamica`;
+    const cabecera = new HttpHeaders({
+      'Content-Type':  'application/json',
+       Authorization: this.bearer+'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtamFpbWVzIiwiaWF0IjoxNjQyNzgxNjQ2LCJleHAiOjE2NDI4MTc2NDZ9.Okrv0rMwGUupqdnfet4GlCMNZBCVSUzxCxGl5YUasDasnIc3Dkq3YWKKpO6tO6pLlrokZrpXDQnjcgnuek7EyQ'
+    });
+
     const data = {
       "codUsuario" : codUsuario,
     };
