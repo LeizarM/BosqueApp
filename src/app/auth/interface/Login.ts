@@ -14,6 +14,19 @@ export interface Login {
     elTemaSelecionado?: string;
     empleado?:          Empleado;
     sucursal?:          Sucursal;
+
+    //atributos auxiliares
+    nombreCompleto?:    string;
+    cargo?:             string;
+    codEmpresa?:        number;
+    token?:             string;
+    ok?:                boolean;
+    authoriy?:          Authority[];
+}
+
+
+export interface Authority {
+  authority?: string;
 }
 
 

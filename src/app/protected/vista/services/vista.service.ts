@@ -23,7 +23,7 @@ export class VistaService {
     const url = `${this.baseUrl}/view/vistaDinamica`;
     const cabecera = new HttpHeaders({
       'Content-Type':  'application/json',
-       Authorization: this.bearer+'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtamFpbWVzIiwiaWF0IjoxNjQyNzgxNjQ2LCJleHAiOjE2NDI4MTc2NDZ9.Okrv0rMwGUupqdnfet4GlCMNZBCVSUzxCxGl5YUasDasnIc3Dkq3YWKKpO6tO6pLlrokZrpXDQnjcgnuek7EyQ'
+       Authorization: this.bearer+'eyhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtamFpbWVzIiwianRpIjoiMzQiLCJub21icmVFbXBsZWFkbyI6IiBKQUlNRVMgTUFSQ0VMTyBKQVZJRVIiLCJjYXJnbyI6IkFVWElMSUFSIERFIFNJU1RFTUFTIiwiY29kU3VjdXJzYWwiOjEsImNvZEVtcHJlc2EiOjEsInRpcG9Vc3VhcmlvIjoiYWRtIiwiaWF0IjoxNjQzMjA4NDk3LCJleHAiOjE2NDMyNDQ0OTd9.MsmPYGOyQWxnXiXYeGW70J4yTvSTvfwDrrY9kUmpWLJ1th72dWDoV37_w_C3GLY07BryPHP35lLZoADdaQN_6w'
     });
 
     const data = {

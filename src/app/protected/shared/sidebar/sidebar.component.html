@@ -13,8 +13,7 @@
     <!-- Footer Sidebar  -->
     <div class="sb-sidenav-footer">
       <div class="small">Inicio Sesion Como:</div>
-      {{ obtenerUsuario.empleado?.persona?.datoPersona  }}
-      {{ obtenerUsuario.empleado?.cargo?.descripcion  }}
-      {{ obtenerUsuario.sucursal?.nombre }}, {{ obtenerUsuario.sucursal?.nombreCiudad }}, {{ obtenerUsuario.sucursal?.nombreEmpresa }}
+      {{ obtenerUsuario | json }}
+
     </div>
   </nav>

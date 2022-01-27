@@ -23,6 +23,8 @@ export class SidebarComponent implements OnInit {
    * Obteniendo el usuario
    */
   get obtenerUsuario(): Login  {
-      return this.loginService.obtenerUsuario!;
+    //console.log("el usuario en el sidebar es= ", this.loginService.obtenerUsuario! );
+    //desestructuracion
+      return {};
   }
 }

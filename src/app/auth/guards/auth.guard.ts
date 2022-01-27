@@ -9,25 +9,33 @@ import { LoginService } from '../services/login.service';
 
 export class AuthGuard implements CanActivate, CanLoad {
 
-  constructor( private loginService: LoginService,
-               private router: Router ){
+  constructor(private loginService: LoginService,
+    private router: Router) {
 
   }
 
-  canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<boolean> | boolean  {
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | boolean {
 
-    /* if( this.loginService.obtenerUsuario.codUsuario ) return true;
-    return false; */
+    if (this.loginService.obtenerUsuario.codUsuario! > 0 && this.loginService.obtenerToken.length > 0 ) {
+      return true;
+    } else {
+      this.router.navigate(['/auth']);
+      return false;
+    }
 
-    return true;//this.loginService.verificarLogin()
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+
+    if (this.loginService.obtenerUsuario.codUsuario! > 0 && this.loginService.obtenerToken.length > 0){
+      return true;
+    }else{
+      this.router.navigate(['/auth']);
+      return false;
+    }
 
   }
 
 
-  canLoad( route: Route,    segments: UrlSegment[] ): Observable<boolean> |  boolean {
 
-    if( this.loginService.obtenerUsuario.codUsuario ) return true;
-
-    return false;
-  }
 }
