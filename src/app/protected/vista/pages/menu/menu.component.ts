@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
+import { LoginService } from 'src/app/auth/services/login.service';
 import { VistaService } from '../../services/vista.service';
 
 
@@ -13,11 +14,12 @@ export class MenuComponent {
   items: MenuItem[] = [];
   hayError: boolean = false;
   constructor(
-    private vistaService: VistaService
+    private vistaService: VistaService,
+    private loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
-    this.obtenerMenuXUsuario(34);
+    this.obtenerMenuXUsuario(this.loginService.obtenerUsuario.codUsuario!);
   }
   /**
    * Procedimiento para obtener el menu dinamico por usuario

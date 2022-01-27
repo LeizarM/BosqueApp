@@ -50,6 +50,10 @@ export class LoginComponent {
         }else{
           this.hayError = true;
         }
+      }, err => {
+        if(err.status == 400){
+          console.log("error de credenciales");
+        }
       });
 
   }

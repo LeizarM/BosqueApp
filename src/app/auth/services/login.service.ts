@@ -46,7 +46,7 @@ export class LoginService {
     return this.http.post<Login>(url, data, { headers: cabecera })
       .pipe(
         tap(resp => {
-          if (resp.token) {
+          if ( resp.token ) {
             this.guardarToken( resp.token );
             this.guardarUsuario( resp );
           }
