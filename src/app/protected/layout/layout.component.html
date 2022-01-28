@@ -4,15 +4,17 @@
 <div id="layoutSidenav">
   <!-- SIDEBAR-->
   <div id="layoutSidenav_nav">
-      <app-sidebar></app-sidebar>
+    <app-sidebar></app-sidebar>
   </div>
   <!-- END SIDEBAR-->
 
   <!-- CONTENT -->
   <div id="layoutSidenav_content">
-    <div>
+
+    <div class="container-fluid px-3">
       <router-outlet></router-outlet>
     </div>
+
     <!-- FOOTER -->
     <app-footer></app-footer>
     <!-- END FOOTER -->
