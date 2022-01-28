@@ -106,4 +106,13 @@ export class LoginService {
     return '';
   }
 
+  /**
+   * Verificara si ya inicio sesion
+   */
+  isAuthenticated():boolean{
+    let token = this.obtenerToken;
+    if( token != null && token.length > 0 ) return true;
+    return false;
+  }
+
 }

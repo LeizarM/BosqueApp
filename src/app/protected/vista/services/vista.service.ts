@@ -21,15 +21,12 @@ export class VistaService {
    obtenerMenuDinamico(  codUsuario: number ): Observable<Vista[]> {
 
     const url = `${this.baseUrl}/view/vistaDinamica`;
-    const cabecera = new HttpHeaders({
-      'Content-Type':  'application/json',
-       Authorization: this.bearer+'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtamFpbWVzIiwianRpIjoiMzQiLCJub21icmVDb21wbGV0byI6IiBKQUlNRVMgTUFSQ0VMTyBKQVZJRVIiLCJjYXJnbyI6IkFVWElMSUFSIERFIFNJU1RFTUFTIiwiY29kU3VjdXJzYWwiOjEsImNvZEVtcHJlc2EiOjEsInRpcG9Vc3VhcmlvIjoiUk9MRV9BRE0iLCJpYXQiOjE2NDMyOTk1OTQsImV4cCI6MTY0MzMzNTU5NH0.ZJwu_c59iJ3a9B-WPKQCnS17bs0IyszHetNC5vDPmGQyfTsQPuLvXeuHnWOGmAjJq5lugPPWKsuKh1qW2B-rxQ'
-    });
+
 
     const data = {
       "codUsuario" : codUsuario,
     };
-    return this.http.post<Vista[]>( url, data ,{ headers: cabecera });
+    return this.http.post<Vista[]>( url, data );
   }
 
 

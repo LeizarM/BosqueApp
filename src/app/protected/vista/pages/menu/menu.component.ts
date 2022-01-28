@@ -29,7 +29,7 @@ export class MenuComponent {
     this.hayError = false;
     this.vistaService.obtenerMenuDinamico(codUsuario).subscribe((items) => {
       this.items = items;
-      console.log(this.items);
+
     }, (err) => {
       console.error(err);
       this.hayError = true;

@@ -28,7 +28,11 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService,
 
-  ) { }
+  ) {
+    if( this.loginService.isAuthenticated() ){
+      this.router.navigate(['./bosque/dashboard']);
+    }
+  }
 
   /**
    * Verificar las credenciales del usuario
