@@ -1,4 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
+import { Login } from 'src/app/auth/interface/Login';
+import { LoginService } from 'src/app/auth/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +12,9 @@ export class NavbarComponent implements OnInit {
 
   private style : string = 'sb-nav-fixed';
 
-  constructor(private renderer: Renderer2) {
+  constructor( private renderer: Renderer2,
+               private loginService: LoginService,
+               private router: Router) {
     this.renderer.addClass(document.body, this.style );
  }
 
@@ -30,6 +35,22 @@ export class NavbarComponent implements OnInit {
     this.renderer.addClass(document.body, this.style );
     this.renderer.addClass(document.body, 'sb-nav-fixed' );
 
+  }
+  /**
+   * Procedimiento para obtener datos del usuario
+   */
+   get obtenerUsuario(): Login  {
+    return this.loginService.obtenerUsuario;
+  }
+
+  /**
+   * Procedimiento para cerrar sesion
+   */
+  logout(): void {
+    this.loginService.logout();
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 
 }

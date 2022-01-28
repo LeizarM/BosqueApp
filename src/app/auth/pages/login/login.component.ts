@@ -29,6 +29,7 @@ export class LoginComponent {
     private loginService: LoginService,
 
   ) {
+    this.fb = new FormBuilder();
     if( this.loginService.isAuthenticated() ){
       this.router.navigate(['./bosque/dashboard']);
     }

@@ -115,4 +115,57 @@ export class LoginService {
     return false;
   }
 
+  /**
+   * Para cerrar sesion y borrar datos
+   */
+  logout():void {
+    this._token = '';
+    this._usuario = {};
+    localStorage.clear();
+  }
+
+  /**
+   * Para obtener el codigo usuario desde el token de la parte del payload
+   */
+  get codUsuario() : number {
+
+    let token =  this.obtenerToken;
+    if(token == null || token == undefined || token == '') return -1;
+
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload).jti
+  }
+
+  /**
+   * Obtendra el tipo de rol del usuario
+   */
+  get tipoUsuario() : string {
+    let token =  this.obtenerToken;
+    if(token == null || token == undefined || token == '') return '';
+
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload).tipoUsuario;
+  }
+
+  /**
+   * Obtendra el tiempo de expiracion del token
+   */
+  get expiracion():number {
+    let token =  this.obtenerToken;
+    if(token == null || token == undefined || token == '') return -1;
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload).exp;
+  }
 }

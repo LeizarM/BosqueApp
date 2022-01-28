@@ -15,19 +15,13 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | boolean {
-
-    if (this.loginService.obtenerUsuario.codUsuario! > 0 && this.loginService.obtenerToken.length > 0 ) {
-      return true;
-    } else {
-      this.router.navigate(['/auth']);
-      return false;
-    }
-
-  }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-
-    if (this.loginService.obtenerUsuario.codUsuario! > 0 && this.loginService.obtenerToken.length > 0){
+    this.esTokenExpirado()
+    if (this.loginService.codUsuario > 0 &&  this.loginService.isAuthenticated() ){
+      if(!this.esTokenExpirado()){
+        this.loginService.logout()
+        this.router.navigate(['/auth']);
+        return false;
+      }
       return true;
     }else{
       this.router.navigate(['/auth']);
@@ -36,6 +30,30 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   }
 
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
+    if (this.loginService.codUsuario > 0 &&  this.loginService.isAuthenticated() ){
+      if(!this.esTokenExpirado()){
+        this.loginService.logout();
+        this.router.navigate(['/auth']);
+        return false;
+      }
+      return true;
+    }else{
+      this.router.navigate(['/auth']);
+      return false;
+    }
+
+  }
+
+  /**
+   * Metodo para saber si el token expiro
+   */
+  esTokenExpirado(): boolean{
+    let now = new Date().getTime() / 1000;
+    let exp = this.loginService.expiracion;
+    if (exp > now) return true;
+    return false;
+  }
 
 }

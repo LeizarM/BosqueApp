@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map, catchError, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { Vista } from '../interface/Vista';
 
 @Injectable({
@@ -9,7 +10,6 @@ import { Vista } from '../interface/Vista';
 })
 export class VistaService {
 
-  private bearer: string ='Bearer ';
   private baseUrl: string = environment.baseUrl;
 
 
@@ -22,11 +22,22 @@ export class VistaService {
 
     const url = `${this.baseUrl}/view/vistaDinamica`;
 
+    const data = { "codUsuario" : codUsuario   };
 
-    const data = {
-      "codUsuario" : codUsuario,
-    };
-    return this.http.post<Vista[]>( url, data );
+    return this.http.post<Vista[]>( url, data )
+            .pipe(
+              catchError(e => {
+                if (e.status == 401) {
+
+                  return throwError(e);
+                }
+                if (e.ok === false) {
+                  console.error(e.error.error);
+                  return throwError(e);
+                }
+                return throwError(e);
+              })
+            );
   }
 
 

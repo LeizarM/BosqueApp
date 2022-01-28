@@ -13,7 +13,7 @@ export class TokenInterceptorInterceptor implements HttpInterceptor {
 
   constructor( private loginService: LoginService ) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token: string = this.loginService.obtenerToken;
     if ( token != null || token != undefined ){
