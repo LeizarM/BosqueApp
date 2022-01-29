@@ -19,12 +19,16 @@ export class AuthGuard implements CanActivate, CanLoad {
     if (this.loginService.codUsuario > 0 &&  this.loginService.isAuthenticated() ){
       if(!this.esTokenExpirado()){
         this.loginService.logout()
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/auth']).then(() => {
+          window.location.reload();
+        });
         return false;
       }
       return true;
     }else{
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/auth']).then(() => {
+        window.location.reload();
+      });;
       return false;
     }
 
@@ -35,12 +39,16 @@ export class AuthGuard implements CanActivate, CanLoad {
     if (this.loginService.codUsuario > 0 &&  this.loginService.isAuthenticated() ){
       if(!this.esTokenExpirado()){
         this.loginService.logout();
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/auth']).then(() => {
+          window.location.reload();
+        });;
         return false;
       }
       return true;
     }else{
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/auth']).then(() => {
+        window.location.reload();
+      });;
       return false;
     }
 
