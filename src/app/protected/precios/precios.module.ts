@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
+import { AutorizacionComponent } from './pages/autorizacion/autorizacion.component';
+
+
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AutorizacionComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+
   ]
 })
 export class PreciosModule { }
