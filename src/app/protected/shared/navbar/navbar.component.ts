@@ -10,7 +10,7 @@ import { LoginService } from 'src/app/auth/services/login.service';
 })
 export class NavbarComponent implements OnInit {
 
-  private style : string = 'sb-nav-fixed';
+  private style : string = 'sb-sidenav-toggled';
 
   constructor( private renderer: Renderer2,
                private loginService: LoginService,
@@ -25,12 +25,12 @@ export class NavbarComponent implements OnInit {
    * Procedimiento para comprimir o expandir el sidebar o menu lateral
    */
   mostrarOcultarNavBar(){
-    if( this.style === 'sb-nav-fixed' ){
-      this.renderer.removeClass(document.body, this.style);
-      this.style = 'sb-sidenav-toggled';
-    }else{
+    if( this.style === 'sb-sidenav-toggled' ){
       this.renderer.removeClass(document.body, this.style);
       this.style = 'sb-nav-fixed';
+    }else{
+      this.renderer.removeClass(document.body, this.style);
+      this.style = 'sb-sidenav-toggled';
     }
     this.renderer.addClass(document.body, this.style );
     this.renderer.addClass(document.body, 'sb-nav-fixed' );

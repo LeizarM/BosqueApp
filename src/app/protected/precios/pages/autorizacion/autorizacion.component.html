@@ -1,14 +1,54 @@
 <h1 class="mt-4">PRECIOS</h1>
-<p-toolbar class="card">
-  <div>
-      <button pButton label="Nueva Propuesta" icon="pi pi-plus" styleClass="p-button-sm" ></button>
-      <button pButton label="Ver Lista de Precios " icon="pi pi-list" styleClass="p-button-sm"  ></button>
-      <button pButton label="Ver Familias" icon="pi pi-sitemap" styleClass="p-button-sm" ></button>
-      <button pButton label="Ver Precios" icon="pi pi-dollar" styleClass="p-button-sm" ></button>
 
-  </div>
+<!-- menu -->
+<app-menu-precios></app-menu-precios>
 
-  <div class="p-toolbar-group-right">
-      TIPO CAMBIO
+<!-- Contenido principal -->
+<div class="card">
+  <p-table  [value]="autorizaciones"
+            styleClass="p-datatable-sm p-datatable-gridlines"
+            [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" [rowsPerPageOptions]="[10,25,50]"
+            responsiveLayout="scroll"
+            [tableStyle]="{'table-layout':'auto'}">
+    <ng-template pTemplate="caption">
+      PROPUESTAS PARA ACTUALIZACION DE PRECIOS
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>Titulo Propuesta</th>
+        <th>Propuesto Por</th>
+        <th>Fecha Propuesta</th>
+        <th>En Respuesta De</th>
+        <th>Aprobado / Rechazado Por</th>
+        <th>Fecha Aprobacion</th>
+        <th>Generado Por</th>
+        <th>Fecha Generacion</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-aut>
+      <tr>
+          <td>{{aut.idAutorizacion}}</td>
+          <td>{{aut.regProp.titulo}}</td>
+          <td>{{aut.datoUsuarioP}}</td>
+          <td>{{aut.regProp.audFecha}}</td>
+          <td>{{aut.regProp.estadoCad}}</td>
+          <td>{{aut.datoUsuarioAP}}</td>
+          <td>{{aut.audFecha}}</td>
+          <td>{{aut.datoUsuarioGP}}</td>
+          <td>{{aut.regProp.audUsGenerado}}</td>
+          <td></td>
+
+      </tr>
+  </ng-template>
+  </p-table>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      Spinner
+    </div>
   </div>
-</p-toolbar>
+</div>

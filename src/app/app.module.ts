@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TokenInterceptorInterceptor } from './auth/interceptor/token-interceptor.interceptor';
 
-
 @NgModule({
   declarations: [
     AppComponent

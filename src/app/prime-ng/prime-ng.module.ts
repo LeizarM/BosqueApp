@@ -5,6 +5,9 @@ import { MessageModule } from 'primeng/message';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { TableModule } from 'primeng/table';
+import { RippleModule } from 'primeng/ripple';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
 
@@ -14,7 +17,10 @@ import { SplitButtonModule } from 'primeng/splitbutton';
     MessageModule,
     ToolbarModule,
     ButtonModule,
-    SplitButtonModule
+    SplitButtonModule,
+    TableModule,
+    RippleModule,
+    ProgressSpinnerModule
 
   ]
 })
