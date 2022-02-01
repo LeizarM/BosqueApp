@@ -8,6 +8,9 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
 import { RippleModule } from 'primeng/ripple';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
 
@@ -20,7 +23,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     SplitButtonModule,
     TableModule,
     RippleModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    RadioButtonModule,
+    DropdownModule
 
   ]
 })

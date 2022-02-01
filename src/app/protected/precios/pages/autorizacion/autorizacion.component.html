@@ -4,13 +4,11 @@
 <app-menu-precios></app-menu-precios>
 
 <!-- Contenido principal -->
-<div class="card">
-  <p-table  [value]="autorizaciones"
-            styleClass="p-datatable-sm p-datatable-gridlines"
-            [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" [rowsPerPageOptions]="[10,25,50]"
-            responsiveLayout="scroll"
-            [tableStyle]="{'table-layout':'auto'}">
+<div class="card" *ngIf="autorizaciones.length > 0">
+  <p-table #dt1 [value]="autorizaciones" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="true"
+    [rows]="10" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" [rowsPerPageOptions]="[10,25,35]"
+    responsiveLayout="scroll" [tableStyle]="{'table-layout':'auto'}">
     <ng-template pTemplate="caption">
       PROPUESTAS PARA ACTUALIZACION DE PRECIOS
     </ng-template>
@@ -20,7 +18,20 @@
         <th>Titulo Propuesta</th>
         <th>Propuesto Por</th>
         <th>Fecha Propuesta</th>
-        <th>En Respuesta De</th>
+        <th>
+          En Respuesta De:
+          <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [options]="estadosPropuesta" (onChange)="filter($event.codTipos)" placeholder="Any"
+                [showClear]="true">
+                <ng-template let-option pTemplate="item">
+
+                </ng-template>
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+
+        </th>
         <th>Aprobado / Rechazado Por</th>
         <th>Fecha Aprobacion</th>
         <th>Generado Por</th>
@@ -30,25 +41,42 @@
     </ng-template>
     <ng-template pTemplate="body" let-aut>
       <tr>
-          <td>{{aut.idAutorizacion}}</td>
-          <td>{{aut.regProp.titulo}}</td>
-          <td>{{aut.datoUsuarioP}}</td>
-          <td>{{aut.regProp.audFecha}}</td>
-          <td>{{aut.regProp.estadoCad}}</td>
-          <td>{{aut.datoUsuarioAP}}</td>
-          <td>{{aut.audFecha}}</td>
-          <td>{{aut.datoUsuarioGP}}</td>
-          <td>{{aut.regProp.audUsGenerado}}</td>
-          <td></td>
+        <td>{{ aut.idPropuesta }}</td>
+        <td>
+
+          <button pButton pRipple type="button" icon="pi pi-arrow-right"
+            class="p-button-rounded p-button-text"></button>
+          {{ aut.regProp.titulo }}
+        </td>
+        <td>{{ aut.datoUsuarioP }}</td>
+        <td>{{ aut.regProp.audFecha | date: 'dd/MM/yyyy' }}</td>
+        <td>
+
+          <div [ngClass]="{'noAprobada':  aut.regProp.estadoCad === 'No Aprobada',
+                                          'pendiente': aut.regProp.estadoCad === 'Pendiente',
+                                          'aprobada': aut.regProp.estadoCad === 'Aprobada' }">
+            {{ aut.regProp.estadoCad }}
+          </div>
+
+        </td>
+        <td>{{ aut.datoUsuarioAP }}</td>
+        <td>{{ aut.audFecha | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ aut.datoUsuarioGP }}</td>
+        <td>{{ aut.regProp.audUsGenerado | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <button pRipple pButton icon="pi pi-eye" label="Ver"></button>
+          <button pRipple pButton icon="pi pi-file-pdf" label="Exportar"></button>
+
+        </td>
 
       </tr>
-  </ng-template>
+    </ng-template>
   </p-table>
 </div>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      Spinner
-    </div>
+
+<!-- Snipper -->
+<div class="grid" *ngIf="autorizaciones.length <= 0 ">
+  <div class="col-6 col-offset-6">
+    <p-progressSpinner></p-progressSpinner>
   </div>
 </div>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Autorizacion } from '../../interface/Autorizacion';
 import { PreciosService } from '../../services/precios.service';
+import { Tipos } from '../../../tipos/interfaces/tipos';
+import { TiposService } from 'src/app/protected/tipos/services/tipos.service';
+
 
 @Component({
   selector: 'app-autorizacion',
@@ -9,24 +12,48 @@ import { PreciosService } from '../../services/precios.service';
 })
 export class AutorizacionComponent implements OnInit {
 
-  autorizaciones!: Autorizacion[];
+  autorizaciones: Autorizacion[] = [];
+  estadosPropuesta!: Tipos[];
 
-  constructor( private autorizacion: PreciosService ) {
+  constructor( private autorizacion: PreciosService,
+               private tipos: TiposService )
+  {
     this.obtenerListaPropuesta();
-   }
 
-  ngOnInit(): void {
   }
 
-  obtenerListaPropuesta(){
+  ngOnInit(): void {
 
-    this.autorizacion.obtenerListAutorizacion().subscribe( (resp) =>{
-      console.log(resp);
+  }
+
+
+  /**
+   * Obtentra la lista de las propuestas
+   */
+  obtenerListaPropuesta() {
+
+    this.autorizacion.obtenerListAutorizacion().subscribe((resp) => {
+
+      if (resp.length > 0) {
         this.autorizaciones = resp;
-    },( err ) =>{
+      }
+    }, (err) => {
       console.log(err);
 
     });
+  }
+  /**
+   * Obtendra los estados de las propuestas
+   */
+  obtenerEstadosPropuesta() {
+    this.tipos.obtenerEstadosPropuestas().subscribe((resp) => {
+      if (resp.length > 0) {
+        this.estadosPropuesta = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
+
   }
 
 }

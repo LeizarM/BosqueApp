@@ -28,7 +28,7 @@ export class PreciosService {
    */
   obtenerListAutorizacion(): Observable<Autorizacion[]>{
 
-    console.log("entro en obtener autorizacion");
+
     const url = `${this.baseUrl}/price/autorizacion`;
     const data = { };
     return this.http.post<Autorizacion[]>( url, data )
