@@ -13,12 +13,13 @@ import { TiposService } from 'src/app/protected/tipos/services/tipos.service';
 export class AutorizacionComponent implements OnInit {
 
   autorizaciones: Autorizacion[] = [];
-  estadosPropuesta!: Tipos[];
+  estadosPropuesta: Tipos[] = [];
 
   constructor( private autorizacion: PreciosService,
                private tipos: TiposService )
   {
     this.obtenerListaPropuesta();
+    this.obtenerEstadosPropuesta();
 
   }
 
@@ -30,7 +31,7 @@ export class AutorizacionComponent implements OnInit {
   /**
    * Obtentra la lista de las propuestas
    */
-  obtenerListaPropuesta() {
+  obtenerListaPropuesta():void {
 
     this.autorizacion.obtenerListAutorizacion().subscribe((resp) => {
 
@@ -45,11 +46,13 @@ export class AutorizacionComponent implements OnInit {
   /**
    * Obtendra los estados de las propuestas
    */
-  obtenerEstadosPropuesta() {
+  obtenerEstadosPropuesta(): void {
     this.tipos.obtenerEstadosPropuestas().subscribe((resp) => {
       if (resp.length > 0) {
-        this.estadosPropuesta = resp;
+       this.estadosPropuesta = resp;
       }
+
+      console.log(this.estadosPropuesta);
     }, (err) => {
       console.log(err);
     });

@@ -4,6 +4,8 @@ export interface Tipos {
   nombre?:    string;
   codGrupo?:  number;
   listTipos?: Tipos[];
+  label?:     string;
+  value?:     number;
 
 }
 

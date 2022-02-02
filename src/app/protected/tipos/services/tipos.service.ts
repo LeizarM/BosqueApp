@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Tipos } from '../interfaces/tipos';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,9 @@ export class TiposService {
    *  Obtendra los estados de las propuestas
    */
   obtenerEstadosPropuestas(): Observable<Tipos[]> {
-    const url = `${this.baseUrl}/autorizacion/estadoPropuesta`;
+    const url = `${this.baseUrl}/price/estadoPropuesta`;
     const data = {};
-
+    console.log("el url es ", url);
     return this.http.post<Tipos[]>( url, data )
       .pipe(
         catchError(e => {
