@@ -5,6 +5,8 @@ import { Tipos } from '../../../tipos/interfaces/tipos';
 import { TiposService } from 'src/app/protected/tipos/services/tipos.service';
 
 
+
+
 @Component({
   selector: 'app-autorizacion',
   templateUrl: './autorizacion.component.html',
@@ -15,16 +17,16 @@ export class AutorizacionComponent implements OnInit {
   autorizaciones: Autorizacion[] = [];
   estadosPropuesta: Tipos[] = [];
 
+
   constructor( private autorizacion: PreciosService,
                private tipos: TiposService )
   {
     this.obtenerListaPropuesta();
-    this.obtenerEstadosPropuesta();
 
   }
 
   ngOnInit(): void {
-
+    this.obtenerEstadosPropuesta();
   }
 
 
@@ -37,6 +39,7 @@ export class AutorizacionComponent implements OnInit {
 
       if (resp.length > 0) {
         this.autorizaciones = resp;
+        console.log(this.autorizaciones);
       }
     }, (err) => {
       console.log(err);
@@ -50,13 +53,15 @@ export class AutorizacionComponent implements OnInit {
     this.tipos.obtenerEstadosPropuestas().subscribe((resp) => {
       if (resp.length > 0) {
        this.estadosPropuesta = resp;
+       console.log(this.estadosPropuesta);
       }
-
-      console.log(this.estadosPropuesta);
     }, (err) => {
       console.log(err);
     });
 
   }
+
+
+
 
 }
