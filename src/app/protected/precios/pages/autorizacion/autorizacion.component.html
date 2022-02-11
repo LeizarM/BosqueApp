@@ -8,7 +8,7 @@
   <p-table #dt1 [value]="autorizaciones" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="true"
     [rows]="10" [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" [rowsPerPageOptions]="[10,25,35]"
-    [globalFilterFields]="['estadoCad']" responsiveLayout="scroll" [tableStyle]="{'table-layout':'auto'}">
+    responsiveLayout="scroll" [tableStyle]="{'table-layout':'auto'}">
     <ng-template pTemplate="caption">
       PROPUESTAS PARA ACTUALIZACION DE PRECIOS
     </ng-template>
@@ -22,7 +22,7 @@
           En Respuesta De:
           <p-columnFilter field="estadoCad" matchMode="equals" [showMenu]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-              <p-dropdown [ngModel]="value" [options]="estadosPropuesta" (onChange)="filter($event.value.nombre)" placeholder="Todos" [showClear]="true" >
+              <p-dropdown [ngModel]="value" [options]="estadosPropuesta" (onChange)="filter($event.value.nombre)" placeholder="Selecione" [showClear]="true" >
                 <ng-template let-option pTemplate="item">
                     {{option.nombre}}
                 </ng-template>
@@ -51,8 +51,8 @@
         <td>
 
           <div [ngClass]="{'noAprobada':  aut.estadoCad === 'No Aprobada',
-                                          'pendiente': aut.estadoCad === 'Pendiente',
-                                          'aprobada': aut.estadoCad === 'Aprobada' }">
+                          'pendiente': aut.estadoCad === 'Pendiente',
+                          'aprobada': aut.estadoCad === 'Aprobada' }">
             {{ aut.estadoCad }}
           </div>
 

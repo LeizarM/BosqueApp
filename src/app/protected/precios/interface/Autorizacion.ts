@@ -11,6 +11,7 @@ export interface Autorizacion {
   datoUsuarioP?:   string;
   correo?:         string;
   regProp?:        Propuesta;
+  estadoCad?:      string;
 }
 
 // Converts JSON strings to/from your types

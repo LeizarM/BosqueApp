@@ -8,7 +8,7 @@ export interface Propuesta {
   audUsGenerado?:  number;
   audFECGenerado?: Date;
   audFecha?:       number;
-  estadoCad?:      string;
+
 }
 
 // Converts JSON strings to/from your types

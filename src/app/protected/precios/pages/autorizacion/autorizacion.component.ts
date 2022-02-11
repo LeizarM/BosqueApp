@@ -39,7 +39,6 @@ export class AutorizacionComponent implements OnInit {
 
       if (resp.length > 0) {
         this.autorizaciones = resp;
-        console.log(this.autorizaciones);
       }
     }, (err) => {
       console.log(err);
@@ -52,8 +51,13 @@ export class AutorizacionComponent implements OnInit {
   obtenerEstadosPropuesta(): void {
     this.tipos.obtenerEstadosPropuestas().subscribe((resp) => {
       if (resp.length > 0) {
-       this.estadosPropuesta = resp;
-       console.log(this.estadosPropuesta);
+        const estadosFiltrados = resp.filter( x =>{
+                                let res = this.autorizaciones.find( ( y )=>{
+                                return y.estadoCad == x.nombre;
+                                });
+                              return res != undefined;
+                              });
+        this.estadosPropuesta = estadosFiltrados;
       }
     }, (err) => {
       console.log(err);
