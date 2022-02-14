@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AutorizacionComponent } from './pages/autorizacion/autorizacion.component';
 import { MenuPreciosComponent } from './pages/menu-precios/menu-precios.component';
 import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
+import { FamiliasComponent } from './pages/familias/familias.component';
 
 
 
@@ -12,7 +13,8 @@ import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
 @NgModule({
   declarations: [
     AutorizacionComponent,
-    MenuPreciosComponent
+    MenuPreciosComponent,
+    FamiliasComponent
   ],
   imports: [
     CommonModule,

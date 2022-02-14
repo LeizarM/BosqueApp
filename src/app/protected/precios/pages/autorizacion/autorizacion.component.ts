@@ -22,11 +22,10 @@ export class AutorizacionComponent implements OnInit {
                private tipos: TiposService )
   {
     this.obtenerListaPropuesta();
-
   }
 
   ngOnInit(): void {
-    this.obtenerEstadosPropuesta();
+
   }
 
 
@@ -39,6 +38,7 @@ export class AutorizacionComponent implements OnInit {
 
       if (resp.length > 0) {
         this.autorizaciones = resp;
+        this.obtenerEstadosPropuesta();
       }
     }, (err) => {
       console.log(err);
