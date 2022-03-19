@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { Vista } from '../interface/Vista';
+import { Vista } from 'src/app/protected/interfaces/Vista';
 
 @Injectable({
   providedIn: 'root'

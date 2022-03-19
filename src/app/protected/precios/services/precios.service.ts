@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, catchError, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
-import { Autorizacion, Convert } from '../interface/Autorizacion';
+import { Autorizacion, Convert } from 'src/app/protected/interfaces/Autorizacion';
 import { throwError, Observable } from 'rxjs';
 
 

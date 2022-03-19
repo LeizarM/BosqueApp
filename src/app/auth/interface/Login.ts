@@ -1,5 +1,5 @@
 import { Sucursal } from '../../protected/sucursal/interface/Sucursal';
-import { Empleado } from '../../protected/empleado/interface/Empleado';
+import { Empleado } from '../../protected/interfaces/Empleado';
 
 
 export interface Login {

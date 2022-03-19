@@ -1,5 +1,5 @@
-import { Persona } from '../../persona/interface/Persona';
-import { Cargo } from '../../cargo/interface/Cargo';
+import { Persona } from './Persona';
+
 
 
 
@@ -11,7 +11,6 @@ export interface Empleado {
   codRelPlanilla?:     number;
   audUsuarioI?:        number;
   persona?:            Persona;
-  cargo?:              Cargo;
   codZona?:            number;
   nombres?:            string;
   apPaterno?:          string;
