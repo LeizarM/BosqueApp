@@ -1,4 +1,4 @@
-import { Sucursal } from '../../protected/sucursal/interface/Sucursal';
+import { Sucursal } from '../../protected/interfaces/Sucursal';
 import { Empleado } from '../../protected/interfaces/Empleado';
 
 

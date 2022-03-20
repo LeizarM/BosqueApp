@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { PreciosModule } from './precios/precios.module';
 import { DocumentoComponent } from './cartas-cite/pages/documento/documento.component';
+import { RrhhModule } from './rrhh/rrhh.module';
 
 @NgModule({
 	declarations: [
@@ -20,7 +21,8 @@ import { DocumentoComponent } from './cartas-cite/pages/documento/documento.comp
 		CommonModule,
 		ProtectedRoutingModule,
 		SharedModule,
-		PreciosModule
+		PreciosModule,
+    RrhhModule
 
 	]
 })

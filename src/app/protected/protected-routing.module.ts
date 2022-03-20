@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AutorizacionComponent } from './precios/pages/autorizacion/autorizacion.component';
 import { FamiliasComponent } from './precios/pages/familias/familias.component';
+import { EmpleadosComponent } from './rrhh/pages/empleados/empleados.component';
 
  const routes: Routes = [
   {
@@ -26,6 +27,10 @@ import { FamiliasComponent } from './precios/pages/familias/familias.component';
       {
         path: 'tcrDocumento/Documento',
         component: DocumentoComponent
+      },
+      {
+        path: 'tbEmpleado/empleados',
+        component: EmpleadosComponent
       },
       {
         path: '**',
