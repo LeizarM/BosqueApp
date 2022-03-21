@@ -1,30 +1,18 @@
+import { Cargo } from './Cargo';
 import { Persona } from './Persona';
-
-
+import { RelEmplEmpr } from './RelEmpEmpr';
 
 
 export interface Empleado {
-  codEmpleado?:        number;
-  codPersona?:         number;
-  numCuenta?:          number;
-  codRelBeneficios?:   number;
-  codRelPlanilla?:     number;
-  audUsuarioI?:        number;
-  persona?:            Persona;
-  codZona?:            number;
-  nombres?:            string;
-  apPaterno?:          string;
-  apMaterno?:          string;
-  ciExpedido?:         string;
-  ciFechaVencimiento?: Date;
-  ciNumuro?:           number;
-  direccion?:          string;
-  estadoCivil?:        string;
-  fechaNacimiento?:    Date;
-  lugarNacimiento?:    string;
-  nacionalidad?:       number;
-  sexo?:               string;
-  datoPersona?:        string;
+  codEmpleado:      number;
+  codPersona:       number;
+  numCuenta:        number;
+  codRelBeneficios: number;
+  codRelPlanilla:   number;
+  audUsuarioI:      number;
+  persona:          Persona;
+  cargo:            Cargo;
+  relEmpEmpr:       RelEmplEmpr;
 }
 
 

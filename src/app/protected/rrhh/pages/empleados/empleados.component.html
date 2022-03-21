@@ -1,19 +1,48 @@
-<h1>EMPLEADOS</h1>
-<p-table  responsiveLayout="scroll">
-  <ng-template pTemplate="header">
-      <tr>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Quantity</th>
-      </tr>
+<br />
+<div align="center">
+  <h1>EMPLEADOS</h1>
+</div>
+<br />
+<p-table #dtEmp [value]="empleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines" [rows]="15"
+  [showCurrentPageReport]="true" [rowsPerPageOptions]="[15,25,50]" [paginator]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [globalFilterFields]="['persona.datoPersona']">
+
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col-2">
+        Buscar Empleado:
+      </div>
+      <div class="col-1">
+        <input pInputText type="text" (input)="filtarEmpleados($event, 'contains')" placeholder="Buscar Empleado..." />
+      </div>
+
+    </div>
   </ng-template>
-  <ng-template >
+
+  <ng-template pTemplate="header">
     <tr>
-        <td>1</td>
-        <td>Alvaro Garcia</td>
-        <td>Activo</td>
-        <td><button > Detalle</button></td>
+      <th>#</th>
+      <th>APELLIDOS Y NOMBRES</th>
+      <th>ESTADO</th>
+      <th>ACCIONES</th>
     </tr>
-</ng-template>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-emp let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>{{ emp.persona.datoPersona }}</td>
+      <td></td>
+      <td> <button pButton type="button" icon="pi pi-list" label="Detalle"></button> </td>
+    </tr>
+  </ng-template>
 </p-table>
+
+
+<!-- Snipper -->
+<div class="grid" *ngIf="empleados.length <= 0">
+  <div class="col-6 col-offset-6">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</div>
