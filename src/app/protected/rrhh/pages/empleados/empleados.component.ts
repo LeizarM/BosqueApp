@@ -41,10 +41,10 @@ export class EmpleadosComponent implements OnInit {
    * Para flitrar contenido, en este caso los empleados
    * @param $event
    */
-   filtarEmpleados($event: any, stringVal: any) {
+   filtarEmpleados($event: any, stringVal: string) {
+    console.log($event);
     this.dtEmp!.filterGlobal(
-      ($event.target as HTMLInputElement).value,
-      'contains'
+      ($event.target as HTMLInputElement).value, stringVal
     );
   }
 }

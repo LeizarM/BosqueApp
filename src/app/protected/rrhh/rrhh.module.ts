@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { EstructuraOrgComponent } from './pages/estructura-org/estructura-org.component';
+import { RegistroEmpleadoComponent } from './pages/registro-empleado/registro-empleado.component';
 
 
 @NgModule({
   declarations: [
     EmpleadosComponent,
-    EstructuraOrgComponent
+    EstructuraOrgComponent,
+    RegistroEmpleadoComponent
   ],
   imports: [
     CommonModule,
