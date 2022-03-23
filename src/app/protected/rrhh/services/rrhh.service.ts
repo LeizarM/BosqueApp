@@ -24,12 +24,18 @@ export class RrhhService {
    * Procedimiento que obtendra la lista de empleados
    * @returns List
    */
-   obtenerListEmpleado(): Observable<Empleado[]>{
+   obtenerListEmpleado( esActivo : number): Observable<Empleado[]>{
+
+    console.log("el es activo parmetro es "+esActivo);
 
     const url = `${this.baseUrl}/rrhh/listEmpleados`;
-    const data = { };
+    const emp : Empleado = {
+      relEmpEmpr : {
+        esActivo : esActivo
+      }
+    };
 
-    return this.http.post<Empleado[]>( url, data )
+    return this.http.post<Empleado[]>( url, emp )
     .pipe(
 
       catchError(e => {

@@ -8,15 +8,17 @@ import { RrhhService } from '../../services/rrhh.service';
   templateUrl: './empleados.component.html',
   styleUrls: ['./empleados.component.css']
 })
+
 export class EmpleadosComponent implements OnInit {
 
-  @ViewChild('dtEmp') dtEmp: Table | undefined;
+  @ViewChild('dtEmp') dtEmp!: Table;
   empleados : Empleado[] = [];
+  esActivo : number = -1;
 
   constructor(
     private empleadoService: RrhhService,
   ) {
-    this.obtenerEmpleados();
+    this.obtenerEmpleados( this.esActivo );
   }
 
   ngOnInit(): void {
@@ -25,9 +27,9 @@ export class EmpleadosComponent implements OnInit {
   /**
    * Obtentra la lista de los empleados
    */
-   obtenerEmpleados():void {
+   obtenerEmpleados( esActivo : number ) : void {
 
-    this.empleadoService.obtenerListEmpleado().subscribe((resp) => {
+    this.empleadoService.obtenerListEmpleado( esActivo ).subscribe((resp) => {
 
       if (resp.length > 0) {
         this.empleados = resp;
@@ -41,8 +43,8 @@ export class EmpleadosComponent implements OnInit {
    * Para flitrar contenido, en este caso los empleados
    * @param $event
    */
-   filtarEmpleados($event: any, stringVal: string) {
-    console.log($event);
+   filtarEmpleados($event: InputEvent, stringVal: string) {
+
     this.dtEmp!.filterGlobal(
       ($event.target as HTMLInputElement).value, stringVal
     );

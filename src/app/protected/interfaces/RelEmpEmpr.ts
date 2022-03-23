@@ -1,13 +1,13 @@
 export interface RelEmplEmpr {
-  codRelEmplEmpr:     number;
-  codEmpleado:        number;
-  esActivo:           number;
-  tipoRel:            string;
-  nombreFileContrato: string;
-  fechaIni:           Date;
-  fechaFin:           Date;
-  motivoFin:          string;
-  audUsuario:         number;
+  codRelEmplEmpr?:     number;
+  codEmpleado?:        number;
+  esActivo?:           number;
+  tipoRel?:            string;
+  nombreFileContrato?: string;
+  fechaIni?:           Date;
+  fechaFin?:           Date;
+  motivoFin?:          string;
+  audUsuario?:         number;
 }
 
 // Converts JSON strings to/from your types

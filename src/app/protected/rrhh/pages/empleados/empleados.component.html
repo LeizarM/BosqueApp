@@ -1,54 +1,72 @@
 <br />
 <div align="center">
-    <h1>EMPLEADOS</h1>
+  <h1>EMPLEADOS</h1>
 </div>
 <br />
-<p-table #dtEmp [value]="empleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines" [rows]="15"
-    [showCurrentPageReport]="true" [rowsPerPageOptions]="[15,25,50]" [paginator]="true"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    [globalFilterFields]="['persona.datoPersona']">
+<!-- Contenido principal -->
+<div class="card" *ngIf="empleados.length > 0">
+  <p-table #dtEmp [value]="empleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-sm"
+    [rows]="15" [showCurrentPageReport]="true" [rowsPerPageOptions]="[15,25,50]" [paginator]="true"
+    currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
+    [globalFilterFields]="['persona.datoPersona','cargo.descripcion']">
 
     <ng-template pTemplate="caption">
-        <div class="grid">
-            <div class="col-1">
-                Buscar Empleado:
-            </div>
-            <div class="col-1">
-                <input pInputText type="text" (input)="filtarEmpleados($event, 'contains')" />
-            </div>
-
+      <div class="grid">
+        <div class="col-12">
+          <button pButton type="button" icon="pi pi-plus" class="p-button-sm" label="Registrar Nuevo Empleado"></button>
         </div>
+        <div class="col-5">
+          Buscar Empleado:
+          <input pInputText type="text" (input)="filtarEmpleados($any($event), 'contains')" />
+        </div>
+        <div class="col-5">
+
+          <input pInputText type="text" (input)="filtarEmpleados($any($event), 'contains')" />
+        </div>
+      </div>
     </ng-template>
 
     <ng-template pTemplate="header">
-        <tr>
-            <th>#</th>
-            <th>APELLIDOS Y NOMBRES</th>
-            <th>ESTADO</th>
-            <th>ACCIONES</th>
-        </tr>
+      <tr>
+        <th>#</th>
+        <th>APELLIDOS Y NOMBRES</th>
+        <th>CARGO</th>
+        <th>ESTADO</th>
+        <th>ACCIONES</th>
+      </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-emp let-rowIndex="rowIndex">
-        <tr>
-            <td>{{ rowIndex + 1 }}</td>
-            <td>{{ emp.persona.datoPersona }}</td>
-            <td>{{ emp.relEmpEmpr.esActivo }}</td>
-            <td> <button pButton type="button" icon="pi pi-list" label="Detalle"></button> </td>
-        </tr>
+      <tr>
+        <td>
+          {{ rowIndex + 1 }}
+        </td>
+        <td>
+          {{ emp.persona.datoPersona }}
+        </td>
+        <td>
+          {{ emp.cargo.descripcion }}
+        </td>
+        <td>
+          {{ emp.relEmpEmpr.esActivo }}
+        </td>
+        <td>
+          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle"></button>
+        </td>
+      </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="4">Empleados no encontrados.</td>
-        </tr>
+      <tr>
+        <td colspan="5">Empleados no encontrados.</td>
+      </tr>
     </ng-template>
-</p-table>
-
+  </p-table>
+</div>
 
 <!-- Snipper -->
 <div class="grid" *ngIf="empleados.length <= 0">
-    <div class="col-6 col-offset-6">
-        <p-progressSpinner></p-progressSpinner>
-    </div>
+  <div class="col-6 col-offset-6">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
 </div>

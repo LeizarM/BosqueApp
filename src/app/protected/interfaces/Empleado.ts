@@ -4,15 +4,15 @@ import { RelEmplEmpr } from './RelEmpEmpr';
 
 
 export interface Empleado {
-  codEmpleado:      number;
-  codPersona:       number;
-  numCuenta:        number;
-  codRelBeneficios: number;
-  codRelPlanilla:   number;
-  audUsuarioI:      number;
-  persona:          Persona;
-  cargo:            Cargo;
-  relEmpEmpr:       RelEmplEmpr;
+  codEmpleado?:      number;
+  codPersona?:       number;
+  numCuenta?:        number;
+  codRelBeneficios?: number;
+  codRelPlanilla?:   number;
+  audUsuarioI?:      number;
+  persona?:          Persona;
+  cargo?:            Cargo;
+  relEmpEmpr?:       RelEmplEmpr;
 }
 
 
