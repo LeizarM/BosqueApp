@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Autorizacion } from 'src/app/protected/interfaces/Autorizacion';
 import { PreciosService } from '../../services/precios.service';
-import { Tipos } from '../../../tipos/interfaces/tipos';
-import { TiposService } from 'src/app/protected/tipos/services/tipos.service';
+import { Tipos } from '../../../interfaces/Tipos';
+
 
 
 
@@ -19,7 +19,7 @@ export class AutorizacionComponent implements OnInit {
 
 
   constructor( private autorizacion: PreciosService,
-               private tipos: TiposService )
+                )
   {
     this.obtenerListaPropuesta();
   }
