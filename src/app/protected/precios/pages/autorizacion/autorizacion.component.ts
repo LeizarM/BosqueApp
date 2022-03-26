@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Autorizacion } from 'src/app/protected/interfaces/Autorizacion';
 import { PreciosService } from '../../services/precios.service';
-import { Tipos, lstEstadosPropuesta } from '../../../interfaces/Tipos';
+import { Tipos, lstEstadosPropuesta, TiposMod } from '../../../interfaces/Tipos';
 
 
 
@@ -15,7 +15,7 @@ import { Tipos, lstEstadosPropuesta } from '../../../interfaces/Tipos';
 export class AutorizacionComponent implements OnInit {
 
   autorizaciones: Autorizacion[] = [];
-  estadosPropuesta: Tipos[] = [];
+  estadosPropuesta: TiposMod[] = [];
 
 
   constructor( private autorizacion: PreciosService )
@@ -57,23 +57,6 @@ export class AutorizacionComponent implements OnInit {
     return res != undefined;
     });
 
-    /*this.tipos.obtenerEstadosPropuesta().subscribe((resp) => {
-      if (resp.length > 0) {
-        const estadosFiltrados = resp.filter( x =>{
-                                let res = this.autorizaciones.find( ( y )=>{
-                                return y.estadoCad == x.nombre;
-                                });
-                              return res != undefined;
-                              });
-        this.estadosPropuesta = estadosFiltrados;
-      }
-    }, (err) => {
-      console.log(err);
-    });*/
-
   }
-
-
-
 
 }

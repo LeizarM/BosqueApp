@@ -21,7 +21,8 @@
         </div>
         <div class="col-5">
 
-          <input pInputText type="text" (input)="filtarEmpleados($any($event), 'contains')" />
+          <p-dropdown [options]="lstEstados" [(ngModel)]="esActivo" optionLabel="nombre"  (onChange)="filtrarEmpleados($event)" ></p-dropdown>
+
         </div>
       </div>
     </ng-template>
