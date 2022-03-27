@@ -6,13 +6,15 @@ import { FormsModule } from '@angular/forms';
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { EstructuraOrgComponent } from './pages/estructura-org/estructura-org.component';
 import { RegistroEmpleadoComponent } from './pages/registro-empleado/registro-empleado.component';
+import { DetalleEmpleadoComponent } from './pages/detalle-empleado/detalle-empleado.component';
 
 
 @NgModule({
   declarations: [
     EmpleadosComponent,
     EstructuraOrgComponent,
-    RegistroEmpleadoComponent
+    RegistroEmpleadoComponent,
+    DetalleEmpleadoComponent
   ],
   imports: [
     CommonModule,

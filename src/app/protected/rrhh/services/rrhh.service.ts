@@ -26,8 +26,6 @@ export class RrhhService {
    */
    obtenerListEmpleado( esActivo : number): Observable<Empleado[]>{
 
-    console.log("el es activo parmetro es "+esActivo);
-
     const url = `${this.baseUrl}/rrhh/listEmpleados`;
     const emp : Empleado = {
       relEmpEmpr : {

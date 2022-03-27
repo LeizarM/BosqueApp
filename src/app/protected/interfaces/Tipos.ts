@@ -29,12 +29,6 @@ export function lstEstadoActivoInactivo(): Tipos[] {
 
   lstTemp.push(
     {
-      codTipos: '-1',
-      nombre: 'Todos',
-      codGrupo: 0,
-
-    },
-    {
       codTipos: '1',
       nombre: 'Activo',
       codGrupo: 0,
@@ -43,6 +37,12 @@ export function lstEstadoActivoInactivo(): Tipos[] {
     {
       codTipos: '0',
       nombre: 'Inactivo',
+      codGrupo: 0,
+
+    },
+    {
+      codTipos: '-1',
+      nombre: 'Todos',
       codGrupo: 0,
 
     },

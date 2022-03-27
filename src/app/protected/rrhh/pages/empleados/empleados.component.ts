@@ -3,7 +3,7 @@ import { Table } from 'primeng/table';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
 import { Tipos, lstEstadoActivoInactivo } from '../../../interfaces/Tipos';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 @Component({
   selector: 'app-empleados',
@@ -16,17 +16,15 @@ export class EmpleadosComponent implements OnInit {
   @ViewChild('dtEmp') dtEmp!: Table;
   empleados : Empleado[] = [];
   lstEstados : Tipos[] = [];
-  esActivo : number = -1; // por defecto todos
 
 
   constructor(
-    private empleadoService: RrhhService,
-  ) {
-    this.lstEstados = lstEstadoActivoInactivo();
-    this.obtenerEmpleados( this.esActivo ); //por defecto todos
-  }
+    private empleadoService: RrhhService ) {
+    }
 
   ngOnInit(): void {
+    this.lstEstados = lstEstadoActivoInactivo();
+    this.obtenerEmpleados( 1 ); //por defecto los activos
   }
 
   /**
@@ -49,7 +47,6 @@ export class EmpleadosComponent implements OnInit {
    * @param $event
    */
    filtarEmpleados($event: InputEvent, stringVal: string) {
-
     this.dtEmp!.filterGlobal(
       ($event.target as HTMLInputElement).value, stringVal
     );
@@ -58,11 +55,6 @@ export class EmpleadosComponent implements OnInit {
    * Evento para filtar a los empleados por estado
    */
    filtrarEmpleados(event: any): void {
-    console.log(event.value.codTipos);
-
-    this.esActivo = event.value.codTipos;
-
-    this.obtenerEmpleados( this.esActivo );
-
+     this.obtenerEmpleados( event.value );
    }
 }

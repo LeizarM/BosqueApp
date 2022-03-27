@@ -1,38 +1,39 @@
-<br />
+<br/>
 <div align="center">
   <h1>EMPLEADOS</h1>
 </div>
-<br />
-<!-- Contenido principal -->
+<br/>
+
+<p-toolbar class="card">
+  <button pButton type="button" icon="pi pi-plus" class="p-button-sm" label="Registrar Nuevo Empleado"></button>
+  <div>
+    <span class="color-blanco-text">
+      Buscar Empleado:
+    </span>
+    <input pInputText type="text" (input)="filtarEmpleados($any($event), 'contains')" />
+  </div>
+  <button pButton type="button" icon="pi pi-file-pdf" class="p-button-sm p-button-secondary" label="Reporte de Empleados" ></button>
+</p-toolbar>
+
+
+<!-- Contenido Tabla -->
 <div class="card" *ngIf="empleados.length > 0">
   <p-table #dtEmp [value]="empleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-sm"
     [rows]="15" [showCurrentPageReport]="true" [rowsPerPageOptions]="[15,25,50]" [paginator]="true"
     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
     [globalFilterFields]="['persona.datoPersona','cargo.descripcion']">
 
-    <ng-template pTemplate="caption">
-      <div class="grid">
-        <div class="col-12">
-          <button pButton type="button" icon="pi pi-plus" class="p-button-sm" label="Registrar Nuevo Empleado"></button>
-        </div>
-        <div class="col-5">
-          Buscar Empleado:
-          <input pInputText type="text" (input)="filtarEmpleados($any($event), 'contains')" />
-        </div>
-        <div class="col-5">
-
-          <p-dropdown [options]="lstEstados" [(ngModel)]="esActivo" optionLabel="nombre"  (onChange)="filtrarEmpleados($event)" ></p-dropdown>
-
-        </div>
-      </div>
-    </ng-template>
-
     <ng-template pTemplate="header">
       <tr>
         <th>#</th>
         <th>APELLIDOS Y NOMBRES</th>
         <th>CARGO</th>
-        <th>ESTADO</th>
+        <th>
+          ESTADO
+          <br/>
+          <p-dropdown [options]="lstEstados" optionLabel="nombre" optionValue="codTipos" (onChange)="filtrarEmpleados($event)"></p-dropdown>
+
+        </th>
         <th>ACCIONES</th>
       </tr>
     </ng-template>
@@ -49,10 +50,12 @@
           {{ emp.cargo.descripcion }}
         </td>
         <td>
-          {{ emp.relEmpEmpr.esActivo }}
+          <span [ngStyle]="{ 'background-color': emp.relEmpEmpr.esActivo === 1 ? '#259403' : ' #df4444' }">
+            {{ emp.relEmpEmpr.esActivo === 1 ? 'Activo' : 'Inactivo' }}
+          </span>
         </td>
         <td>
-          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle"></button>
+          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle" routerLink="detalle-empleado"></button>
         </td>
       </tr>
     </ng-template>
