@@ -34,7 +34,7 @@ import { DetalleEmpleadoComponent } from './rrhh/pages/detalle-empleado/detalle-
         component: EmpleadosComponent
       },
       {
-        path: 'tbEmpleado/empleados/detalle-empleado',
+        path: 'tbEmpleado/empleados/detalle-empleado/:emp',
         component: DetalleEmpleadoComponent
       },
       {

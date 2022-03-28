@@ -10,8 +10,8 @@ import { RippleModule } from 'primeng/ripple';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DropdownModule } from 'primeng/dropdown';
-
-
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
 @NgModule({
 
   exports: [
@@ -25,7 +25,9 @@ import { DropdownModule } from 'primeng/dropdown';
     RippleModule,
     ProgressSpinnerModule,
     RadioButtonModule,
-    DropdownModule
+    DropdownModule,
+    CardModule,
+    PanelModule
 
   ]
 })

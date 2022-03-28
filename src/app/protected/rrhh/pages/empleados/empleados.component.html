@@ -55,7 +55,7 @@
           </span>
         </td>
         <td>
-          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle" routerLink="detalle-empleado"></button>
+          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle" [routerLink]="['detalle-empleado', emp.codEmpleado ]"></button>
         </td>
       </tr>
     </ng-template>
