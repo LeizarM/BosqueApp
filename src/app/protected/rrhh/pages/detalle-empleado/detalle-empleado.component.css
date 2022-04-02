@@ -28,5 +28,5 @@
 }
 
 .ajustar-text{
-  flex-wrap: wrap;
+  overflow-wrap: break-word;
 }
