@@ -6,7 +6,7 @@ import { RelEmplEmpr } from './RelEmpEmpr';
 export interface Empleado {
   codEmpleado?:      number;
   codPersona?:       number;
-  numCuenta?:        number;
+  numCuenta?:        string;
   codRelBeneficios?: number;
   codRelPlanilla?:   number;
   audUsuarioI?:      number;

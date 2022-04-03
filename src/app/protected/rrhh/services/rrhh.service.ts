@@ -50,4 +50,36 @@ export class RrhhService {
 
   }
 
+  /**
+   * Procedimiento para obtener Detalle de empleados
+   */
+
+  obtenerDetalleEmpleado( codEmpleado : number ): Observable<Empleado>{
+    const url = `${this.baseUrl}/rrhh/detalleEmpleado`;
+    const emp : Empleado = {
+      codEmpleado : codEmpleado
+    };
+
+    return this.http.post<Empleado>( url, emp )
+    .pipe(
+
+      catchError(e => {
+        if (e.status == 401) {
+          return throwError(e);
+        }
+        if (e.ok === false) {
+          console.error(e.error.error);
+          return throwError(e);
+        }
+        return throwError(e);
+      })
+    );
+
+
+
+  }
+
+
+
+
 }
