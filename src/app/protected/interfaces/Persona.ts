@@ -1,3 +1,6 @@
+import { Pais } from './Pais';
+import { Ciudad } from './Ciudad';
+import { Zona } from './Zona';
 export interface Persona {
   codPersona?:         number;
   codZona?:            number;
@@ -14,7 +17,11 @@ export interface Persona {
   nacionalidad?:       number;
   sexo?:               string;
   audUsuarioI?:        number;
+  //variables de apoyo
   datoPersona?:        string;
+  pais?:               Pais;
+  ciudad?:             Ciudad;
+  zona?:               Zona;
 }
 
 
