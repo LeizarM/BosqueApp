@@ -29,8 +29,7 @@
   </p-panel>
   <p-panel class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
     <ng-template pTemplate="icons">
-      <button pButton icon="pi pi-cog" label="Editar">
-      </button>
+      <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2" [model]="itemsDatosPersonales"></p-splitButton>
     </ng-template>
     <div class="grid p-flex-column-reverse">
       <div class="col-12">
@@ -108,7 +107,7 @@
   <div class="col-12 md:col-4 lg:col-2 ajustar-text">
     <p-panel header="EMAIL(S)">
       <ng-template pTemplate="icons">
-        <button pButton icon="pi pi-cog" class="p-button-sm" label="Editar">
+        <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
         </button>
       </ng-template>
       <ul>
@@ -125,7 +124,7 @@
   <div class="col-12 md:col-4 lg:col-2">
     <p-panel header="TELEFONOS">
       <ng-template pTemplate="icons">
-        <button pButton icon="pi pi-cog" class="p-button-sm" label="Editar">
+        <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
         </button>
       </ng-template>
       <ul>
