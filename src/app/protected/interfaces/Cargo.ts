@@ -1,3 +1,6 @@
+import { CargoSucursal } from "./CargoSucursal";
+import { Empresa } from './Empresa';
+
 export interface Cargo {
   codCargo?:      number;
   codCargoPadre?: number;
@@ -6,6 +9,9 @@ export interface Cargo {
   codNivel?:      number;
   posicion?:      number;
   audUsuario?:    number;
+  descripcionCargoPlanilla?: string;
+  cargoSucursal?: CargoSucursal;
+  empresa?: Empresa;
 }
 
 // Converts JSON strings to/from your types
