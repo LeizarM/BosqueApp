@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Empleado } from '../../interfaces/Empleado';
+import { Persona } from '../../interfaces/Persona';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { Empleado } from '../../interfaces/Empleado';
 export class RrhhService {
 
   private baseUrl: string = environment.baseUrl;
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
   /**
     * ==========================================
@@ -24,29 +25,29 @@ export class RrhhService {
    * Procedimiento que obtendra la lista de empleados
    * @returns List
    */
-   obtenerListEmpleado( esActivo : number): Observable<Empleado[]>{
+  obtenerListEmpleado(esActivo: number): Observable<Empleado[]> {
 
     const url = `${this.baseUrl}/rrhh/listEmpleados`;
-    const emp : Empleado = {
-      relEmpEmpr : {
-        esActivo : esActivo
+    const emp: Empleado = {
+      relEmpEmpr: {
+        esActivo: esActivo
       }
     };
 
-    return this.http.post<Empleado[]>( url, emp )
-    .pipe(
+    return this.http.post<Empleado[]>(url, emp)
+      .pipe(
 
-      catchError(e => {
-        if (e.status == 401) {
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
           return throwError(e);
-        }
-        if (e.ok === false) {
-          console.error(e.error.error);
-          return throwError(e);
-        }
-        return throwError(e);
-      })
-    );
+        })
+      );
 
   }
 
@@ -54,32 +55,55 @@ export class RrhhService {
    * Procedimiento para obtener Detalle de empleados
    */
 
-  obtenerDetalleEmpleado( codEmpleado : number ): Observable<Empleado>{
+  obtenerDetalleEmpleado(codEmpleado: number): Observable<Empleado> {
     const url = `${this.baseUrl}/rrhh/detalleEmpleado`;
-    const emp : Empleado = {
-      codEmpleado : codEmpleado
+    const emp: Empleado = {
+      codEmpleado: codEmpleado
     };
 
-    return this.http.post<Empleado>( url, emp )
-    .pipe(
+    return this.http.post<Empleado>(url, emp)
+      .pipe(
 
-      catchError(e => {
-        if (e.status == 401) {
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
           return throwError(e);
-        }
-        if (e.ok === false) {
-          console.error(e.error.error);
-          return throwError(e);
-        }
-        return throwError(e);
-      })
-    );
+        })
+      );
+    }
+    /**
+     * Procedimiento para obtener los datos personales de un empleado
+     */
+    obtenerDatosPersonales(codPersona: number): Observable < Persona > {
+      const url = `${this.baseUrl}/rrhh/datosPersonales`;
+      const per : Persona = {
+        codPersona: codPersona
+      };
+
+      return this.http.post<Persona>(url, per)
+        .pipe(
+
+          catchError(e => {
+            if (e.status == 401) {
+              return throwError(e);
+            }
+            if (e.ok === false) {
+              console.error(e.error.error);
+              return throwError(e);
+            }
+            return throwError(e);
+          })
+        );
+
+
+    }
+
 
 
 
   }
-
-
-
-
-}

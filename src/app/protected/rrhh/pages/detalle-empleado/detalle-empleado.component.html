@@ -5,6 +5,23 @@
   </h2>
 </div>
 <br>
+
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+      <p-button label="New" icon="pi pi-plus" class="mr-2"></p-button>
+      <p-button label="Upload" icon="pi pi-upload" styleClass="p-button-success"></p-button>
+
+  </div>
+
+  <div class="p-toolbar-group-right">
+      <p-button icon="pi pi-search" class="mr-2"></p-button>
+      <p-button icon="pi pi-calendar" styleClass="p-button-success mr-2"></p-button>
+      <p-button icon="pi pi-times" styleClass="p-button-danger"></p-button>
+  </div>
+</p-toolbar>
+
+
+<br>
 <!-- DATOS PERSONALES -->
 <div class="grid">
   <p-panel class="col-12 md:col-6 lg:col-5" header="EMPLEADO">
@@ -35,23 +52,23 @@
       <div class="col-12">
         <div class="grid">
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Codigo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">156</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ 65 }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Cedula de Identidad:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">8965241</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciNumero}}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">Bolivia</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.pais?.pais }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">Masculino</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Vencimiento CI:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">12/12/2023</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy' }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Fecha Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">12/12/1996</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">Cochabamba</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.lugarNacimiento }}</label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Estado Civil:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> Casado</label>
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Direccion:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> La Paz</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.estadoCivil | estadoCivil }}</label>
+          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Ubicacion:</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.pais?.pais }}, {{ regPer?.ciudad?.ciudad }},  {{ regPer?.zona?.zona }} </label>
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Direccion:</label>
           <label class="col-12 md:col-3 lg:col-3 ajustar-text">CALLE 21 ENTRE JOSUÉ MANUEL CHINCHILLA Y GARCÍA LANZA, NRO. 4</label>
 
@@ -73,24 +90,23 @@
   <div class="col-12 md:col-8 lg:col-8 ">
     <p-panel header="DATOS DE EMPLEADO">
       <ng-template pTemplate="icons">
-        <button pButton icon="pi pi-cog" label="Editar">
-        </button>
+        <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2" [model]="itemsDatosPersonales"></p-splitButton>
       </ng-template>
       <div class="grid">
         <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Nro.Cuenta Bancaria:</label>
         <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.numCuenta }}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">Impexpap S.A.</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.cargo?.empresa?.nombreEmpresa }} </label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">Cargo uno</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.cargo?.descripcion}}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">A Partir de:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">10/10/2010</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaIni }}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo Planilla:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">Cargo planilla uno</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.cargo?.descripcionCargoPlanilla}}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Relacion Laboral:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">Activo</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.descripcionTipo  }}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Tipo Relacion:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">Indefinido</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{regEmp?.relEmpEmpr?.tipoRel | relacionEmpresa }}</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Inicio de Funciones:</label>
         <label class="col-12 md:col-3 lg:col-3 ajustar-text">2022/02/02</label>
         <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fin de Funciones:</label>

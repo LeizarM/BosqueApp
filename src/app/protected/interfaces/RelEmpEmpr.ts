@@ -8,6 +8,7 @@ export interface RelEmplEmpr {
   fechaFin?:           Date;
   motivoFin?:          string;
   audUsuario?:         number;
+  descripcionTipo?:    string;
 }
 
 // Converts JSON strings to/from your types

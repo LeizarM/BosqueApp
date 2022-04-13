@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
 import { MenuItem } from 'primeng/api';
+import { Persona } from '../../../interfaces/Persona';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -11,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class DetalleEmpleadoComponent implements OnInit {
 
   regEmp !: Empleado;
+  regPer !: Persona;
   itemsDatosPersonales!: MenuItem[];
   /**
    * Lista para los SplitButton
@@ -18,12 +20,16 @@ export class DetalleEmpleadoComponent implements OnInit {
 
 
   constructor(
-    private empleadoService: RrhhService
-  ) { }
-
-  ngOnInit(): void {
+    private rrhhService: RrhhService
+  ) {
+    this.obtenerDatosPersonales();
     this.obtenerDetalleEmpleado();
     this.cargarOpcionesDatosEmpleado();
+
+  }
+
+  ngOnInit(): void {
+
   }
 
   /**
@@ -53,15 +59,29 @@ export class DetalleEmpleadoComponent implements OnInit {
    * Procedimiento para obtener el detalle empleado
    */
   obtenerDetalleEmpleado() {
-    this.empleadoService.obtenerDetalleEmpleado(65).subscribe((resp) => {
+    this.rrhhService.obtenerDetalleEmpleado(65).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-        console.log(this.regEmp);
+
       }
     }, (err) => {
       console.log(err);
     });
 
+  }
+
+  /**
+   * Procedimiento para obtener los datos personales del empleado
+   */
+  obtenerDatosPersonales(){
+    this.rrhhService.obtenerDatosPersonales(201).subscribe((resp)=>{
+      if(resp){
+        this.regPer = resp;
+
+      }
+    },(err)=>{
+      console.log(err);
+    });
   }
 
 }

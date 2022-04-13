@@ -22,9 +22,35 @@ export interface TiposMod {
   * ======================= Metodos ===========================
   *============================================================*/
 /**
- * Devolvera una lista para determinar si esta activo o no
+ * Devolvera una lista para determinar si esta activo o inactivo
  */
 export function lstEstadoActivoInactivo(): Tipos[] {
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: '1',
+      nombre: 'Activo',
+      codGrupo: 0,
+
+    },
+    {
+      codTipos: '0',
+      nombre: 'Inactivo',
+      codGrupo: 0,
+    }
+
+  );
+
+  return lstTemp;
+
+}
+
+
+/**
+ * Devolvera una lista para determinar si esta activo o no o todos
+ */
+export function lstEstadoActivoInactivoTodos(): Tipos[] {
   const lstTemp: Tipos[] = [];
 
   lstTemp.push(
@@ -79,6 +105,90 @@ export function lstEstadosPropuesta(): TiposMod[] {
       label: 'No Aprobada',
       value: 'No Aprobada'
     }
+  );
+  return lstTemp;
+}
+/**
+ * Devolvera una lista del sexo
+ */
+
+export function lstSexo(): Tipos[] {
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'F',
+      nombre: 'Femenino',
+      codGrupo: 1,
+
+    },
+    {
+      codTipos: 'M',
+      nombre: 'Masculino',
+      codGrupo: 1,
+
+    }
+  );
+  return lstTemp;
+}
+
+/**
+ * Devolvera una lista del estado civil
+ */
+export function lstEstadoCivil():Tipos[]{
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'sol',
+      nombre: 'Soltero/a',
+      codGrupo: 2,
+    },
+    {
+      codTipos: 'cas',
+      nombre: 'Casado/a',
+      codGrupo: 2,
+    },
+    {
+      codTipos: 'con',
+      nombre: 'Concubino/a',
+      codGrupo: 2,
+    },
+    {
+      codTipos: 'div',
+      nombre: 'Divorciado/a',
+      codGrupo: 2,
+    },
+    {
+      codTipos: 'viu',
+      nombre: 'Viudo/a',
+      codGrupo: 2,
+    }
+  );
+  return lstTemp;
+}
+/**
+ * Devolvera una lista del tipo de relacion de un empleado con una empresa
+ */
+ export function lstTipoRelEmp():Tipos[]{
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'inde',
+      nombre: 'Indefinido',
+      codGrupo: 6,
+    },
+    {
+      codTipos: 'pFijo',
+      nombre: 'Plazo Fijo',
+      codGrupo: 6,
+    },
+    {
+      codTipos: 'pasa',
+      nombre: 'Pasante',
+      codGrupo: 6,
+    },
   );
   return lstTemp;
 }

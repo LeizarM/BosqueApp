@@ -9,17 +9,33 @@ import { RegistroEmpleadoComponent } from './pages/registro-empleado/registro-em
 import { DetalleEmpleadoComponent } from './pages/detalle-empleado/detalle-empleado.component';
 
 
+//Pipes
+import { GeneroPipe } from './pipes/genero.pipe';
+import { EstadoCivilPipe } from './pipes/estado-civil.pipe';
+import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
+
+
+
 @NgModule({
   declarations: [
     EmpleadosComponent,
     EstructuraOrgComponent,
     RegistroEmpleadoComponent,
-    DetalleEmpleadoComponent
+    DetalleEmpleadoComponent,
+
+    //Pipes
+    GeneroPipe,
+    EstadoCivilPipe,
+    RelacionEmpresaPipe,
   ],
   imports: [
     CommonModule,
     FormsModule,
     PrimeNgModule
+  ],
+  exports: [
+    EstadoCivilPipe,
+    RelacionEmpresaPipe
   ]
 })
 export class RrhhModule { }

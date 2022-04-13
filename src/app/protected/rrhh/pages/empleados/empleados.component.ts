@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
-import { Tipos, lstEstadoActivoInactivo } from '../../../interfaces/Tipos';
+import { Tipos, lstEstadoActivoInactivoTodos } from '../../../interfaces/Tipos';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class EmpleadosComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.lstEstados = lstEstadoActivoInactivo();
+    this.lstEstados = lstEstadoActivoInactivoTodos();
     this.obtenerEmpleados( 1 ); //por defecto los activos
   }
 
