@@ -1,9 +1,9 @@
 export interface VistaBtn {
-  codBtn:      number;
-  codVista:    number;
-  nombreBtn:   string;
-  detalle:     string;
-  audUsuarioI: number;
+  codBtn?:      number;
+  codVista?:    number;
+  nombreBtn?:   string;
+  detalle?:     string;
+  audUsuarioI?: number;
 }
 
 // Converts JSON strings to/from your types

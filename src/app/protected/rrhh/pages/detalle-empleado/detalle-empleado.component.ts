@@ -24,6 +24,7 @@ export class DetalleEmpleadoComponent implements OnInit {
   ) {
     this.obtenerDatosPersonales();
     this.obtenerDetalleEmpleado();
+    this.cargarOpcionesDatosPersonales();
     this.cargarOpcionesDatosEmpleado();
 
   }
@@ -35,7 +36,7 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Cargar opcione smenu boton editar datos Personales
    */
-  cargarOpcionesDatosEmpleado(): void {
+  cargarOpcionesDatosPersonales(): void {
 
     this.itemsDatosPersonales = [
       {
@@ -52,8 +53,31 @@ export class DetalleEmpleadoComponent implements OnInit {
 
       { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup'] }
     ];
-
   }
+
+  /**
+   * Cargar opcione smenu boton editar datos Personales
+   */
+   cargarOpcionesDatosEmpleado(): void {
+
+    this.itemsDatosPersonales = [
+      {
+        label: 'Nuevo Periodo', icon: 'pi pi-refresh', command: () => {
+
+        }
+      },
+      {
+        label: 'Delete', icon: 'pi pi-times', command: () => {
+
+        }
+      },
+      { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
+
+      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup'] }
+    ];
+  }
+
+
 
   /**
    * Procedimiento para obtener el detalle empleado

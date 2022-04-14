@@ -1,3 +1,7 @@
+
+/**
+ * Interfaz por defecto de Tipos
+ */
 export interface Tipos {
 
   codTipos: string;
@@ -18,9 +22,9 @@ export interface TiposMod {
 
 }
 
-/** ==========================================================
-  * ======================= Metodos ===========================
-  *============================================================*/
+/** =========================================================================
+  * ===================================== Metodos ===========================
+  *==========================================================================*/
 /**
  * Devolvera una lista para determinar si esta activo o inactivo
  */
@@ -189,6 +193,61 @@ export function lstEstadoCivil():Tipos[]{
       nombre: 'Pasante',
       codGrupo: 6,
     },
+  );
+  return lstTemp;
+}
+/**
+ * Devolvera una lista del nivel de educacion
+ */
+ export function lstTipoEducacion():Tipos[]{
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'nin',
+      nombre: 'Ninguno',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'pri',
+      nombre: 'Primaria',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'sec',
+      nombre: 'Secundaria',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'bac',
+      nombre: 'Bachiller',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'tmed',
+      nombre: 'Tecnico Medio',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'tsup',
+      nombre: 'Tecnico Superior',
+      codGrupo: 3,
+    },
+    {
+      codTipos: 'uni',
+      nombre: 'Universitario',
+      codGrupo: 3
+    },
+    {
+      codTipos: 'egr',
+      nombre: 'Universitario/Egresado',
+      codGrupo: 3
+    },
+    {
+      codTipos: 'lic',
+      nombre: 'Licenciatura',
+      codGrupo: 3
+    }
   );
   return lstTemp;
 }

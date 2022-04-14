@@ -1,5 +1,6 @@
 import { CargoSucursal } from "./CargoSucursal";
-import { Empresa } from './Empresa';
+import { Sucursal } from './Sucursal';
+
 
 export interface Cargo {
   codCargo?:      number;
@@ -11,7 +12,7 @@ export interface Cargo {
   audUsuario?:    number;
   descripcionCargoPlanilla?: string;
   cargoSucursal?: CargoSucursal;
-  empresa?: Empresa;
+  sucursal?: Sucursal;
 }
 
 // Converts JSON strings to/from your types

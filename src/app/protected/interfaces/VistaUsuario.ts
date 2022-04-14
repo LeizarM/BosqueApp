@@ -1,9 +1,9 @@
 export interface VistaUsuario {
-  codUsuario:  number;
-  codVista:    number;
-  nivelAcceso: number;
-  autorizador: number;
-  audUsuarioI: number;
+  codUsuario?:  number;
+  codVista?:    number;
+  nivelAcceso?: number;
+  autorizador?: number;
+  audUsuarioI?: number;
 }
 
 // Converts JSON strings to/from your types

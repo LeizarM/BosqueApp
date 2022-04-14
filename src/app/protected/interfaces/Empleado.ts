@@ -1,8 +1,6 @@
 import { Cargo } from './Cargo';
 import { Persona } from './Persona';
 import { RelEmplEmpr } from './RelEmpEmpr';
-import { EmpleadoCargo } from './EmpleadoCargo';
-
 
 export interface Empleado {
   codEmpleado?:      number;
@@ -14,7 +12,6 @@ export interface Empleado {
   persona?:          Persona;
   cargo?:            Cargo;
   relEmpEmpr?:       RelEmplEmpr;
-  empleadoCargo?:    EmpleadoCargo;
 }
 
 

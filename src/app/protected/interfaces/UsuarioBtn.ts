@@ -1,8 +1,8 @@
 export interface UsuarioBtn {
-  codUsuario:  number;
-  codBtn:      number;
-  nivelAcceso: number;
-  audUsuario:  number;
+  codUsuario?:  number;
+  codBtn?:      number;
+  nivelAcceso?: number;
+  audUsuario?:  number;
 }
 
 // Converts JSON strings to/from your types

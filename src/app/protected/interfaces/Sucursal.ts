@@ -1,3 +1,4 @@
+import { Empresa } from './Empresa';
 export interface Sucursal {
   codSucursal?:   number;
   nombre?:        string;
@@ -6,6 +7,7 @@ export interface Sucursal {
   audUsuarioI?:   number;
   nombreEmpresa?: string;
   nombreCiudad?:  string;
+  empresa?:       Empresa;
 }
 
 

@@ -1,11 +1,11 @@
 import { Sucursal } from './Sucursal';
 export interface Empresa {
-  codEmpresa:    number;
-  nombreEmpresa: string;
-  codPadre:      number;
-  sigla:         string;
-  audUsuario:    number;
-  sucursal:      Sucursal;
+  codEmpresa?:    number;
+  nombreEmpresa?: string;
+  codPadre?:      number;
+  sigla?:         string;
+  audUsuario?:    number;
+  sucursal?:      Sucursal;
 }
 
 // Converts JSON strings to/from your types
