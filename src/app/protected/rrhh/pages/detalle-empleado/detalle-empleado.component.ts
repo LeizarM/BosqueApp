@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
-import { MenuItem } from 'primeng/api';
 import { Persona } from '../../../interfaces/Persona';
+import { Email } from '../../../interfaces/Email';
+import { Telefono } from '../../../interfaces/Telefono';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -14,6 +16,9 @@ export class DetalleEmpleadoComponent implements OnInit {
   regEmp !: Empleado;
   regPer !: Persona;
   itemsDatosPersonales!: MenuItem[];
+  emails!: Email[];
+  telefonos!: Telefono[];
+
   /**
    * Lista para los SplitButton
   */
@@ -26,6 +31,9 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.obtenerDetalleEmpleado();
     this.cargarOpcionesDatosPersonales();
     this.cargarOpcionesDatosEmpleado();
+    this.obtenerEmails();
+    this.obtenerTelefonos();
+
 
   }
 
@@ -58,7 +66,7 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Cargar opcione smenu boton editar datos Personales
    */
-   cargarOpcionesDatosEmpleado(): void {
+  cargarOpcionesDatosEmpleado(): void {
 
     this.itemsDatosPersonales = [
       {
@@ -97,15 +105,46 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Procedimiento para obtener los datos personales del empleado
    */
-  obtenerDatosPersonales(){
-    this.rrhhService.obtenerDatosPersonales(201).subscribe((resp)=>{
-      if(resp){
+  obtenerDatosPersonales() {
+    this.rrhhService.obtenerDatosPersonales(201).subscribe((resp) => {
+      if (resp) {
         this.regPer = resp;
 
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  /**
+   * Procedimiento para obtener los correos de una persona
+   */
+  obtenerEmails() {
+    this.rrhhService.obtenerDatosEmail(201).subscribe((resp) => {
+      if (resp) {
+        this.emails = resp;
+
+      }
+    }, (err) => {
+      this.emails = [];
+      console.log(err);
+    });
+  }
+
+  /**
+   * Procedimiento para Obtener telefonos por persona
+   */
+
+  obtenerTelefonos(){
+    this.rrhhService.obtenerDatosTelefono(201).subscribe((resp)=>{
+      if(resp){
+        this.telefonos = resp;
       }
     },(err)=>{
       console.log(err);
     });
   }
+
+
 
 }

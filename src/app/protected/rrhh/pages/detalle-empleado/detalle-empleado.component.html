@@ -148,14 +148,13 @@
         <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
         </button>
       </ng-template>
-      <ul>
+
+      <ul *ngFor="let email of emails">
         <li>
-          erick.almendras.rocha.jemio@impexpap.com
-        </li>
-        <li>
-          erick.almendras.rocha.jemio@impexpap.com
+          {{  email.email }}
         </li>
       </ul>
+
     </p-panel>
   </div>
 
@@ -165,15 +164,9 @@
         <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
         </button>
       </ng-template>
-      <ul>
+     <ul *ngFor="let telf of telefonos">
         <li>
-          123458897
-        </li>
-        <li>
-          78945612
-        </li>
-        <li>
-          85332177
+          {{  telf.telefono }}
         </li>
       </ul>
     </p-panel>
