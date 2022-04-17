@@ -5,7 +5,7 @@ export interface Empresa {
   codPadre?:      number;
   sigla?:         string;
   audUsuario?:    number;
-  sucursal?:      Sucursal;
+
 }
 
 // Converts JSON strings to/from your types

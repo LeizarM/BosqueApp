@@ -13,6 +13,7 @@ import { DetalleEmpleadoComponent } from './pages/detalle-empleado/detalle-emple
 import { GeneroPipe } from './pipes/genero.pipe';
 import { EstadoCivilPipe } from './pipes/estado-civil.pipe';
 import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
+import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
 
 
 
@@ -27,6 +28,7 @@ import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
     GeneroPipe,
     EstadoCivilPipe,
     RelacionEmpresaPipe,
+    ActivoEInactivoPipe,
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
   ],
   exports: [
     EstadoCivilPipe,
-    RelacionEmpresaPipe
+    RelacionEmpresaPipe,
+    ActivoEInactivoPipe
   ]
 })
 export class RrhhModule { }

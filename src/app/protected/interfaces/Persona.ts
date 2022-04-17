@@ -19,9 +19,9 @@ export interface Persona {
   audUsuarioI?:        number;
   //variables de apoyo
   datoPersona?:        string;
+  zona?:               Zona;
   pais?:               Pais;
   ciudad?:             Ciudad;
-  zona?:               Zona;
 }
 
 

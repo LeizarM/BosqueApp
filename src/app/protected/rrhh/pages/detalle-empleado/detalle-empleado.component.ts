@@ -83,10 +83,10 @@ export class DetalleEmpleadoComponent implements OnInit {
    * Procedimiento para obtener el detalle empleado
    */
   obtenerDetalleEmpleado() {
-    this.rrhhService.obtenerDetalleEmpleado(65).subscribe((resp) => {
+    this.rrhhService.obtenerDetalleEmpleado(141).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-
+        console.log(resp);
       }
     }, (err) => {
       console.log(err);

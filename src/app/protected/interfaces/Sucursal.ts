@@ -5,9 +5,8 @@ export interface Sucursal {
   codEmpresa?:    number;
   codCiudad?:     number;
   audUsuarioI?:   number;
-  nombreEmpresa?: string;
-  nombreCiudad?:  string;
   empresa?:       Empresa;
+  nombreCiudad?:  string;
 }
 
 
