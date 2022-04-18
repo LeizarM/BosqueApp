@@ -5,6 +5,7 @@ import { Empleado } from '../../../interfaces/Empleado';
 import { Persona } from '../../../interfaces/Persona';
 import { Email } from '../../../interfaces/Email';
 import { Telefono } from '../../../interfaces/Telefono';
+import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -18,6 +19,8 @@ export class DetalleEmpleadoComponent implements OnInit {
   itemsDatosPersonales!: MenuItem[];
   emails!: Email[];
   telefonos!: Telefono[];
+  experienciaLaboral!: ExperienciaLaboral[];
+
 
   /**
    * Lista para los SplitButton
@@ -33,6 +36,7 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.cargarOpcionesDatosEmpleado();
     this.obtenerEmails();
     this.obtenerTelefonos();
+    this.obtenerExperienciaLaboral();
 
 
   }
@@ -145,6 +149,18 @@ export class DetalleEmpleadoComponent implements OnInit {
     });
   }
 
+  /**
+   * Procedimiento para Obtener la experiencia laboral de un empleado
+   */
+  obtenerExperienciaLaboral(){
+    this.rrhhService.obtenerExperienciaLaboral(65).subscribe((resp)=>{
+      if(resp){
+        this.experienciaLaboral = resp;
+      }
+    },(err)=>{
+      console.log(err);
+    });
+  }
 
 
 }

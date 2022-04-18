@@ -181,7 +181,7 @@
       <button pButton icon="pi pi-cog" label="Editar">
       </button>
     </ng-template>
-    <p-table responsiveLayout="scroll">
+    <p-table   [value]="experienciaLaboral"  responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Empresa</th>
@@ -193,6 +193,17 @@
           <th>Acciones</th>
         </tr>
       </ng-template>
+      <ng-template pTemplate="body" let-expLab>
+        <tr>
+            <td>{{expLab.nombreEmpresa}}</td>
+            <td>{{expLab.cargo}}</td>
+            <td>{{expLab.descripcion}}</td>
+            <td>{{expLab.fechaInicio | date: 'dd/MM/yyyy' }}</td>
+            <td>{{expLab.fechaFin | date: 'dd/MM/yyyy' }}</td>
+            <td>{{expLab.nroReferencia }}</td>
+
+        </tr>
+    </ng-template>
     </p-table>
   </p-panel>
 </div>
