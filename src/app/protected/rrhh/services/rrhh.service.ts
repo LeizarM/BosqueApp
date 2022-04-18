@@ -8,6 +8,8 @@ import { Persona } from '../../interfaces/Persona';
 import { Email } from '../../interfaces/Email';
 import { Telefono } from '../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../interfaces/ExperienciaLaboral';
+import { Formacion } from '../../interfaces/Formacion';
+import { Licencia } from '../../interfaces/Licencia';
 
 
 @Injectable({
@@ -165,6 +167,57 @@ export class RrhhService {
     };
 
     return this.http.post<ExperienciaLaboral[]>(url, expLab)
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+  }
+  /**
+   * Obtendra la formacion de un empleado
+   * @param codEmpleado
+   * @returns
+   */
+  obtenerFormacion ( codEmpleado : number ): Observable<Formacion[]>{
+    const url = `${this.baseUrl}/rrhh/formacionEmpleado`;
+    const form: Formacion = {
+      codEmpleado: codEmpleado
+    };
+
+    return this.http.post<Formacion[]>(url, form)
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+  }
+
+  /**
+   * Procedimiento  para obtener la licencia de conducir de una persona
+   * @param codPersona
+   * @returns
+   */
+  obtenerLicencia ( codPersona : number ): Observable<Licencia[]>{
+    const url = `${this.baseUrl}/rrhh/licenciaPersona`;
+    const lic: Licencia = {
+      codPersona : codPersona
+    };
+
+    return this.http.post<Licencia[]>(url, lic)
       .pipe(
         catchError(e => {
           if (e.status == 401) {

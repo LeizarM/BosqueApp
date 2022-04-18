@@ -23,6 +23,7 @@
 
 <br>
 <!-- DATOS PERSONALES -->
+<app-datos-personales></app-datos-personales>
 <div class="grid">
   <p-panel class="col-12 md:col-6 lg:col-5" header="EMPLEADO">
     <p-card class="box shadow-none m-3">
@@ -216,7 +217,7 @@
       <button pButton icon="pi pi-cog" label="Editar">
       </button>
     </ng-template>
-    <p-table responsiveLayout="scroll">
+    <p-table  [value]="formacion"  responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Formacion</th>
@@ -227,6 +228,16 @@
           <th>Acciones</th>
         </tr>
       </ng-template>
+      <ng-template pTemplate="body" let-form>
+        <tr>
+            <td>{{form.tipoFormacion}}</td>
+            <td>{{form.descripcion}}</td>
+            <td>{{form.duracion}}</td>
+            <td>{{form.tipoDuracion  }}</td>
+            <td>{{form.fechaFormacion | date: 'dd/MM/yyyy' }}</td>
+
+        </tr>
+    </ng-template>
     </p-table>
   </p-panel>
 </div>
@@ -239,7 +250,7 @@
       <button pButton icon="pi pi-cog" label="Editar">
       </button>
     </ng-template>
-    <p-table responsiveLayout="scroll">
+    <p-table  [value]="licencia"  responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Categoria</th>
@@ -247,6 +258,14 @@
           <th>Acciones</th>
         </tr>
       </ng-template>
+      <ng-template pTemplate="body" let-lic>
+        <tr>
+            <td>{{lic.categoria}}</td>
+            <td>{{lic.fechaCaducidad | date: 'dd/MM/yyyy' }}</td>
+
+        </tr>
+    </ng-template>
+
     </p-table>
   </p-panel>
 </div>

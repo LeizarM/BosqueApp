@@ -6,6 +6,8 @@ import { Persona } from '../../../interfaces/Persona';
 import { Email } from '../../../interfaces/Email';
 import { Telefono } from '../../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
+import { Formacion } from '../../../interfaces/Formacion';
+import { Licencia } from '../../../interfaces/Licencia';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -20,6 +22,8 @@ export class DetalleEmpleadoComponent implements OnInit {
   emails!: Email[];
   telefonos!: Telefono[];
   experienciaLaboral!: ExperienciaLaboral[];
+  formacion!: Formacion[];
+  licencia!: Licencia[];
 
 
   /**
@@ -37,7 +41,8 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.obtenerEmails();
     this.obtenerTelefonos();
     this.obtenerExperienciaLaboral();
-
+    this.obtenerFormacion();
+    this.obtenerLicencia();
 
   }
 
@@ -139,12 +144,12 @@ export class DetalleEmpleadoComponent implements OnInit {
    * Procedimiento para Obtener telefonos por persona
    */
 
-  obtenerTelefonos(){
-    this.rrhhService.obtenerDatosTelefono(201).subscribe((resp)=>{
-      if(resp){
+  obtenerTelefonos() {
+    this.rrhhService.obtenerDatosTelefono(201).subscribe((resp) => {
+      if (resp) {
         this.telefonos = resp;
       }
-    },(err)=>{
+    }, (err) => {
       console.log(err);
     });
   }
@@ -152,15 +157,42 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Procedimiento para Obtener la experiencia laboral de un empleado
    */
-  obtenerExperienciaLaboral(){
-    this.rrhhService.obtenerExperienciaLaboral(65).subscribe((resp)=>{
-      if(resp){
+  obtenerExperienciaLaboral() {
+    this.rrhhService.obtenerExperienciaLaboral(65).subscribe((resp) => {
+      if (resp) {
         this.experienciaLaboral = resp;
       }
-    },(err)=>{
+    }, (err) => {
       console.log(err);
     });
   }
 
+  /**
+   * Procedimiento para obtener la formacion de un empleado
+   */
+  obtenerFormacion() {
+    this.rrhhService.obtenerFormacion(65).subscribe((resp) => {
+      if (resp) {
+        this.formacion = resp;
+      }
+    }, (err) => {
+      this.formacion = [];
+      console.log(err);
+    });
+  }
+
+  /**
+   * Procedimiento para obtener la licencia de conducir de una persona
+   */
+  obtenerLicencia(){
+    this.rrhhService.obtenerLicencia(38).subscribe((resp)=>{
+      if(resp){
+        this.licencia = resp;
+      }
+    },(err)=>{
+      console.log(err);
+    });
+
+  }
 
 }

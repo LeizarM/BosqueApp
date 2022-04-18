@@ -14,6 +14,7 @@ import { GeneroPipe } from './pipes/genero.pipe';
 import { EstadoCivilPipe } from './pipes/estado-civil.pipe';
 import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
 import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
+import { DatosPersonalesComponent } from './components/datos-personales/datos-personales.component';
 
 
 
@@ -23,6 +24,7 @@ import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
     EstructuraOrgComponent,
     RegistroEmpleadoComponent,
     DetalleEmpleadoComponent,
+    DatosPersonalesComponent,
 
     //Pipes
     GeneroPipe,
