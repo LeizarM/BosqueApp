@@ -8,6 +8,8 @@ import { Telefono } from '../../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
 import { Formacion } from '../../../interfaces/Formacion';
 import { Licencia } from '../../../interfaces/Licencia';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -32,17 +34,26 @@ export class DetalleEmpleadoComponent implements OnInit {
 
 
   constructor(
-    private rrhhService: RrhhService
+    private rrhhService: RrhhService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.obtenerDatosPersonales();
-    this.obtenerDetalleEmpleado();
+
+    //this.activatedRoute.queryParamMap.subscribe((params: any) => console.log( params ));
+     this.activatedRoute.queryParams
+      .subscribe(params => this.regEmp = params );
+    console.log(this.regEmp);
+
+    /* this.obtenerDatosPersonales( this.regEmp.codPersona! );
+    this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
     this.cargarOpcionesDatosPersonales();
     this.cargarOpcionesDatosEmpleado();
     this.obtenerEmails();
     this.obtenerTelefonos();
     this.obtenerExperienciaLaboral();
     this.obtenerFormacion();
-    this.obtenerLicencia();
+    this.obtenerLicencia(); */
+
 
   }
 
@@ -99,11 +110,11 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Procedimiento para obtener el detalle empleado
    */
-  obtenerDetalleEmpleado() {
-    this.rrhhService.obtenerDetalleEmpleado(141).subscribe((resp) => {
+  obtenerDetalleEmpleado( codEmpleado: number ) {
+    this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-        console.log(resp);
+
       }
     }, (err) => {
       console.log(err);
@@ -114,8 +125,8 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Procedimiento para obtener los datos personales del empleado
    */
-  obtenerDatosPersonales() {
-    this.rrhhService.obtenerDatosPersonales(201).subscribe((resp) => {
+  obtenerDatosPersonales(codPersona: number) {
+    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.regPer = resp;
 
@@ -184,12 +195,12 @@ export class DetalleEmpleadoComponent implements OnInit {
   /**
    * Procedimiento para obtener la licencia de conducir de una persona
    */
-  obtenerLicencia(){
-    this.rrhhService.obtenerLicencia(38).subscribe((resp)=>{
-      if(resp){
+  obtenerLicencia() {
+    this.rrhhService.obtenerLicencia(38).subscribe((resp) => {
+      if (resp) {
         this.licencia = resp;
       }
-    },(err)=>{
+    }, (err) => {
       console.log(err);
     });
 

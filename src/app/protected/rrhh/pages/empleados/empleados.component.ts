@@ -3,6 +3,7 @@ import { Table } from 'primeng/table';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
 import { Tipos, lstEstadoActivoInactivoTodos } from '../../../interfaces/Tipos';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,12 +15,15 @@ import { Tipos, lstEstadoActivoInactivoTodos } from '../../../interfaces/Tipos';
 export class EmpleadosComponent implements OnInit {
 
   @ViewChild('dtEmp') dtEmp!: Table;
-  empleados : Empleado[] = [];
+  lstEmpleados : Empleado[] = [];
   lstEstados : Tipos[] = [];
 
 
+
   constructor(
-    private empleadoService: RrhhService ) {
+    private empleadoService: RrhhService,
+    private router : Router,
+    ) {
     }
 
   ngOnInit(): void {
@@ -28,6 +32,24 @@ export class EmpleadosComponent implements OnInit {
   }
 
   /**
+   * para hacer click
+   * @param esActivo
+   */
+    otraPagina(  emp: Empleado ) {
+
+     // this.router.createUrlTree(['/detalle-empleado', {my_object: JSON.stringify(this.Obj)}]));
+     //this.router.navigateByUrl('/bosque/tbEmpleado/empleados/detalle-empleado', { state:  emp } );
+
+     /* this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado'], {
+       queryParams:{ emp: emp },
+       skipLocationChange: false
+     });
+ */
+     this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado'], { queryParams:  { data: emp } } );
+
+
+    }
+  /**
    * Obtentra la lista de los empleados
    */
    obtenerEmpleados( esActivo : number ) : void {
@@ -35,7 +57,7 @@ export class EmpleadosComponent implements OnInit {
     this.empleadoService.obtenerListEmpleado( esActivo ).subscribe((resp) => {
 
       if (resp.length > 0) {
-        this.empleados = resp;
+        this.lstEmpleados = resp;
       }
     }, (err) => {
       console.log(err);

@@ -17,8 +17,8 @@
 
 
 <!-- Contenido Tabla -->
-<div class="card" *ngIf="empleados.length > 0">
-  <p-table #dtEmp [value]="empleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-sm"
+<div class="card" *ngIf="lstEmpleados.length > 0">
+  <p-table #dtEmp [value]="lstEmpleados" responsiveLayout="scroll" styleClass="p-datatable-gridlines p-datatable-sm"
     [rows]="15" [showCurrentPageReport]="true" [rowsPerPageOptions]="[15,25,50]" [paginator]="true"
     currentPageReportTemplate="Mostrando {first} al {last} de {totalRecords} registros"
     [globalFilterFields]="['persona.datoPersona','cargo.descripcion']">
@@ -55,7 +55,8 @@
           </span>
         </td>
         <td>
-          <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle" [routerLink]="['detalle-empleado', emp.codEmpleado ]"></button>
+         <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle"  (click)="otraPagina( emp )" ></button>
+         <!-- <button pButton type="button" icon="pi pi-arrow-right" class="p-button-sm" label="Detalle" [routerLink]="['./detalle-empleado']" [state]=emp ></button> -->
         </td>
       </tr>
     </ng-template>
@@ -69,7 +70,7 @@
 </div>
 
 <!-- Snipper -->
-<div class="grid" *ngIf="empleados.length <= 0">
+<div class="grid" *ngIf="lstEmpleados.length <= 0">
   <div class="col-6 col-offset-6">
     <p-progressSpinner></p-progressSpinner>
   </div>
