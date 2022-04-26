@@ -1,0 +1,23 @@
+<p-panel header="LICENCIAS DE CONDUCIR">
+  <ng-template pTemplate="icons">
+    <button pButton icon="pi pi-cog" label="Editar">
+    </button>
+  </ng-template>
+  <p-table [value]="licencia" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Categoria</th>
+        <th>Caducidad</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-lic>
+      <tr>
+        <td>{{lic.categoria}}</td>
+        <td>{{lic.fechaCaducidad | date: 'dd/MM/yyyy' }}</td>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+</p-panel>

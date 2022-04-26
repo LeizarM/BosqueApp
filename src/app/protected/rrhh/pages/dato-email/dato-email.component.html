@@ -1,0 +1,12 @@
+<p-panel header="EMAIL(S)">
+  <ng-template pTemplate="icons">
+    <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
+    </button>
+  </ng-template>
+
+  <ul *ngFor="let email of emails">
+    <li>
+      {{  email.email }}
+    </li>
+  </ul>
+</p-panel>

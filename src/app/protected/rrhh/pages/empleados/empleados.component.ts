@@ -35,19 +35,10 @@ export class EmpleadosComponent implements OnInit {
    * para hacer click
    * @param esActivo
    */
-    otraPagina(  emp: Empleado ) {
+   siguientePagina(  emp: Empleado ) {
 
-     // this.router.createUrlTree(['/detalle-empleado', {my_object: JSON.stringify(this.Obj)}]));
-     //this.router.navigateByUrl('/bosque/tbEmpleado/empleados/detalle-empleado', { state:  emp } );
-
-     /* this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado'], {
-       queryParams:{ emp: emp },
-       skipLocationChange: false
-     });
- */
-     this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado'], { queryParams:  { data: emp } } );
-
-
+     localStorage.setItem('b-emp', JSON.stringify( emp ) );
+     this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado']);
     }
   /**
    * Obtentra la lista de los empleados

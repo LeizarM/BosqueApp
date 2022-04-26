@@ -2,28 +2,26 @@
 <div align="center">
   <h2 class="font-bold w-10">
     INFORMACIÓN EMPLEADO
+
   </h2>
 </div>
 <br>
 
 <p-toolbar>
   <div class="p-toolbar-group-left">
-      <p-button label="New" icon="pi pi-plus" class="mr-2"></p-button>
-      <p-button label="Upload" icon="pi pi-upload" styleClass="p-button-success"></p-button>
+    <p-button label="New" icon="pi pi-plus" class="mr-2"></p-button>
+    <p-button label="Upload" icon="pi pi-upload" styleClass="p-button-success"></p-button>
 
   </div>
 
   <div class="p-toolbar-group-right">
-      <p-button icon="pi pi-search" class="mr-2"></p-button>
-      <p-button icon="pi pi-calendar" styleClass="p-button-success mr-2"></p-button>
-      <p-button icon="pi pi-times" styleClass="p-button-danger"></p-button>
+    <p-button icon="pi pi-search" class="mr-2"></p-button>
+    <p-button icon="pi pi-calendar" styleClass="p-button-success mr-2"></p-button>
+    <p-button icon="pi pi-times" styleClass="p-button-danger"></p-button>
   </div>
 </p-toolbar>
 
-
 <br>
-<!-- DATOS PERSONALES -->
-<app-datos-personales></app-datos-personales>
 <div class="grid">
   <p-panel class="col-12 md:col-6 lg:col-5" header="EMPLEADO">
     <p-card class="box shadow-none m-3">
@@ -37,59 +35,18 @@
       </div>
       <br />
       <p class="text-center white-space-normal">
-        {{ regEmp?.persona?.datoPersona }}
+        {{ datoEmpleado }}
       </p>
       <div align="center">
         <button pButton icon="pi pi-camera" label="Foto"></button>
       </div>
     </p-card>
-
   </p-panel>
+
+  <!-- DATOS PERSONALES -->
   <p-panel class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
-    <ng-template pTemplate="icons">
-      <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2" [model]="itemsDatosPersonales"></p-splitButton>
-    </ng-template>
-    <div class="grid p-flex-column-reverse">
-      <div class="col-12">
-        <div class="grid">
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Codigo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ 65 }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Cedula de Identidad:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciNumero}}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.pais?.pais }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Vencimiento CI:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy' }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Fecha Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.lugarNacimiento }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Estado Civi: </label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.estadoCivil | estadoCivil }}</label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Ubicacion:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.pais?.pais }}, {{ regPer?.ciudad?.ciudad }},  {{ regPer?.zona?.zona }} </label>
-
-          <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Direccion:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.direccion }}</label>
-
-        </div>
-
-      </div>
-
-      <div class="col-12">
-        MAPA
-      </div>
-    </div>
+    <app-datos-personales [regPer]="regPer" [regEmp]="regEmp">
+    </app-datos-personales>
   </p-panel>
 </div>
 <!-- FIN DATOS PERSONALES -->
@@ -98,175 +55,33 @@
 <!-- DATOS DE EMPLEADO -->
 <div class="grid">
   <div class="col-12 md:col-8 lg:col-8 ">
-    <p-panel header="DATOS DE EMPLEADO">
-      <ng-template pTemplate="icons">
-        <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2" [model]="itemsDatosPersonales"></p-splitButton>
-      </ng-template>
-      <div class="grid">
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Nro.Cuenta Bancaria:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.numCuenta }} </label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{  regEmp?.cargo?.cargoSucursal?.sucursal?.empresa?.nombreEmpresa  }} </label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.cargo?.descripcion  }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">A Partir de:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.fechaInicio |  date: 'dd/MM/yyyy' }}  </label>
-
-        <!-- <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo Planilla:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text"></label> -->
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Relacion Laboral:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.esActivo | activoEInactivo }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Tipo Relacion:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.tipoRel | relacionEmpresa }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Inicio de Funciones:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaIni |  date: 'dd/MM/yyyy' }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fin de Funciones:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaFin |  date: 'dd/MM/yyyy' }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Motivo Fin:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.motivoFin  }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fecha Inicio Beneficio:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaInicioBeneficio |  date: 'dd/MM/yyyy' }}</label>
-
-        <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fecha Inicio Planilla:</label>
-        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaInicioPlanilla |  date: 'dd/MM/yyyy' }}</label>
-
-      </div>
-    </p-panel>
+    <app-datos-empleado [regEmp]="regEmp"></app-datos-empleado>
   </div>
 
   <div class="col-12 md:col-4 lg:col-2 ajustar-text">
-    <p-panel header="EMAIL(S)">
-      <ng-template pTemplate="icons">
-        <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
-        </button>
-      </ng-template>
-
-      <ul *ngFor="let email of emails">
-        <li>
-          {{  email.email }}
-        </li>
-      </ul>
-
-    </p-panel>
+    <app-dato-email [emails]="emails"></app-dato-email>
   </div>
 
   <div class="col-12 md:col-4 lg:col-2">
-    <p-panel header="TELEFONOS">
-      <ng-template pTemplate="icons">
-        <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
-        </button>
-      </ng-template>
-     <ul *ngFor="let telf of telefonos">
-        <li>
-          {{  telf.telefono }}
-        </li>
-      </ul>
-    </p-panel>
+    <app-dato-telefonos [telefonos]="telefonos"></app-dato-telefonos>
   </div>
 </div>
 <!-- FIN DATOS EMPLEADO-->
 <hr>
 <!-- DATOS EXPERIENCIA LABORAL -->
 <div>
-  <p-panel header="DATOS EXPERIENCIA LABORAL">
-    <ng-template pTemplate="icons">
-      <button pButton icon="pi pi-cog" label="Editar">
-      </button>
-    </ng-template>
-    <p-table   [value]="experienciaLaboral"  responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Empresa</th>
-          <th>Cargo</th>
-          <th>Descripcion</th>
-          <th>Fecha de Inicio</th>
-          <th>Fecha de Conclusion</th>
-          <th>Telefono Referencia</th>
-          <th>Acciones</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-expLab>
-        <tr>
-            <td>{{expLab.nombreEmpresa}}</td>
-            <td>{{expLab.cargo}}</td>
-            <td>{{expLab.descripcion}}</td>
-            <td>{{expLab.fechaInicio | date: 'dd/MM/yyyy' }}</td>
-            <td>{{expLab.fechaFin | date: 'dd/MM/yyyy' }}</td>
-            <td>{{expLab.nroReferencia }}</td>
-
-        </tr>
-    </ng-template>
-    </p-table>
-  </p-panel>
+  <app-dato-experiencia-laboral [experienciaLaboral]="experienciaLaboral"></app-dato-experiencia-laboral>
 </div>
 <!-- FIN DATOS EXPERIENCIA LABORAL-->
 <hr>
 <!-- DATOS FORMACION -->
 <div>
-  <p-panel header="DATOS FORMACION">
-    <ng-template pTemplate="icons">
-      <button pButton icon="pi pi-cog" label="Editar">
-      </button>
-    </ng-template>
-    <p-table  [value]="formacion"  responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Formacion</th>
-          <th>Curso</th>
-          <th>Duracion</th>
-          <th>Medicion</th>
-          <th>Fecha</th>
-          <th>Acciones</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-form>
-        <tr>
-            <td>{{form.tipoFormacion}}</td>
-            <td>{{form.descripcion}}</td>
-            <td>{{form.duracion}}</td>
-            <td>{{form.tipoDuracion  }}</td>
-            <td>{{form.fechaFormacion | date: 'dd/MM/yyyy' }}</td>
-
-        </tr>
-    </ng-template>
-    </p-table>
-  </p-panel>
+  <app-dato-formacion [formacion]="formacion"></app-dato-formacion>
 </div>
 <!-- FIN DATOS FORMACION-->
 <hr>
 <!-- LICENCIAS DE CONDUCIR-->
 <div>
-  <p-panel header="LICENCIAS DE CONDUCIR">
-    <ng-template pTemplate="icons">
-      <button pButton icon="pi pi-cog" label="Editar">
-      </button>
-    </ng-template>
-    <p-table  [value]="licencia"  responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Categoria</th>
-          <th>Caducidad</th>
-          <th>Acciones</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-lic>
-        <tr>
-            <td>{{lic.categoria}}</td>
-            <td>{{lic.fechaCaducidad | date: 'dd/MM/yyyy' }}</td>
-
-        </tr>
-    </ng-template>
-
-    </p-table>
-  </p-panel>
+  <app-dato-licencia-conducir [licencia]="licencia"></app-dato-licencia-conducir>
 </div>
 <!-- FIN LICENCIAS DE CONDUCIR  -->

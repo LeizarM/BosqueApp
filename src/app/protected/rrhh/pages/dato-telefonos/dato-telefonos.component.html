@@ -1,0 +1,11 @@
+<p-panel header="TELEFONOS">
+  <ng-template pTemplate="icons">
+    <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
+    </button>
+  </ng-template>
+ <ul *ngFor="let telf of telefonos">
+    <li>
+      {{  telf.telefono }}
+    </li>
+  </ul>
+</p-panel>

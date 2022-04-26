@@ -1,0 +1,28 @@
+<p-panel header="DATOS FORMACION">
+  <ng-template pTemplate="icons">
+    <button pButton icon="pi pi-cog" label="Editar">
+    </button>
+  </ng-template>
+  <p-table [value]="formacion" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Formacion</th>
+        <th>Curso</th>
+        <th>Duracion</th>
+        <th>Medicion</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-form>
+      <tr>
+        <td>{{form.tipoFormacion}}</td>
+        <td>{{form.descripcion}}</td>
+        <td>{{form.duracion}}</td>
+        <td>{{form.tipoDuracion }}</td>
+        <td>{{form.fechaFormacion | date: 'dd/MM/yyyy' }}</td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>

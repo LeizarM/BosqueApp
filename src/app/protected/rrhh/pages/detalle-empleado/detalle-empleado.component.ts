@@ -8,8 +8,8 @@ import { Telefono } from '../../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
 import { Formacion } from '../../../interfaces/Formacion';
 import { Licencia } from '../../../interfaces/Licencia';
-import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -18,42 +18,30 @@ import { switchMap, tap } from 'rxjs/operators';
 })
 export class DetalleEmpleadoComponent implements OnInit {
 
-  regEmp !: Empleado;
-  regPer !: Persona;
-  itemsDatosPersonales!: MenuItem[];
-  emails!: Email[];
-  telefonos!: Telefono[];
-  experienciaLaboral!: ExperienciaLaboral[];
-  formacion!: Formacion[];
-  licencia!: Licencia[];
-
-
-  /**
-   * Lista para los SplitButton
-  */
+  regEmp              : Empleado;
+  regPer              !: Persona;
+  emails              !: Email[];
+  telefonos           !: Telefono[];
+  experienciaLaboral  !: ExperienciaLaboral[];
+  formacion           !: Formacion[];
+  licencia            !: Licencia[];
+  datoEmpleado        !: string;
 
 
   constructor(
     private rrhhService: RrhhService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
   ) {
 
-    //this.activatedRoute.queryParamMap.subscribe((params: any) => console.log( params ));
-     this.activatedRoute.queryParams
-      .subscribe(params => this.regEmp = params );
-    console.log(this.regEmp);
+    this.regEmp = JSON.parse( localStorage.getItem('b-emp')! ); //recuperamos datos del localstorage
 
-    /* this.obtenerDatosPersonales( this.regEmp.codPersona! );
+    this.datoEmpleado = this.regEmp.persona?.datoPersona!;
+    this.obtenerDatosPersonales( this.regEmp.codPersona! );
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
-    this.cargarOpcionesDatosPersonales();
-    this.cargarOpcionesDatosEmpleado();
-    this.obtenerEmails();
-    this.obtenerTelefonos();
-    this.obtenerExperienciaLaboral();
-    this.obtenerFormacion();
-    this.obtenerLicencia(); */
-
+    this.obtenerEmails( this.regEmp.codPersona! );
+    this.obtenerTelefonos( this.regEmp.codPersona! );
+    this.obtenerExperienciaLaboral( this.regEmp.codEmpleado! );
+    this.obtenerFormacion( this.regEmp.codEmpleado! );
+    this.obtenerLicencia(  this.regEmp.codPersona! );
 
   }
 
@@ -61,54 +49,13 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   }
 
-  /**
-   * Cargar opcione smenu boton editar datos Personales
-   */
-  cargarOpcionesDatosPersonales(): void {
 
-    this.itemsDatosPersonales = [
-      {
-        label: 'Update', icon: 'pi pi-refresh', command: () => {
-
-        }
-      },
-      {
-        label: 'Delete', icon: 'pi pi-times', command: () => {
-
-        }
-      },
-      { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
-
-      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup'] }
-    ];
-  }
-
-  /**
-   * Cargar opcione smenu boton editar datos Personales
-   */
-  cargarOpcionesDatosEmpleado(): void {
-
-    this.itemsDatosPersonales = [
-      {
-        label: 'Nuevo Periodo', icon: 'pi pi-refresh', command: () => {
-
-        }
-      },
-      {
-        label: 'Delete', icon: 'pi pi-times', command: () => {
-
-        }
-      },
-      { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
-
-      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup'] }
-    ];
-  }
 
 
 
   /**
-   * Procedimiento para obtener el detalle empleado
+   *  Procedimiento para obtener el detalle empleado
+   * @param codEmpleado
    */
   obtenerDetalleEmpleado( codEmpleado: number ) {
     this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
@@ -124,6 +71,7 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   /**
    * Procedimiento para obtener los datos personales del empleado
+   * @param codPersona
    */
   obtenerDatosPersonales(codPersona: number) {
     this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
@@ -137,10 +85,11 @@ export class DetalleEmpleadoComponent implements OnInit {
   }
 
   /**
-   * Procedimiento para obtener los correos de una persona
+   *  Procedimiento para obtener los correos de una persona
+   * @param codPersona
    */
-  obtenerEmails() {
-    this.rrhhService.obtenerDatosEmail(201).subscribe((resp) => {
+  obtenerEmails( codPersona: number ) {
+    this.rrhhService.obtenerDatosEmail( codPersona ).subscribe((resp) => {
       if (resp) {
         this.emails = resp;
 
@@ -153,10 +102,10 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   /**
    * Procedimiento para Obtener telefonos por persona
+   * @param codPersona
    */
-
-  obtenerTelefonos() {
-    this.rrhhService.obtenerDatosTelefono(201).subscribe((resp) => {
+  obtenerTelefonos( codPersona: number ) {
+    this.rrhhService.obtenerDatosTelefono( codPersona ).subscribe((resp) => {
       if (resp) {
         this.telefonos = resp;
       }
@@ -167,9 +116,10 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   /**
    * Procedimiento para Obtener la experiencia laboral de un empleado
+   * @param codEmpleado
    */
-  obtenerExperienciaLaboral() {
-    this.rrhhService.obtenerExperienciaLaboral(65).subscribe((resp) => {
+  obtenerExperienciaLaboral(  codEmpleado: number ): void{
+    this.rrhhService.obtenerExperienciaLaboral( codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.experienciaLaboral = resp;
       }
@@ -180,9 +130,10 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   /**
    * Procedimiento para obtener la formacion de un empleado
+   * @param codEmpleado
    */
-  obtenerFormacion() {
-    this.rrhhService.obtenerFormacion(65).subscribe((resp) => {
+  obtenerFormacion( codEmpleado: number ): void {
+    this.rrhhService.obtenerFormacion( codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.formacion = resp;
       }
@@ -194,9 +145,10 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   /**
    * Procedimiento para obtener la licencia de conducir de una persona
+   * @param codPersona
    */
-  obtenerLicencia() {
-    this.rrhhService.obtenerLicencia(38).subscribe((resp) => {
+  obtenerLicencia( codPersona: number ) {
+    this.rrhhService.obtenerLicencia( codPersona ).subscribe((resp) => {
       if (resp) {
         this.licencia = resp;
       }
