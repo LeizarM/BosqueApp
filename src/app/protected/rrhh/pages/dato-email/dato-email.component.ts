@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Email } from '../../../interfaces/Email';
+import { Empleado } from '../../../interfaces/Empleado';
+import { RrhhService } from '../../services/rrhh.service';
 
 @Component({
   selector: 'app-dato-email',
@@ -8,11 +10,33 @@ import { Email } from '../../../interfaces/Email';
 })
 export class DatoEmailComponent  {
 
-  @Input() emails : Email[] = [];
+  @Input() regEmp!: Empleado;
 
-  constructor() { }
+  emails : Email[] = [];
+
+  constructor( private rrhhService : RrhhService ) {
+
+  }
 
   ngOnInit(): void {
+    this.obtenerEmails( this.regEmp.codPersona! );
+  }
+
+
+  /**
+   *  Procedimiento para obtener los correos de una persona
+   * @param codPersona
+   */
+   obtenerEmails( codPersona: number ) {
+    this.rrhhService.obtenerDatosEmail( codPersona ).subscribe((resp) => {
+      if (resp) {
+        this.emails = resp;
+
+      }
+    }, (err) => {
+      this.emails = [];
+      console.log(err);
+    });
   }
 
 }

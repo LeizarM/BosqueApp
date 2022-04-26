@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
 import { Persona } from '../../../interfaces/Persona';
 import { Email } from '../../../interfaces/Email';
-import { Telefono } from '../../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
 import { Formacion } from '../../../interfaces/Formacion';
 import { Licencia } from '../../../interfaces/Licencia';
@@ -21,7 +19,6 @@ export class DetalleEmpleadoComponent implements OnInit {
   regEmp              : Empleado;
   regPer              !: Persona;
   emails              !: Email[];
-  telefonos           !: Telefono[];
   experienciaLaboral  !: ExperienciaLaboral[];
   formacion           !: Formacion[];
   licencia            !: Licencia[];
@@ -37,9 +34,7 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.datoEmpleado = this.regEmp.persona?.datoPersona!;
     this.obtenerDatosPersonales( this.regEmp.codPersona! );
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
-    this.obtenerEmails( this.regEmp.codPersona! );
-    this.obtenerTelefonos( this.regEmp.codPersona! );
-    this.obtenerExperienciaLaboral( this.regEmp.codEmpleado! );
+
     this.obtenerFormacion( this.regEmp.codEmpleado! );
     this.obtenerLicencia(  this.regEmp.codPersona! );
 
@@ -48,9 +43,6 @@ export class DetalleEmpleadoComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
-
-
 
 
   /**
@@ -84,49 +76,8 @@ export class DetalleEmpleadoComponent implements OnInit {
     });
   }
 
-  /**
-   *  Procedimiento para obtener los correos de una persona
-   * @param codPersona
-   */
-  obtenerEmails( codPersona: number ) {
-    this.rrhhService.obtenerDatosEmail( codPersona ).subscribe((resp) => {
-      if (resp) {
-        this.emails = resp;
 
-      }
-    }, (err) => {
-      this.emails = [];
-      console.log(err);
-    });
-  }
 
-  /**
-   * Procedimiento para Obtener telefonos por persona
-   * @param codPersona
-   */
-  obtenerTelefonos( codPersona: number ) {
-    this.rrhhService.obtenerDatosTelefono( codPersona ).subscribe((resp) => {
-      if (resp) {
-        this.telefonos = resp;
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  }
-
-  /**
-   * Procedimiento para Obtener la experiencia laboral de un empleado
-   * @param codEmpleado
-   */
-  obtenerExperienciaLaboral(  codEmpleado: number ): void{
-    this.rrhhService.obtenerExperienciaLaboral( codEmpleado ).subscribe((resp) => {
-      if (resp) {
-        this.experienciaLaboral = resp;
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  }
 
   /**
    * Procedimiento para obtener la formacion de un empleado

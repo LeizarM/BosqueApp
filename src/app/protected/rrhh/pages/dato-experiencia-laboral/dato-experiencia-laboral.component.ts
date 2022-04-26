@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
+import { RrhhService } from '../../services/rrhh.service';
+import { Empleado } from '../../../interfaces/Empleado';
 
 @Component({
   selector: 'app-dato-experiencia-laboral',
@@ -8,11 +10,29 @@ import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
 })
 export class DatoExperienciaLaboralComponent implements OnInit {
 
-  @Input() experienciaLaboral : ExperienciaLaboral[] = [];
+  @Input() regEmp !: Empleado;
 
-  constructor() { }
+  experienciaLaboral : ExperienciaLaboral[] = [];
+
+  constructor( private rrhhService: RrhhService ) { }
 
   ngOnInit(): void {
+
+    this.obtenerExperienciaLaboral( this.regEmp.codEmpleado! );
+  }
+
+  /**
+   * Procedimiento para Obtener la experiencia laboral de un empleado
+   * @param codEmpleado
+   */
+   obtenerExperienciaLaboral(  codEmpleado: number ): void{
+    this.rrhhService.obtenerExperienciaLaboral( codEmpleado ).subscribe((resp) => {
+      if (resp) {
+        this.experienciaLaboral = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }
