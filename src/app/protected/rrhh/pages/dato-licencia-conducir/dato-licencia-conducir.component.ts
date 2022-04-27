@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Licencia } from '../../../interfaces/Licencia';
+import { RrhhService } from '../../services/rrhh.service';
+import { Empleado } from '../../../interfaces/Empleado';
 
 @Component({
   selector: 'app-dato-licencia-conducir',
@@ -8,11 +10,30 @@ import { Licencia } from '../../../interfaces/Licencia';
 })
 export class DatoLicenciaConducirComponent implements OnInit {
 
-  @Input() licencia : Licencia[] = []
+  @Input() regEmp !: Empleado;
 
-  constructor() { }
+  licencia : Licencia[] = [];
+
+  constructor( private rrhhService : RrhhService ) { }
 
   ngOnInit(): void {
+    this.obtenerLicencia(  this.regEmp.codPersona! );
+  }
+
+
+  /**
+   * Procedimiento para obtener la licencia de conducir de una persona
+   * @param codPersona
+   */
+   obtenerLicencia( codPersona: number ) {
+    this.rrhhService.obtenerLicencia( codPersona ).subscribe((resp) => {
+      if (resp) {
+        this.licencia = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
+
   }
 
 }

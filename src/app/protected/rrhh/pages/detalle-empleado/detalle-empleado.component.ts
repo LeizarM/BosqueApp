@@ -35,8 +35,7 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.obtenerDatosPersonales( this.regEmp.codPersona! );
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
 
-    this.obtenerFormacion( this.regEmp.codEmpleado! );
-    this.obtenerLicencia(  this.regEmp.codPersona! );
+
 
   }
 
@@ -76,37 +75,5 @@ export class DetalleEmpleadoComponent implements OnInit {
     });
   }
 
-
-
-
-  /**
-   * Procedimiento para obtener la formacion de un empleado
-   * @param codEmpleado
-   */
-  obtenerFormacion( codEmpleado: number ): void {
-    this.rrhhService.obtenerFormacion( codEmpleado ).subscribe((resp) => {
-      if (resp) {
-        this.formacion = resp;
-      }
-    }, (err) => {
-      this.formacion = [];
-      console.log(err);
-    });
-  }
-
-  /**
-   * Procedimiento para obtener la licencia de conducir de una persona
-   * @param codPersona
-   */
-  obtenerLicencia( codPersona: number ) {
-    this.rrhhService.obtenerLicencia( codPersona ).subscribe((resp) => {
-      if (resp) {
-        this.licencia = resp;
-      }
-    }, (err) => {
-      console.log(err);
-    });
-
-  }
 
 }
