@@ -39,4 +39,12 @@ export class DatoEmailComponent  {
     });
   }
 
+  /**
+   * Procedimiento para ve captura los datos de los emails
+   */
+  cargarEmails(){
+    console.log("para ver si persiste los emails  ",this.emails.length);
+
+  }
+
 }

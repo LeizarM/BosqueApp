@@ -6,8 +6,7 @@
   </h2>
 </div>
 <br>
-
-<p-toolbar>
+<!-- <p-toolbar>
   <div class="p-toolbar-group-left">
     <p-button label="New" icon="pi pi-plus" class="mr-2"></p-button>
     <p-button label="Upload" icon="pi pi-upload" styleClass="p-button-success"></p-button>
@@ -19,7 +18,7 @@
     <p-button icon="pi pi-calendar" styleClass="p-button-success mr-2"></p-button>
     <p-button icon="pi pi-times" styleClass="p-button-danger"></p-button>
   </div>
-</p-toolbar>
+</p-toolbar> -->
 
 <br>
 <div class="grid">
@@ -44,10 +43,10 @@
   </p-panel>
 
   <!-- DATOS PERSONALES -->
-  <p-panel class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
-    <app-datos-personales [regPer]="regPer" [regEmp]="regEmp">
-    </app-datos-personales>
-  </p-panel>
+
+  <app-datos-personales class="col-12 md:col-6 lg:col-7" *ngIf="regEmp && regPer"  [regPer]="regPer" [regEmp]="regEmp">
+  </app-datos-personales>
+
 </div>
 <!-- FIN DATOS PERSONALES -->
 <hr />

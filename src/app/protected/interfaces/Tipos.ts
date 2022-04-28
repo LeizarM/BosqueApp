@@ -252,3 +252,107 @@ export function lstEstadoCivil():Tipos[]{
   return lstTemp;
 }
 
+/**
+ * Devolvera una lista del nivel de licencia de conducir o conduccion
+ */
+ export function lstTipoFormacion():Tipos[]{
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'cur',
+      nombre: 'Curso',
+      codGrupo: 4,
+    },
+    {
+      codTipos: 'dip',
+      nombre: 'Diplomado',
+      codGrupo: 4,
+    },
+    {
+      codTipos: 'esp',
+      nombre: 'Especialidad',
+      codGrupo: 4,
+    },
+    {
+      codTipos: 'mae',
+      nombre: 'Maestría',
+      codGrupo: 4,
+    },
+    {
+      codTipos: 'doc',
+      nombre: 'Doctorado',
+      codGrupo: 4,
+    }
+  );
+  return lstTemp;
+
+ }
+
+
+ /**
+ * Devolvera el dpto donde fue expedido el documento de identidad
+ */
+  export function lstDocumentoExpedido():Tipos[]{
+    const lstTemp: Tipos[] = [];
+
+    lstTemp.push(
+      {
+        codTipos: 'lp',
+        nombre: 'LP',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'sc',
+        nombre: 'SC',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'or',
+        nombre: 'OR',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'tj',
+        nombre: 'TJ',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'cbba',
+        nombre: 'CBBA',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'be',
+        nombre: 'BE',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'po',
+        nombre: 'PO',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'pd',
+        nombre: 'PD',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'ch',
+        nombre: 'CH',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'nn',
+        nombre: 'Sin Carnet',
+        codGrupo: 9,
+      },
+      {
+        codTipos: 'ext',
+        nombre: 'Extranjero',
+        codGrupo: 9,
+      }
+    );
+    return lstTemp;
+
+   }

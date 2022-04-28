@@ -1,43 +1,99 @@
-<ng-template pTemplate="icons">
-  <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2"></p-splitButton>
-</ng-template>
-<div class="grid p-flex-column-reverse">
-  <div class="col-12">
-    <div class="grid">
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Codigo:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.codEmpleado }}</label>
+<p-panel header="DATOS PERSONALES">
+  <ng-template pTemplate="icons">
+    <button pButton (click)="cargarDatosPersona()"> Editar </button>
+  </ng-template>
+  <div class="grid p-flex-column-reverse">
+    <div class="col-12">
+      <div class="grid">
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Codigo:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.codEmpleado }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Cedula de Identidad:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciNumero}}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Cedula de Identidad:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciNumero}} {{ regPer?.ciExpedido | ciExpedido }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.pais?.pais }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.pais?.pais }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Vencimiento CI:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy' }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Vencimiento CI:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy'
+          }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Fecha Nacimiento:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Fecha Nacimiento:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Nacimiento:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.lugarNacimiento }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Nacimiento:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.lugarNacimiento }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Estado Civi: </label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.estadoCivil | estadoCivil }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Estado Civi: </label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.estadoCivil | estadoCivil }}</label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Ubicacion:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.pais?.pais }}, {{ regPer?.ciudad?.ciudad }}, {{ regPer?.zona?.zona }} </label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Ubicacion:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.pais?.pais }}, {{ regPer?.ciudad?.ciudad }}, {{
+          regPer?.zona?.zona }} </label>
 
-      <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Direccion:</label>
-      <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.direccion }}</label>
+        <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Direccion:</label>
+        <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.direccion }}</label>
 
+      </div>
     </div>
+    <div class="col-12">
+      MAPA
+    </div>
+  </div>
+</p-panel>
+
+<!-- Modal para editar y/o guardar la informacion -->
+<p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true" [draggable]="false"
+  [resizable]="false" >
+  <div class="grid">
+    <label class="col-4">Nombres:</label>
+    <label class="col-8">{{ regPer?.nombres }}</label>
+
+    <label class="col-4">Apellido Paterno:</label>
+    <label class="col-8">{{ regPer?.apPaterno }}</label>
+
+    <label class="col-4">Apellido Materno</label>
+    <label class="col-8">{{ regPer?.apMaterno }}</label>
+
+    <label class="col-8">Sexo: {{ regPer?.sexo }}</label>
+    <p-dropdown class="col-8" [options]="lstGenero" optionLabel="nombre" optionValue="{{regPer?.sexo}}" ></p-dropdown>
+
+    <label class="col-4">Pais de Nacimiento:</label>
+    <p-dropdown class="col-8" [options]="lstPais" optionLabel="pais" optionValue="{{regPer?.pais?.pais}}" ></p-dropdown>
+
+    <label class="col-4">Lugar de Nacimiento:</label>
+    <label class="col-8">{{ regPer?.lugarNacimiento }}</label>
+
+    <label class="col-4">CI:</label>
+    <label class="col-8">{{ regPer?.ciNumero }}</label>
+
+    <label class="col-4">Fecha Vencimiento CI:</label>
+    <label class="col-8">{{ regPer?.ciFechaVencimiento }}</label>
+
+    <label class="col-4">Fecha de Nacimiento:</label>
+    <label class="col-8">{{ regPer?.fechaNacimiento }}</label>
+
+    <label class="col-4">Pais Residencia:</label>
+    <p-dropdown class="col-8" [options]="lstPais" optionLabel="pais" optionValue="codPais" placeholder="Seleccione Pais"  (onChange)="cargarCiudades($event)" ></p-dropdown>
+
+    <label class="col-4">Ciudad Residencia:</label>
+    <p-dropdown class="col-8" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad" placeholder="Seleccione Ciudad"  (onChange)="cargarZonas($event)" ></p-dropdown>
+
+    <label class="col-4">Zona Residencia:</label>
+    <p-dropdown class="col-8" [options]="lstZona" optionLabel="zona" optionValue="codZona" placeholder="Seleccione Zona" ></p-dropdown>
+
+    <label class="col-4">Direccion:</label>
+    <label class="col-8"></label>
+
+    <label class="col-4">Estado Civil:</label>
+    <label class="col-8">{{ regPer?.estadoCivil }}</label>
+
 
   </div>
-  <div class="col-12">
-    MAPA
-  </div>
-</div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

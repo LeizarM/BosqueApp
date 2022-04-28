@@ -20,6 +20,8 @@ import { DatoTelefonosComponent } from './pages/dato-telefonos/dato-telefonos.co
 import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
 import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.component';
 import { DatoLicenciaConducirComponent } from './pages/dato-licencia-conducir/dato-licencia-conducir.component';
+import { FormacionPipe } from './pipes/formacion.pipe';
+import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 
 
 
@@ -41,6 +43,8 @@ import { DatoLicenciaConducirComponent } from './pages/dato-licencia-conducir/da
     DatoExperienciaLaboralComponent,
     DatoFormacionComponent,
     DatoLicenciaConducirComponent,
+    FormacionPipe,
+    CiExpedidoPipe,
   ],
   imports: [
     CommonModule,

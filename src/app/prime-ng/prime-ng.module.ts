@@ -12,6 +12,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+
 @NgModule({
 
   exports: [
@@ -27,7 +29,8 @@ import { PanelModule } from 'primeng/panel';
     RadioButtonModule,
     DropdownModule,
     CardModule,
-    PanelModule
+    PanelModule,
+    DialogModule
 
   ]
 })

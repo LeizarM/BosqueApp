@@ -10,6 +10,9 @@ import { Telefono } from '../../interfaces/Telefono';
 import { ExperienciaLaboral } from '../../interfaces/ExperienciaLaboral';
 import { Formacion } from '../../interfaces/Formacion';
 import { Licencia } from '../../interfaces/Licencia';
+import { Ciudad } from '../../interfaces/Ciudad';
+import { Pais } from '../../interfaces/Pais';
+import { Zona } from '../../interfaces/Zona';
 
 
 @Injectable({
@@ -21,9 +24,9 @@ export class RrhhService {
   constructor(private http: HttpClient) { }
 
   /**
-    * ==========================================
-    * ========== PROCEDIMIENTOS ================
-    * ==========================================
+    * ===============================================
+    * =============== PROCEDIMIENTOS ================
+    * ===============================================
     */
 
   /**
@@ -218,6 +221,83 @@ export class RrhhService {
     };
 
     return this.http.post<Licencia[]>(url, lic)
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+  }
+
+   /**
+   * Procedimiento para obtener los paises registrados
+   * @returns
+   */
+    obtenerPaises(): Observable<Pais[]>{
+      const url = `${this.baseUrl}/rrhh/paises`;
+
+      return this.http.post<Pais[]>(url, {} )
+        .pipe(
+          catchError(e => {
+            if (e.status == 401) {
+              return throwError(e);
+            }
+            if (e.ok === false) {
+              console.error(e.error.error);
+              return throwError(e);
+            }
+            return throwError(e);
+          })
+        );
+    }
+
+  /**
+   * Obtendra las ciudades por pais
+   * @param codPais
+   * @returns
+   */
+  obtenerCiudadesXPais( codPais: number ): Observable<Ciudad[]>{
+
+    const url = `${this.baseUrl}/rrhh/ciudadxPais`;
+    const ciu: Ciudad = {
+      codPais: codPais
+    };
+
+    return this.http.post<Ciudad[]>(url, ciu)
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+
+  }
+
+  /**
+   * Procedimiento para obtener las Zonas por ciudad
+   * @param codCiudad
+   * @returns
+   */
+  obtenerZonaxCiudad( codCiudad: number ): Observable<Zona[]>{
+
+    const url = `${this.baseUrl}/rrhh/zonas`;
+    const zon: Ciudad = {
+      codCiudad: codCiudad
+    };
+
+    return this.http.post<Zona[]>(url, zon )
       .pipe(
         catchError(e => {
           if (e.status == 401) {
