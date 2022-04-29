@@ -35,8 +35,6 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.obtenerDatosPersonales( this.regEmp.codPersona! );
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
 
-
-
   }
 
   ngOnInit(): void {

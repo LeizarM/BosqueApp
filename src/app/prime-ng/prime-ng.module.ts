@@ -13,6 +13,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
 
@@ -30,7 +31,8 @@ import { DialogModule } from 'primeng/dialog';
     DropdownModule,
     CardModule,
     PanelModule,
-    DialogModule
+    DialogModule,
+    InputTextareaModule
 
   ]
 })

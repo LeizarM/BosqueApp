@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
-import { lstSexo, Tipos } from '../../../interfaces/Tipos';
+import { lstSexo, Tipos, lstEstadoCivil } from '../../../interfaces/Tipos';
 import { Pais } from '../../../interfaces/Pais';
 import { Ciudad } from '../../../interfaces/Ciudad';
 import { Zona } from '../../../interfaces/Zona';
@@ -21,21 +21,27 @@ export class DatosPersonalesComponent implements OnInit {
 
   registroPersona : Persona = {};
 
-  lstGenero : Tipos[] = [];
-  lstPais   : Pais[] = [];
-  lstCiudad : Ciudad[] = [];
-  lstZona   : Zona[] = [];
+  lstGenero      : Tipos[] = [];
+  lstPais        : Pais[] = [];
+  lstCiudad      : Ciudad[] = [];
+  lstZona        : Zona[] = [];
+  lstEstadoCivil : Tipos [] = [];
 
   constructor(
     private rrhhService : RrhhService
   ) {
     this.lstGenero = lstSexo();
     this.obtenerPaises();
+
   }
 
   ngOnInit(): void {
     //recibiendo datos del componente padre
-    this.registroPersona = { ...this.regEmp }
+    this.registroPersona = { ...this.regPer }
+    console.log(this.registroPersona);
+    this.lstEstadoCivil = lstEstadoCivil();
+    this.obtenerCiudadesXPais( this.registroPersona.ciudad?.codPais! );
+    this.obtenerZonaXCiudad( this.registroPersona.ciudad?.codCiudad! );
 
   }
 
@@ -68,6 +74,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.regPer.ciudad!.codCiudad = event.value;
     if( this.regPer.ciudad?.codCiudad === null || this.regPer.ciudad?.codCiudad === undefined || this.regPer.ciudad?.codCiudad <= 0 ) return;
     this.obtenerZonaXCiudad(this.regPer.ciudad.codCiudad );
+
   }
 
   /**
@@ -77,6 +84,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.rrhhService.obtenerPaises().subscribe((resp) => {
       if (resp) {
         this.lstPais = resp;
+        console.log(this.lstPais);
       }
     }, (err) => {
       this.lstPais = [];
@@ -89,9 +97,11 @@ export class DatosPersonalesComponent implements OnInit {
    * @param codPais
    */
   obtenerCiudadesXPais( codPais : number ): void{
+    console.log("el codPais es= "+codPais);
     this.rrhhService.obtenerCiudadesXPais( codPais ).subscribe((resp) => {
       if(resp){
         this.lstCiudad = resp;
+
       }
     },(err)=>{
       this.lstCiudad = [];
@@ -107,6 +117,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.rrhhService.obtenerZonaxCiudad( codCiudad ).subscribe((resp)=>{
       if(resp){
         this.lstZona = resp;
+
       }
     },(err)=>{
       this.lstZona = [];

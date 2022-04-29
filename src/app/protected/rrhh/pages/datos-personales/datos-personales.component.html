@@ -46,50 +46,51 @@
 </p-panel>
 
 <!-- Modal para editar y/o guardar la informacion -->
-<p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true" [draggable]="false"
-  [resizable]="false" >
+<p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true" [draggable]="true"
+  [resizable]="true" >
   <div class="grid">
-    <label class="col-4">Nombres:</label>
-    <label class="col-8">{{ regPer?.nombres }}</label>
+    <label class="col-6">Nombres:</label>
+    <label class="col-6">{{ regPer?.nombres }}</label>
 
-    <label class="col-4">Apellido Paterno:</label>
-    <label class="col-8">{{ regPer?.apPaterno }}</label>
+    <label class="col-6">Apellido Paterno:</label>
+    <label class="col-6">{{ regPer?.apPaterno }}</label>
 
-    <label class="col-4">Apellido Materno</label>
-    <label class="col-8">{{ regPer?.apMaterno }}</label>
+    <label class="col-6">Apellido Materno</label>
+    <label class="col-6">{{ regPer?.apMaterno }}</label>
 
-    <label class="col-8">Sexo: {{ regPer?.sexo }}</label>
-    <p-dropdown class="col-8" [options]="lstGenero" optionLabel="nombre" optionValue="{{regPer?.sexo}}" ></p-dropdown>
+    <label class="col-6">Sexo: {{ regPer?.sexo }}</label>
+    <p-dropdown class="col-6" [options]="lstGenero" optionLabel="nombre"  [(ngModel)]="regPer.sexo" optionValue="codTipos" ></p-dropdown>
 
-    <label class="col-4">Pais de Nacimiento:</label>
-    <p-dropdown class="col-8" [options]="lstPais" optionLabel="pais" optionValue="{{regPer?.pais?.pais}}" ></p-dropdown>
+    <label class="col-6">Pais de Nacimiento:</label>
+    <p-dropdown class="col-6" [options]="lstPais" optionLabel="pais" optionValue="codPais" [(ngModel)]="regPer.nacionalidad"  ></p-dropdown>
 
-    <label class="col-4">Lugar de Nacimiento:</label>
-    <label class="col-8">{{ regPer?.lugarNacimiento }}</label>
+    <label class="col-6">Lugar de Nacimiento:</label>
+    <label class="col-6">{{ regPer?.lugarNacimiento }}</label>
 
-    <label class="col-4">CI:</label>
-    <label class="col-8">{{ regPer?.ciNumero }}</label>
+    <label class="col-6">CI:</label>
+    <label class="col-6">{{ regPer?.ciNumero }}</label>
 
-    <label class="col-4">Fecha Vencimiento CI:</label>
-    <label class="col-8">{{ regPer?.ciFechaVencimiento }}</label>
+    <label class="col-6">Fecha Vencimiento CI:</label>
+    <label class="col-6">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy' }}</label>
 
-    <label class="col-4">Fecha de Nacimiento:</label>
-    <label class="col-8">{{ regPer?.fechaNacimiento }}</label>
+    <label class="col-6">Fecha de Nacimiento:</label>
+    <label class="col-6">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
 
-    <label class="col-4">Pais Residencia:</label>
-    <p-dropdown class="col-8" [options]="lstPais" optionLabel="pais" optionValue="codPais" placeholder="Seleccione Pais"  (onChange)="cargarCiudades($event)" ></p-dropdown>
+    <label class="col-6">Pais Residencia: </label>
+    <p-dropdown class="col-6" [options]="lstPais" optionLabel="pais" optionValue="codPais" [(ngModel)]="regPer.ciudad!.codPais" placeholder="Seleccione Pais"  (onChange)="cargarCiudades($event)" ></p-dropdown>
 
-    <label class="col-4">Ciudad Residencia:</label>
-    <p-dropdown class="col-8" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad" placeholder="Seleccione Ciudad"  (onChange)="cargarZonas($event)" ></p-dropdown>
+    <label class="col-6">Ciudad Residencia:</label>
+    <p-dropdown class="col-6" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad" [(ngModel)]="regPer.ciudad!.codCiudad"  placeholder="Seleccione Ciudad"  (onChange)="cargarZonas($event)" ></p-dropdown>
 
-    <label class="col-4">Zona Residencia:</label>
-    <p-dropdown class="col-8" [options]="lstZona" optionLabel="zona" optionValue="codZona" placeholder="Seleccione Zona" ></p-dropdown>
+    <label class="col-6">Zona Residencia:</label>
+    <p-dropdown class="col-6" [options]="lstZona"   optionLabel="zona" optionValue="codZona" [(ngModel)]="regPer.codZona" placeholder="Seleccione Zona" [virtualScroll]="true" [itemSize]="lstZona.length" ></p-dropdown>
 
-    <label class="col-4">Direccion:</label>
-    <label class="col-8"></label>
+    <label class="col-6">Direccion:</label>
+    <textarea rows="5" cols="30" pInputTextarea></textarea>
 
-    <label class="col-4">Estado Civil:</label>
-    <label class="col-8">{{ regPer?.estadoCivil }}</label>
+
+    <label class="col-6">Estado Civil:</label>
+    <p-dropdown class="col-6" [options]="lstEstadoCivil" optionLabel="nombre" optionValue="codTipos" [(ngModel)]="regPer.estadoCivil"  placeholder="Seleccione Estado Civil" ></p-dropdown>
 
 
   </div>
