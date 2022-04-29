@@ -31,10 +31,15 @@ export class DetalleEmpleadoComponent implements OnInit {
 
     this.regEmp = JSON.parse( localStorage.getItem('b-emp')! ); //recuperamos datos del localstorage
 
-    this.datoEmpleado = this.regEmp.persona?.datoPersona!;
-    this.obtenerDatosPersonales( this.regEmp.codPersona! );
-    this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
+    if( this.regEmp === undefined || this.regEmp === null)
+    this.regEmp = {
+      codEmpleado  :  0
+    }
 
+    this.datoEmpleado = this.regEmp.persona?.datoPersona!;
+
+    this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
+    this.obtenerDatosPersonales( this.regEmp.codPersona! );
   }
 
   ngOnInit(): void {

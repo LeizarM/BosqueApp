@@ -15,6 +15,7 @@ import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
 
@@ -34,7 +35,8 @@ import { InputTextModule } from 'primeng/inputtext';
     PanelModule,
     DialogModule,
     InputTextareaModule,
-    InputTextModule
+    InputTextModule,
+    CalendarModule
 
   ]
 })

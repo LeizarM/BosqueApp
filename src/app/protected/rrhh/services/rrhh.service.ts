@@ -71,7 +71,6 @@ export class RrhhService {
 
     return this.http.post<Empleado>(url, emp)
       .pipe(
-
         catchError(e => {
           if (e.status == 401) {
             return throwError(e);
