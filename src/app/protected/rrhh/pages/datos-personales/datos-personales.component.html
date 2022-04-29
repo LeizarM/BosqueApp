@@ -47,10 +47,11 @@
 
 <!-- Modal para editar y/o guardar la informacion -->
 <p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true" [draggable]="true"
-  [resizable]="true" >
+  [resizable]="true" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}" >
   <div class="grid">
     <label class="col-6">Nombres:</label>
     <label class="col-6">{{ regPer?.nombres }}</label>
+    <input type="text" [(ngModel)]="regPer.nombres" class="p-inputtext-sm" placeholder="Nombres" pInputText  />
 
     <label class="col-6">Apellido Paterno:</label>
     <label class="col-6">{{ regPer?.apPaterno }}</label>
@@ -58,7 +59,7 @@
     <label class="col-6">Apellido Materno</label>
     <label class="col-6">{{ regPer?.apMaterno }}</label>
 
-    <label class="col-6">Sexo: {{ regPer?.sexo }}</label>
+    <label class="col-6">Sexo:</label>
     <p-dropdown class="col-6" [options]="lstGenero" optionLabel="nombre"  [(ngModel)]="regPer.sexo" optionValue="codTipos" ></p-dropdown>
 
     <label class="col-6">Pais de Nacimiento:</label>
@@ -68,8 +69,8 @@
     <label class="col-6">{{ regPer?.lugarNacimiento }}</label>
 
     <label class="col-6">CI:</label>
-    <label class="col-6">{{ regPer?.ciNumero }}</label>
-
+    <label class="col-2">{{ regPer?.ciNumero }}</label>
+    <p-dropdown class="col-1" [options]="lstCiExpedido" optionLabel="nombre" optionValue="codTipos" [(ngModel)]="regPer.ciExpedido"  ></p-dropdown>
     <label class="col-6">Fecha Vencimiento CI:</label>
     <label class="col-6">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy' }}</label>
 
@@ -86,15 +87,13 @@
     <p-dropdown class="col-6" [options]="lstZona"   optionLabel="zona" optionValue="codZona" [(ngModel)]="regPer.codZona" placeholder="Seleccione Zona" [virtualScroll]="true" [itemSize]="lstZona.length" ></p-dropdown>
 
     <label class="col-6">Direccion:</label>
-    <textarea rows="5" cols="30" pInputTextarea></textarea>
+    <textarea rows="5" cols="20" pInputTextarea></textarea>
 
 
     <label class="col-6">Estado Civil:</label>
     <p-dropdown class="col-6" [options]="lstEstadoCivil" optionLabel="nombre" optionValue="codTipos" [(ngModel)]="regPer.estadoCivil"  placeholder="Seleccione Estado Civil" ></p-dropdown>
-
-
   </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check" (click)="displayModal=false" label="Guardar" styleClass="p-button-text"></p-button>
   </ng-template>
 </p-dialog>

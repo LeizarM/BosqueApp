@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
-import { lstSexo, Tipos, lstEstadoCivil } from '../../../interfaces/Tipos';
+import { lstSexo, Tipos, lstEstadoCivil, lstDocumentoExpedido } from '../../../interfaces/Tipos';
 import { Pais } from '../../../interfaces/Pais';
 import { Ciudad } from '../../../interfaces/Ciudad';
 import { Zona } from '../../../interfaces/Zona';
@@ -25,7 +25,8 @@ export class DatosPersonalesComponent implements OnInit {
   lstPais        : Pais[] = [];
   lstCiudad      : Ciudad[] = [];
   lstZona        : Zona[] = [];
-  lstEstadoCivil : Tipos [] = [];
+  lstEstadoCivil : Tipos[] = [];
+  lstCiExpedido  : Tipos[]= [];
 
   constructor(
     private rrhhService : RrhhService
@@ -40,6 +41,7 @@ export class DatosPersonalesComponent implements OnInit {
     this.registroPersona = { ...this.regPer }
     console.log(this.registroPersona);
     this.lstEstadoCivil = lstEstadoCivil();
+    this.lstCiExpedido =  lstDocumentoExpedido();
     this.obtenerCiudadesXPais( this.registroPersona.ciudad?.codPais! );
     this.obtenerZonaXCiudad( this.registroPersona.ciudad?.codCiudad! );
 
