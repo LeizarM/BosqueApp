@@ -17,7 +17,7 @@ export class DatosPersonalesComponent implements OnInit {
   @Input() regPer !: Persona;
   @Input() regEmp !: Empleado;
 
-  fechaVencimiento !: Date;
+
 
   displayModal: boolean = false;
 
@@ -41,8 +41,10 @@ export class DatosPersonalesComponent implements OnInit {
   ngOnInit(): void {
     //recibiendo datos del componente padre
     this.registroPersona = { ...this.regPer }
-    this.fechaVencimiento = this.registroPersona.ciFechaVencimiento!;
+
     console.log(this.registroPersona);
+    this.regPer.ciFechaVencimiento = new Date(this.regPer.ciFechaVencimiento!);
+    this.regPer.fechaNacimiento = new Date(this.regPer.fechaNacimiento!);
     this.lstEstadoCivil = lstEstadoCivil();
     this.lstCiExpedido =  lstDocumentoExpedido();
     this.obtenerCiudadesXPais( this.registroPersona.ciudad?.codPais! );

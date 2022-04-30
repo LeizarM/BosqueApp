@@ -31,11 +31,6 @@ import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
     EstructuraOrgComponent,
     RegistroEmpleadoComponent,
     DetalleEmpleadoComponent,
-    //Pipes
-    GeneroPipe,
-    EstadoCivilPipe,
-    RelacionEmpresaPipe,
-    ActivoEInactivoPipe,
     DatosPersonalesComponent,
     DatosEmpleadoComponent,
     DatoEmailComponent,
@@ -43,6 +38,12 @@ import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
     DatoExperienciaLaboralComponent,
     DatoFormacionComponent,
     DatoLicenciaConducirComponent,
+
+    //Pipes
+    GeneroPipe,
+    EstadoCivilPipe,
+    RelacionEmpresaPipe,
+    ActivoEInactivoPipe,
     FormacionPipe,
     CiExpedidoPipe,
   ],
