@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
 import { lstSexo, Tipos, lstEstadoCivil, lstDocumentoExpedido } from '../../../interfaces/Tipos';
@@ -6,7 +7,8 @@ import { Pais } from '../../../interfaces/Pais';
 import { Ciudad } from '../../../interfaces/Ciudad';
 import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-datos-personales',
@@ -31,7 +33,7 @@ export class DatosPersonalesComponent implements OnInit {
   lstEstadoCivil: Tipos[] = [];
   lstCiExpedido: Tipos[] = [];
 
-  formDatosPersonales : FormGroup = new FormGroup({});
+  formDatosPersonales: FormGroup = new FormGroup({});
 
 
 
@@ -44,8 +46,10 @@ export class DatosPersonalesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     //recibiendo datos del componente padre
     this.registroPersona = { ...this.regPer }
+    this.obtenerDatosPersonales( this.regEmp.codPersona! );
 
     console.log(this.registroPersona);
     this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento!);
@@ -56,26 +60,40 @@ export class DatosPersonalesComponent implements OnInit {
     this.obtenerZonaXCiudad(this.registroPersona.ciudad?.codCiudad!);
 
     this.formDatosPersonales = this.fb.group({
-      codPersona        : [this.registroPersona.codPersona],
-      nombres           : [this.registroPersona.nombres],
-      apPaterno         : [this.registroPersona.apPaterno],
-      apMaterno         : [this.registroPersona.apMaterno],
-      sexo              : [this.registroPersona.sexo],
-      nacionalidad      : [this.registroPersona.nacionalidad],
-      lugarNacimiento   : [this.registroPersona.lugarNacimiento],
-      ciNumero          : [this.registroPersona.ciNumero],
-      ciExpedido        : [this.registroPersona.ciExpedido],
-      codPais           : [this.registroPersona.ciudad?.codPais],
-      codCiudad         : [this.registroPersona.ciudad?.codCiudad],
-      codZona           : [this.registroPersona.codZona ],
+      codPersona: [this.registroPersona.codPersona],
+      nombres: [this.registroPersona.nombres],
+      apPaterno: [this.registroPersona.apPaterno],
+      apMaterno: [this.registroPersona.apMaterno],
+      sexo: [this.registroPersona.sexo],
+      nacionalidad: [this.registroPersona.nacionalidad],
+      lugarNacimiento: [this.registroPersona.lugarNacimiento],
+      ciNumero: [this.registroPersona.ciNumero],
+      ciExpedido: [this.registroPersona.ciExpedido],
+      codPais: [this.registroPersona.ciudad?.codPais],
+      codCiudad: [this.registroPersona.ciudad?.codCiudad],
+      codZona: [this.registroPersona.codZona],
       ciFechaVencimiento: [this.registroPersona.ciFechaVencimiento],
-      fechaNacimiento   : [this.registroPersona.fechaNacimiento],
-      direccion         : [this.registroPersona.direccion],
-      estadoCivil       : [this.registroPersona.estadoCivil],
+      fechaNacimiento: [this.registroPersona.fechaNacimiento],
+      direccion: [this.registroPersona.direccion],
+      estadoCivil: [this.registroPersona.estadoCivil],
 
     });
   }
 
+  /**
+   * Procedimiento para obtener los datos personales del empleado
+   * @param codPersona
+   */
+   obtenerDatosPersonales(codPersona: number) {
+    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
+      if (resp) {
+        this.regPer = resp;
+
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
 
   /**
    * Procedimiento desplegar el modal
@@ -150,7 +168,7 @@ export class DatosPersonalesComponent implements OnInit {
 
       if (resp.length > 0) {
         this.lstZona = resp;
-      }else{
+      } else {
         this.lstZona = [];
         this.registroPersona.codZona = 0;
       }
@@ -164,7 +182,7 @@ export class DatosPersonalesComponent implements OnInit {
   /**
    * Procedimiento para guardar la informacion del formulario
    */
-  guardar(){
+  guardar() {
     //console.log( this.formDatosPersonales.value );
     /* const  { codPersona
             ,nombres
@@ -183,14 +201,19 @@ export class DatosPersonalesComponent implements OnInit {
             ,direccion
             ,estadoCivil } = this.formDatosPersonales.value; */
 
-    let a : Persona = this.formDatosPersonales.value;
-    this.rrhhService.registrarInformacion(a).subscribe((resp)=>{
-      if(!resp){
-        console.log("Error");
-      }else{
-        console.log("creado");
+    const persona: Persona = this.formDatosPersonales.value;
+    this.rrhhService.registrarInformacion(persona).subscribe((resp) => {
+
+      if (resp?.ok === 'ok' && resp) {
+        console.log("bien");
+        this.displayModal =  false;
+        this.obtenerDatosPersonales( persona.codPersona! );
+
+      } else {
+        console.log("error");
       }
-    },(err)=>{
+    }, (err) => {
+      console.log("Error General");
       console.log(err);
     });
 

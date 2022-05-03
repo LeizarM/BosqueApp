@@ -39,7 +39,7 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.datoEmpleado = this.regEmp.persona?.datoPersona!;
 
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
-    this.obtenerDatosPersonales( this.regEmp.codPersona! );
+
   }
 
   ngOnInit(): void {
@@ -63,20 +63,7 @@ export class DetalleEmpleadoComponent implements OnInit {
 
   }
 
-  /**
-   * Procedimiento para obtener los datos personales del empleado
-   * @param codPersona
-   */
-  obtenerDatosPersonales(codPersona: number) {
-    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
-      if (resp) {
-        this.regPer = resp;
 
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  }
 
 
 }

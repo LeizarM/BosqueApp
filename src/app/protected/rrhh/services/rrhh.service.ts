@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Empleado } from '../../interfaces/Empleado';
 import { Persona } from '../../interfaces/Persona';
@@ -319,18 +319,16 @@ export class RrhhService {
   registrarInformacion( persona : Persona ){
 
     const url = `${this.baseUrl}/rrhh/registroPersona`;
-    return this.http.post<Persona>(url, persona  )
+
+    return this.http.post<Persona>( url, persona  )
       .pipe(
-        catchError(e => {
-          if (e.status == 500) {
-            return throwError(e);
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
           }
-          if (e.ok === false) {
-            console.error(e.error.error);
-            return throwError(e);
-          }
-          return throwError(e);
-        })
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
       );
 
   }
