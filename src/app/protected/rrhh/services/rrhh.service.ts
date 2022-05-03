@@ -311,4 +311,28 @@ export class RrhhService {
       );
   }
 
+  /**
+   * Procedimiento para registrar o actualizar la informacion personal de un empleado
+   * @param persona
+   * @returns
+   */
+  registrarInformacion( persona : Persona ){
+
+    const url = `${this.baseUrl}/rrhh/registroPersona`;
+    return this.http.post<Persona>(url, persona  )
+      .pipe(
+        catchError(e => {
+          if (e.status == 500) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+
+  }
+
 }

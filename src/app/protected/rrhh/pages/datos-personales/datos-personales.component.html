@@ -1,6 +1,6 @@
 <p-panel header="DATOS PERSONALES">
   <ng-template pTemplate="icons">
-    <button pButton (click)="cargarDatosPersona()"> Editar </button>
+    <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="desplegarModal()" label="Editar"> </button>
   </ng-template>
   <div class="grid p-flex-column-reverse">
     <div class="col-12">
@@ -47,102 +47,114 @@
 </p-panel>
 
 <!-- Modal para editar y/o guardar la informacion -->
-<p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true" [draggable]="true"
-  [resizable]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
-  [style]="{width: '75vw'}">
-
+<p-dialog header="ACTUALIZAR DATOS PERSONALES" [(visible)]="displayModal" [modal]="true"
+  [breakpoints]="{'960px': '80vw', '640px': '100vw'}" [style]="{width: '75vw'}" [style]="{width: '75vw'}"
+  [draggable]="true">
   <hr>
   <br>
-  <div class="formgrid grid ">
-    <div class="field col-12 md:col-6">
-      <label for="nombres">Nombres: </label>
-      <input id="nombres" type="text" [(ngModel)]="regPer.nombres" class="inputfield w-full">
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="apPaterno">Apellido Paterno: </label>
-      <input id="apPaterno" type="text" [(ngModel)]="regPer.apPaterno" class="inputfield w-full">
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="apMaterno">Apellido Paterno: </label>
-      <input id="apMaterno" type="text" [(ngModel)]="regPer.apMaterno" class="inputfield w-full">
-    </div>
-
-    <div class="field col-12 md:col-3">
-      <label for="sexo">Sexo: </label>
-      <p-dropdown id="sexo" class="inputfield w-full" [options]="lstGenero" optionLabel="nombre"
-        [(ngModel)]="regPer.sexo" optionValue="codTipos"></p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-3">
-      <label for="paisNacimiento">Pais de Nacimiento:</label>
-      <p-dropdown id="paisNacimiento" class="inputfield w-full" [options]="lstPais" optionLabel="pais"
-        optionValue="codPais" [(ngModel)]="regPer.nacionalidad"></p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="lugarNacimiento">Lugar de Nacimiento:</label>
-      <input id="lugarNacimiento" type="text" [(ngModel)]="regPer.lugarNacimiento" class="inputfield w-full" />
-    </div>
-
-    <div class="field col-6 md:col-6">
-      <label for="ci">CI:</label>
-      <div id="ci" class="flex">
-        <input class="col-8" type="text" [(ngModel)]="regPer.ciNumero" class="inputfield w-full" />
-        <p-dropdown class="col-4" [options]="lstCiExpedido" optionLabel="nombre" optionValue="codTipos"
-          [(ngModel)]="regPer.ciExpedido"></p-dropdown>
+  <form autocomplete="off" [formGroup]="formDatosPersonales" (ngSubmit)="guardar()" >
+    <div class="formgrid grid ">
+      <div class="field col-12 md:col-6">
+        <label for="nombres">Nombres: </label>
+        <input  id="nombres" type="text" formControlName="nombres" class="inputfield w-full">
       </div>
 
+      <div class="field col-12 md:col-6">
+        <label for="apPaterno">Apellido Paterno: </label>
+        <input  id="apPaterno" type="text" formControlName="apPaterno" class="inputfield w-full">
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="apMaterno">Apellido Paterno: </label>
+        <input  id="apMaterno" type="text" formControlName="apMaterno"  class="inputfield w-full">
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="sexo">Sexo: </label>
+        <p-dropdown  id="sexo" class="inputfield w-full" [options]="lstGenero" optionLabel="nombre" formControlName="sexo" optionValue="codTipos"></p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="paisNacimiento">Pais de Nacimiento:</label>
+        <p-dropdown  id="paisNacimiento" class="inputfield w-full" [options]="lstPais"
+          optionLabel="pais" optionValue="codPais" formControlName="nacionalidad"></p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="lugarNacimiento">Lugar de Nacimiento:</label>
+        <input  id="lugarNacimiento" type="text" formControlName="lugarNacimiento"
+          class="inputfield w-full" />
+      </div>
+
+      <div class="field col-6 md:col-6">
+        <label for="ci">CI:</label>
+        <div id="ci" class="flex">
+          <input  class="col-8" type="text" formControlName="ciNumero" class="inputfield w-full" />
+          <p-dropdown class="col-4" [options]="lstCiExpedido" optionLabel="nombre"
+            optionValue="codTipos" formControlName="ciExpedido"></p-dropdown>
+        </div>
+
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="paisRes">Pais Residencia: </label>
+        <p-dropdown id="paisRes" [options]="lstPais" optionLabel="pais" optionValue="codPais"
+          class="inputfield w-full" formControlName="codPais" placeholder="Seleccione Pais"
+          (onChange)="cargarCiudades($event)">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="ciuRes">Ciudad Residencia:</label>
+        <p-dropdown  id="ciuRes" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad"
+          class="inputfield w-full" formControlName="codCiudad" placeholder="Seleccione Ciudad"
+          (onChange)="cargarZonas($event)">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="zonaRes">Zona Residencia:</label>
+        <p-dropdown  id="zonaRes" [options]="lstZona" optionLabel="zona" optionValue="codZona" placeholder="Seleccione Zona"
+          class="inputfield w-full" formControlName="codZona"
+          [virtualScroll]="true" [itemSize]="lstZona.length">
+        </p-dropdown>
+
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="fecVen">Fecha Vencimiento CI:</label>
+        <p-calendar  inputId="fecVen" formControlName="ciFechaVencimiento"
+          dateFormat="dd/mm/yy" [showIcon]="true"  >
+        </p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="fecNac">Fecha de Nacimiento:</label>
+        <p-calendar inputId="fecNac" formControlName="fechaNacimiento" dateFormat="dd/mm/yy"
+          [showIcon]="true">
+        </p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="dir">Direccion:</label>
+        <textarea id="dir" rows="5" cols="20" formControlName="direccion" pInputTextarea
+          class="w-full inputfield"></textarea>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="estCiv"> Estado Civil:</label>
+        <p-dropdown  id="estCiv" [options]="lstEstadoCivil" optionLabel="nombre" optionValue="codTipos"
+          class="w-full inputfield" formControlName="estadoCivil" placeholder="Seleccione Estado Civil">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-12">
+        NO OLVIDAR AQUI PONER EL MAPA
+      </div>
+    </div>
+    <div align="center" >
+      <button pButton type="submit" label="Guardar" icon="pi pi-save" class="p-button-outlined p-button-success"></button>
     </div>
 
-    <div class="field col-12 md:col-3">
-      <label for="paisRes">Pais Residencia: </label>
-      <p-dropdown id="paisRes" [options]="lstPais" optionLabel="pais" optionValue="codPais" class="inputfield w-full"
-        [(ngModel)]="regPer.ciudad!.codPais" placeholder="Seleccione Pais" (onChange)="cargarCiudades($event)">
-      </p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-3">
-      <label for="ciuRes">Ciudad Residencia:</label>
-      <p-dropdown id="ciuRes" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad"
-        class="inputfield w-full" [(ngModel)]="regPer.ciudad!.codCiudad" placeholder="Seleccione Ciudad"
-        (onChange)="cargarZonas($event)">
-      </p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-3">
-      <label for="zonaRes">Zona Residencia:</label>
-      <p-dropdown id="zonaRes" [options]="lstZona" optionLabel="zona" optionValue="codZona" class="inputfield w-full"
-        [(ngModel)]="regPer.codZona" placeholder="Seleccione Zona" [virtualScroll]="true" [itemSize]="lstZona.length">
-      </p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="fecVen">Fecha Vencimiento CI:</label>
-      <p-calendar inputId="fecVen" [(ngModel)]="regPer.ciFechaVencimiento" dateFormat="dd/mm/yy" [showIcon]="true">
-      </p-calendar>
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="fecNac">Fecha de Nacimiento:</label>
-      <p-calendar inputId="fecNac" [(ngModel)]="regPer.fechaNacimiento" dateFormat="dd/mm/yy" [showIcon]="true">
-      </p-calendar>
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="dir">Direccion:</label>
-      <textarea id="dir" rows="5" cols="20" pInputTextarea  class="w-full inputfield" ></textarea>
-    </div>
-
-    <div class="field col-12 md:col-6">
-      <label for="estCiv"> Estado Civil:</label>
-      <p-dropdown id="estCiv" [options]="lstEstadoCivil" optionLabel="nombre" optionValue="codTipos"  class="w-full inputfield"  style="appearance: auto"
-        [(ngModel)]="regPer.estadoCivil" placeholder="Seleccione Estado Civil"></p-dropdown>
-    </div>
-
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="displayModal=false" label="Guardar" styleClass="p-button-text"></p-button>
-  </ng-template>
+    {{ formDatosPersonales.value | json }}
+  </form>
 </p-dialog>

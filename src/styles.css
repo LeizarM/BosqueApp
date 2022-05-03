@@ -2,3 +2,12 @@
 .color-blanco-text {
   color:white;
 }
+/* Para determinar el size de los datepicker o calendar  */
+ .p-datepicker table td > span {
+  width: auto !important;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
