@@ -1,3 +1,8 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
 <p-panel header="DATOS PERSONALES">
   <ng-template pTemplate="icons">
     <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="desplegarModal()" label="Editar"> </button>
@@ -155,6 +160,5 @@
       <button pButton type="submit" label="Guardar" icon="pi pi-save" class="p-button-outlined p-button-success"></button>
     </div>
 
-    {{ formDatosPersonales.value | json }}
   </form>
 </p-dialog>

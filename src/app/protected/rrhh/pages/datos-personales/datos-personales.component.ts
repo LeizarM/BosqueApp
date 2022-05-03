@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component,  Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
@@ -7,13 +7,16 @@ import { Pais } from '../../../interfaces/Pais';
 import { Ciudad } from '../../../interfaces/Ciudad';
 import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
+import { MessageService } from 'primeng/api';
 
 
 
 @Component({
   selector: 'app-datos-personales',
   templateUrl: './datos-personales.component.html',
-  styleUrls: ['./datos-personales.component.css']
+  styleUrls: ['./datos-personales.component.css'],
+  providers: [ MessageService ]
+
 })
 export class DatosPersonalesComponent implements OnInit {
 
@@ -26,23 +29,26 @@ export class DatosPersonalesComponent implements OnInit {
 
   registroPersona: Persona = {};
 
-  lstGenero: Tipos[] = [];
-  lstPais: Pais[] = [];
-  lstCiudad: Ciudad[] = [];
-  lstZona: Zona[] = [];
+  lstGenero     : Tipos[] = [];
+  lstPais       : Pais[] = [];
+  lstCiudad     : Ciudad[] = [];
+  lstZona       : Zona[] = [];
   lstEstadoCivil: Tipos[] = [];
-  lstCiExpedido: Tipos[] = [];
+  lstCiExpedido : Tipos[] = [];
 
   formDatosPersonales: FormGroup = new FormGroup({});
 
 
 
   constructor(
-    private fb: FormBuilder,
-    private rrhhService: RrhhService
+    private fb            : FormBuilder,
+    private rrhhService   : RrhhService,
+    private messageService: MessageService
   ) {
     this.lstGenero = lstSexo();
     this.obtenerPaises();
+    this.lstEstadoCivil = lstEstadoCivil();
+    this.lstCiExpedido = lstDocumentoExpedido();
   }
 
   ngOnInit(): void {
@@ -51,31 +57,30 @@ export class DatosPersonalesComponent implements OnInit {
     this.registroPersona = { ...this.regPer }
     this.obtenerDatosPersonales( this.regEmp.codPersona! );
 
-    console.log(this.registroPersona);
     this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento!);
     this.registroPersona.fechaNacimiento = new Date(this.registroPersona.fechaNacimiento!);
-    this.lstEstadoCivil = lstEstadoCivil();
-    this.lstCiExpedido = lstDocumentoExpedido();
+
     this.obtenerCiudadesXPais(this.registroPersona.ciudad?.codPais!);
     this.obtenerZonaXCiudad(this.registroPersona.ciudad?.codCiudad!);
 
     this.formDatosPersonales = this.fb.group({
-      codPersona: [this.registroPersona.codPersona],
-      nombres: [this.registroPersona.nombres],
-      apPaterno: [this.registroPersona.apPaterno],
-      apMaterno: [this.registroPersona.apMaterno],
-      sexo: [this.registroPersona.sexo],
-      nacionalidad: [this.registroPersona.nacionalidad],
-      lugarNacimiento: [this.registroPersona.lugarNacimiento],
-      ciNumero: [this.registroPersona.ciNumero],
-      ciExpedido: [this.registroPersona.ciExpedido],
-      codPais: [this.registroPersona.ciudad?.codPais],
-      codCiudad: [this.registroPersona.ciudad?.codCiudad],
-      codZona: [this.registroPersona.codZona],
-      ciFechaVencimiento: [this.registroPersona.ciFechaVencimiento],
-      fechaNacimiento: [this.registroPersona.fechaNacimiento],
-      direccion: [this.registroPersona.direccion],
-      estadoCivil: [this.registroPersona.estadoCivil],
+
+      codPersona        : [ this.registroPersona.codPersona ],
+      nombres           : [ this.registroPersona.nombres ],
+      apPaterno         : [ this.registroPersona.apPaterno ],
+      apMaterno         : [ this.registroPersona.apMaterno ],
+      sexo              : [ this.registroPersona.sexo ],
+      nacionalidad      : [ this.registroPersona.nacionalidad ],
+      lugarNacimiento   : [ this.registroPersona.lugarNacimiento ],
+      ciNumero          : [ this.registroPersona.ciNumero ],
+      ciExpedido        : [ this.registroPersona.ciExpedido ],
+      codPais           : [ this.registroPersona.ciudad?.codPais ],
+      codCiudad         : [ this.registroPersona.ciudad?.codCiudad ],
+      codZona           : [ this.registroPersona.codZona ],
+      ciFechaVencimiento: [ this.registroPersona.ciFechaVencimiento ],
+      fechaNacimiento   : [ this.registroPersona.fechaNacimiento ],
+      direccion         : [ this.registroPersona.direccion ],
+      estadoCivil       : [ this.registroPersona.estadoCivil ],
 
     });
   }
@@ -182,7 +187,7 @@ export class DatosPersonalesComponent implements OnInit {
   /**
    * Procedimiento para guardar la informacion del formulario
    */
-  guardar() {
+  guardar():void {
     //console.log( this.formDatosPersonales.value );
     /* const  { codPersona
             ,nombres
@@ -202,15 +207,18 @@ export class DatosPersonalesComponent implements OnInit {
             ,estadoCivil } = this.formDatosPersonales.value; */
 
     const persona: Persona = this.formDatosPersonales.value;
+
     this.rrhhService.registrarInformacion(persona).subscribe((resp) => {
 
       if (resp?.ok === 'ok' && resp) {
         console.log("bien");
         this.displayModal =  false;
         this.obtenerDatosPersonales( persona.codPersona! );
+        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
 
       } else {
-        console.log("error");
+        console.log(resp);
+        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
       }
     }, (err) => {
       console.log("Error General");
