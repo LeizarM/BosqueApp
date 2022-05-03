@@ -31,12 +31,11 @@ export class DetalleEmpleadoComponent implements OnInit {
 
     this.regEmp = JSON.parse( localStorage.getItem('b-emp')! ); //recuperamos datos del localstorage
 
-    if( this.regEmp === undefined || this.regEmp === null)
-    this.regEmp = {
-      codEmpleado  :  0
-    }
 
-    this.datoEmpleado = this.regEmp.persona?.datoPersona!;
+    if( this.regEmp === undefined || this.regEmp === null) this.regEmp = {}
+
+
+   this.regEmp.persona?.datoPersona!;
 
     this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
 
@@ -55,7 +54,7 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-
+        console.log(this.regEmp);
       }
     }, (err) => {
       console.log(err);

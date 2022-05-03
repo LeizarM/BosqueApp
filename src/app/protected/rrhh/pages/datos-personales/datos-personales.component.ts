@@ -93,7 +93,6 @@ export class DatosPersonalesComponent implements OnInit {
     this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.regPer = resp;
-
       }
     }, (err) => {
       console.log(err);

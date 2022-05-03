@@ -21,33 +21,10 @@
 </p-toolbar> -->
 
 <br>
-<div class="grid">
-  <p-panel  class="col-12 md:col-6 lg:col-5" header="EMPLEADO">
-    <p-card class="box shadow-none m-3">
-      <ng-template pTemplate="header">
-        <div class="bg-image">
-        </div>
-      </ng-template>
-      <div align="center" class="perfil-info">
-        <img src="https://logos-marcas.com/wp-content/uploads/2021/11/User-Interviews-Logo.jpg" alt="user"
-          class="posicion-imagen">
-      </div>
-      <br />
-      <p class="text-center white-space-normal">
-        {{ datoEmpleado }}
-      </p>
-      <div align="center">
-        <button pButton icon="pi pi-camera" label="Foto"></button>
-      </div>
-    </p-card>
-  </p-panel>
 
   <!-- DATOS PERSONALES -->
+  <app-datos-personales [regPer]="regPer" [regEmp]="regEmp"></app-datos-personales>
 
-  <app-datos-personales class="col-12 md:col-6 lg:col-7" [regPer]="regPer" [regEmp]="regEmp">
-  </app-datos-personales>
-
-</div>
 <!-- FIN DATOS PERSONALES -->
 <hr />
 
