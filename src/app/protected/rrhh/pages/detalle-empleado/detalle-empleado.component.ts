@@ -2,12 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
 import { Persona } from '../../../interfaces/Persona';
-import { Email } from '../../../interfaces/Email';
-import { ExperienciaLaboral } from '../../../interfaces/ExperienciaLaboral';
-import { Formacion } from '../../../interfaces/Formacion';
-import { Licencia } from '../../../interfaces/Licencia';
-
-
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -16,13 +10,8 @@ import { Licencia } from '../../../interfaces/Licencia';
 })
 export class DetalleEmpleadoComponent implements OnInit {
 
-  regEmp              : Empleado;
-  regPer              !: Persona;
-  emails              !: Email[];
-  experienciaLaboral  !: ExperienciaLaboral[];
-  formacion           !: Formacion[];
-  licencia            !: Licencia[];
-  datoEmpleado        !: string;
+  regEmp  : Empleado;
+  regPer  !: Persona;
 
 
   constructor(
