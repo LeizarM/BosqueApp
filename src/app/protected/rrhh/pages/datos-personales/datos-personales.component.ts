@@ -138,7 +138,6 @@ export class DatosPersonalesComponent implements OnInit {
     this.rrhhService.obtenerPaises().subscribe((resp) => {
       if (resp) {
         this.lstPais = resp;
-        console.log(this.lstPais);
       }
     }, (err) => {
       this.lstPais = [];

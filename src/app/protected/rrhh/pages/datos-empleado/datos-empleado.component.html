@@ -1,6 +1,6 @@
 <p-panel header="DATOS DE EMPLEADO">
   <ng-template pTemplate="icons">
-    <p-splitButton label="Editar" icon="pi pi-cog" styleClass="p-button-sm mr-2 mb-2"></p-splitButton>
+    <button pButton label="Editar" icon="pi pi-cog" (click)="desplegarModal()"></button>
   </ng-template>
   <div class="grid">
     <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Nro.Cuenta Bancaria:</label>
@@ -42,6 +42,28 @@
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fecha Inicio Planilla:</label>
     <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaInicioPlanilla | date: 'dd/MM/yyyy'
       }}</label>
-
   </div>
 </p-panel>
+
+
+<!-- Modal para editar la informacion del empleado -->
+<p-dialog header="ACTUALIZAR DATOS DE EMPLEADO" [(visible)]="displayModal" [modal]="true"
+  [breakpoints]="{'960px': '80vw', '640px': '100vw'}" [style]="{width: '75vw'}" [style]="{width: '75vw'}"
+  [draggable]="true">
+  <hr>
+  <br>
+  <form autocomplete="off" [formGroup]="formEmpleado">
+    <div class="formgrid grid ">
+      <div class="field col-12 md:col-6">
+        <label for="cuentaBan">Num Cuenta Bancaria: </label>
+        <input id="cuentaBan" type="text"  class="inputfield w-full">
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="empresa">Empresa: </label>
+        <input id="empresa" type="text"  class="inputfield w-full">
+      </div>
+    </div>
+  </form>
+
+</p-dialog>
