@@ -22,7 +22,7 @@
 <br>
 
 <!-- DATOS PERSONALES -->
-<app-datos-personales [regPer]="regPer" [regEmp]="regEmp"></app-datos-personales>
+<app-datos-personales *ngIf="regEmp" [regPer]="regPer" [regEmp]="regEmp"></app-datos-personales>
 
 <!-- FIN DATOS PERSONALES -->
 <hr />
@@ -34,7 +34,7 @@
   </div>
 
   <div class="col-12 md:col-4 lg:col-2 ajustar-text">
-    <app-dato-email [regEmp]="regEmp"></app-dato-email>
+    <app-dato-email  *ngIf="regEmp" [regEmp]="regEmp"></app-dato-email>
   </div>
 
   <div class="col-12 md:col-4 lg:col-2">
@@ -45,18 +45,18 @@
 <hr>
 <!-- DATOS EXPERIENCIA LABORAL -->
 <div>
-  <app-dato-experiencia-laboral [regEmp]="regEmp"></app-dato-experiencia-laboral>
+  <app-dato-experiencia-laboral *ngIf="regEmp" [regEmp]="regEmp"></app-dato-experiencia-laboral>
 </div>
 <!-- FIN DATOS EXPERIENCIA LABORAL-->
 <hr>
 <!-- DATOS FORMACION -->
 <div>
-  <app-dato-formacion [regEmp]="regEmp"></app-dato-formacion>
+  <app-dato-formacion *ngIf="regEmp" [regEmp]="regEmp"></app-dato-formacion>
 </div>
 <!-- FIN DATOS FORMACION-->
 <hr>
 <!-- LICENCIAS DE CONDUCIR-->
 <div>
-  <app-dato-licencia-conducir [regEmp]="regEmp"></app-dato-licencia-conducir>
+  <app-dato-licencia-conducir *ngIf="regEmp" [regEmp]="regEmp"></app-dato-licencia-conducir>
 </div>
 <!-- FIN LICENCIAS DE CONDUCIR  -->

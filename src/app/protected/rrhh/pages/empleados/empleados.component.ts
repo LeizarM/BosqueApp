@@ -35,12 +35,8 @@ export class EmpleadosComponent implements OnInit {
    * para hacer click
    * @param esActivo
    */
-   siguientePagina(  emp: Empleado ) {
-
-      //TODO: VOLVER ESTO A ACTIVE ROUTING
-     //localStorage.setItem('b-emp', JSON.stringify( emp ) );
-
-     this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado']);
+   siguientePagina(  codEmpleado: number ) {
+     this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado'], { queryParams: { codEmpleado: codEmpleado } });
     }
   /**
    * Obtentra la lista de los empleados

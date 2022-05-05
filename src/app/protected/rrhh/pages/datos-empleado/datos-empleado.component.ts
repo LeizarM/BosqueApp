@@ -8,7 +8,7 @@ import { RrhhService } from '../../services/rrhh.service';
   templateUrl: './datos-empleado.component.html',
   styleUrls: ['./datos-empleado.component.css']
 })
-export class DatosEmpleadoComponent {
+export class DatosEmpleadoComponent implements  OnInit {
 
   @Input() regEmp !: Empleado;
 

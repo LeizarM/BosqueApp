@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
 import { Persona } from '../../../interfaces/Persona';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -10,19 +11,20 @@ import { Persona } from '../../../interfaces/Persona';
 })
 export class DetalleEmpleadoComponent implements OnInit {
 
-  regEmp  : Empleado;
+  regEmp  !: Empleado;
   regPer  !: Persona;
 
 
   constructor(
     private rrhhService: RrhhService,
+    private activeRoute : ActivatedRoute
   ) {
 
-    this.regEmp = JSON.parse( localStorage.getItem('b-emp')! ); //recuperamos datos del localstorage
-
-    if( this.regEmp === undefined || this.regEmp === null) this.regEmp = {}
-
-    this.obtenerDetalleEmpleado( this.regEmp.codEmpleado! );
+    this.activeRoute.queryParams.subscribe(params => {
+      console.log(params.codEmpleado);
+      this.obtenerDetalleEmpleado( params.codEmpleado );
+    }
+  );
 
   }
 
@@ -39,7 +41,6 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-        console.log(this.regEmp);
       }
     }, (err) => {
       console.log(err);
