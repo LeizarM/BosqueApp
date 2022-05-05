@@ -4,14 +4,12 @@ import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
-import { EstructuraOrgComponent } from './pages/estructura-org/estructura-org.component';
 import { RegistroEmpleadoComponent } from './pages/registro-empleado/registro-empleado.component';
 import { DetalleEmpleadoComponent } from './pages/detalle-empleado/detalle-empleado.component';
 import { DatosPersonalesComponent } from './pages/datos-personales/datos-personales.component';
 import { DatosEmpleadoComponent } from './pages/datos-empleado/datos-empleado.component';
 import { DatoEmailComponent } from './pages/dato-email/dato-email.component';
 import { DatoTelefonosComponent } from './pages/dato-telefonos/dato-telefonos.component';
-import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
 import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.component';
 import { DatoLicenciaConducirComponent } from './pages/dato-licencia-conducir/dato-licencia-conducir.component';
 
@@ -22,13 +20,13 @@ import { RelacionEmpresaPipe } from './pipes/relacion-empresa.pipe';
 import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
 import { FormacionPipe } from './pipes/formacion.pipe';
 import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
+import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
 
 
 
 @NgModule({
   declarations: [
     EmpleadosComponent,
-    EstructuraOrgComponent,
     RegistroEmpleadoComponent,
     DetalleEmpleadoComponent,
     DatosPersonalesComponent,
@@ -49,7 +47,6 @@ import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
   ],
   imports: [
     CommonModule,
-
     PrimeNgModule,
     ReactiveFormsModule,
   ],

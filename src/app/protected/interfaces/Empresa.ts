@@ -1,7 +1,7 @@
 import { Sucursal } from './Sucursal';
 export interface Empresa {
   codEmpresa?:    number;
-  nombreEmpresa?: string;
+  nombre?: string;
   codPadre?:      number;
   sigla?:         string;
   audUsuario?:    number;
