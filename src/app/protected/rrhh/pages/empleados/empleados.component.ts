@@ -37,7 +37,9 @@ export class EmpleadosComponent implements OnInit {
    */
    siguientePagina(  emp: Empleado ) {
 
-     localStorage.setItem('b-emp', JSON.stringify( emp ) );
+      //TODO: VOLVER ESTO A ACTIVE ROUTING
+     //localStorage.setItem('b-emp', JSON.stringify( emp ) );
+
      this.router.navigate(['/bosque/tbEmpleado/empleados/detalle-empleado']);
     }
   /**
