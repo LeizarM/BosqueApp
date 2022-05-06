@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmpresasComponent } from './empresas/empresas.component';
 import { PrimeNgModule } from 'src/app/prime-ng/prime-ng.module';
+import { DropdownEmpresaComponent } from './dropdown-empresa/dropdown-empresa.component';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    EmpresasComponent
+    DropdownEmpresaComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PrimeNgModule
   ],
   exports:[
-    ComponentsModule
+    DropdownEmpresaComponent
   ]
 })
 export class ComponentsModule { }

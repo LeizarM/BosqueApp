@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ComponentsModule } from '../components/components.module';
 
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
 import { RegistroEmpleadoComponent } from './pages/registro-empleado/registro-empleado.component';
@@ -21,6 +22,7 @@ import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
 import { FormacionPipe } from './pipes/formacion.pipe';
 import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
+
 
 
 
@@ -49,6 +51,7 @@ import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-labora
     CommonModule,
     PrimeNgModule,
     ReactiveFormsModule,
+    ComponentsModule
   ],
   exports: [
     EstadoCivilPipe,

@@ -69,9 +69,11 @@
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <div class="grid">
             <div class="field col-12 md:col-4">
-              <label for="empresa">Empresa: </label>
-              <input id="empresa" type="text" formControlName="codEmpresa"  class="inputfield w-full">
+              <label for="empresa">Empresa: </label><!--
+              <input id="empresa" type="text" formControlName="codEmpresa"  class="inputfield w-full"> -->
+              <app-dropdown-empresa id="empresa" ngDefaultControl formControlName="codEmpresa"  [codEmpresaPadre]="registroEmpleado.cargo?.cargoSucursal?.sucursal?.empresa?.codEmpresa!"  (cambioEmpresa)="cambioValorDropdown( $event )" class="inputfield w-full" ></app-dropdown-empresa>
             </div>
+            {{ formEmpleado.value | json }}
             <div class="field col-12 md:col-4">
               <label for="sucursal">Sucursal: </label>
               <input id="sucursal" type="text" formControlName="codSucursal"  class="inputfield w-full">
@@ -134,5 +136,6 @@
       <button pButton type="submit" label="Guardar" icon="pi pi-save"
         class="p-button-outlined p-button-success"></button>
     </div>
+
   </form>
 </p-dialog>
