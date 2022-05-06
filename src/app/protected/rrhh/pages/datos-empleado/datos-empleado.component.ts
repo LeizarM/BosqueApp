@@ -8,7 +8,7 @@ import { RrhhService } from '../../services/rrhh.service';
   templateUrl: './datos-empleado.component.html',
   styleUrls: ['./datos-empleado.component.css']
 })
-export class DatosEmpleadoComponent implements  OnInit {
+export class DatosEmpleadoComponent implements OnInit{
 
   @Input() regEmp !: Empleado;
 
@@ -29,17 +29,17 @@ export class DatosEmpleadoComponent implements  OnInit {
     this.formEmpleado = this.fb.group({
 
       cuentaBancaria    : [ this.registroEmpleado.numCuenta ],
-      codEmpresa        : [ '' ],
-      codSucursal       : [ '' ],
-      codCargo          : [ '' ],
-      apartirDe         : [ '' ],
-      relacionLaboral   : [ '' ],
-      tipoRelacion      : [ '' ],
-      fechaInicio       : [ '' ],
-      fechaFin          : [ '' ],
-      motivo            : [ '' ],
-      fecInicioBeneficio: [ '' ],
-      fecInicioPlanilla : [ '' ],
+      codEmpresa        : [ this.registroEmpleado.cargo?.cargoSucursal?.sucursal?.empresa?.codEmpresa ],
+      codSucursal       : [ this.registroEmpleado.cargo?.cargoSucursal?.sucursal?.codSucursal ],
+      codCargo          : [ this.registroEmpleado.cargo?.codCargo ],
+      apartirDe         : [ this.registroEmpleado.empleadoCargo?.fechaInicio ],
+      relacionLaboral   : [ this.registroEmpleado.relEmpEmpr?.esActivo ],
+      tipoRelacion      : [ this.registroEmpleado.relEmpEmpr?.tipoRel ],
+      fechaInicio       : [ this.registroEmpleado.relEmpEmpr?.fechaIni ],
+      fechaFin          : [ this.registroEmpleado.relEmpEmpr?.fechaFin ],
+      motivoFin         : [ this.registroEmpleado.relEmpEmpr?.motivoFin ],
+      fecInicioBeneficio: [ this.registroEmpleado.relEmpEmpr?.fechaInicioBeneficio ],
+      fecInicioPlanilla : [ this.registroEmpleado.relEmpEmpr?.fechaInicioPlanilla ],
      });
   }
 
