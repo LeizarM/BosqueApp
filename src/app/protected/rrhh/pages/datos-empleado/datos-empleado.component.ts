@@ -26,6 +26,9 @@ export class DatosEmpleadoComponent implements OnInit{
   ngOnInit(): void {
     this.registroEmpleado = this.regEmp;
     console.log("el num cuenta= ",this.registroEmpleado.numCuenta);
+
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
+
     this.formEmpleado = this.fb.group({
 
       cuentaBancaria    : [ this.registroEmpleado.numCuenta ],
