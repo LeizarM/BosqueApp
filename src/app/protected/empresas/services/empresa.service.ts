@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Empresa } from '../../../interfaces/Empresa';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Empresa } from '../../interfaces/Empresa';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DropdownEmpresaService {
+export class EmpresaService {
 
 
 
