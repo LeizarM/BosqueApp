@@ -10,6 +10,7 @@ import { PreciosModule } from './precios/precios.module';
 import { DocumentoComponent } from './cartas-cite/pages/documento/documento.component';
 import { RrhhModule } from './rrhh/rrhh.module';
 import { EmpresasComponent } from './empresas/empresas.component';
+import { CargoComponent } from './cargo/cargo.component';
 
 @NgModule({
 	declarations: [
@@ -17,6 +18,7 @@ import { EmpresasComponent } from './empresas/empresas.component';
 		DashboardComponent,
 		DocumentoComponent,
   EmpresasComponent,
+  CargoComponent,
 
 	],
 	imports: [
