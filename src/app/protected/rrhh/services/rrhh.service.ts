@@ -12,6 +12,8 @@ import { Formacion } from '../../interfaces/Formacion';
 import { Licencia } from '../../interfaces/Licencia';
 import { Ciudad } from '../../interfaces/Ciudad';
 import { Zona } from '../../interfaces/Zona';
+import { Sucursal } from '../../interfaces/Sucursal';
+import { CargoSucursal } from '../../interfaces/CargoSucursal';
 
 
 @Injectable({
@@ -310,6 +312,60 @@ export class RrhhService {
         catchError( err => of( err.error)  )
       );
 
+  }
+
+  /**
+   * Procedimiento para obtener las sucursales por Empresa
+   * @param codEmpresa
+   * @returns
+   */
+  obtenerSucursalesXEmpresa( codEmpresa : number  ): Observable<Sucursal[]>{
+
+    const url = `${this.baseUrl}/rrhh/sucXEmpresa`;
+    const suc: Sucursal = {
+      codEmpresa: codEmpresa,
+    };
+
+    return this.http.post<Zona[]>(url, suc )
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
+  }
+
+  /**
+   * Procedimiento que obtendra los cargos por sucursal registrada
+   * @param codSucursal
+   * @returns
+   */
+  obtenerCargoXSucursal( codSucursal : number ):Observable<CargoSucursal[]>{
+
+    const url = `${this.baseUrl}/rrhh/cargoXSuc`;
+    const cs: CargoSucursal = {
+      codSucursal: codSucursal,
+    };
+
+    return this.http.post<Zona[]>(url, cs )
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
   }
 
 }
