@@ -11,7 +11,6 @@ import { ExperienciaLaboral } from '../../interfaces/ExperienciaLaboral';
 import { Formacion } from '../../interfaces/Formacion';
 import { Licencia } from '../../interfaces/Licencia';
 import { Ciudad } from '../../interfaces/Ciudad';
-import { Pais } from '../../interfaces/Pais';
 import { Zona } from '../../interfaces/Zona';
 
 
@@ -234,27 +233,7 @@ export class RrhhService {
       );
   }
 
-   /**
-   * Procedimiento para obtener los paises registrados
-   * @returns
-   */
-    obtenerPaises(): Observable<Pais[]>{
-      const url = `${this.baseUrl}/rrhh/paises`;
 
-      return this.http.post<Pais[]>(url, {} )
-        .pipe(
-          catchError(e => {
-            if (e.status == 401) {
-              return throwError(e);
-            }
-            if (e.ok === false) {
-              console.error(e.error.error);
-              return throwError(e);
-            }
-            return throwError(e);
-          })
-        );
-    }
 
   /**
    * Obtendra las ciudades por pais

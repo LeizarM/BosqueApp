@@ -1,12 +1,12 @@
 import { CargoSucursal } from "./CargoSucursal";
 
 export interface EmpleadoCargo {
-  codEmpleado?:         number;
-  codCargoSucursal?:    number;
-  codCargoSucPlanilla?: number;
-  fechaInicio?:         Date;
-  audUsuario?:          number;
-  cargoSucursal?:       CargoSucursal;
+  codEmpleado         ?: number;
+  codCargoSucursal    ?: number;
+  codCargoSucPlanilla ?: number;
+  fechaInicio         ?: Date;
+  audUsuario          ?: number;
+  cargoSucursal       ?: CargoSucursal;
 }
 
 // Converts JSON strings to/from your types

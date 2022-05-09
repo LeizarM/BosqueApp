@@ -47,6 +47,7 @@ export class EmpleadosComponent implements OnInit {
 
       if (resp.length > 0) {
         this.lstEmpleados = resp;
+
       }
     }, (err) => {
       console.log(err);

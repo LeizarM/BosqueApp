@@ -21,7 +21,7 @@ export class DetalleEmpleadoComponent implements OnInit {
   ) {
 
     this.activeRoute.queryParams.subscribe(params => {
-      console.log(params.codEmpleado);
+
       this.obtenerDetalleEmpleado( params.codEmpleado );
     }
   );

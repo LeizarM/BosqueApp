@@ -8,6 +8,7 @@ import { Ciudad } from '../../../interfaces/Ciudad';
 import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
+import { PaisService } from '../../../pais/services/pais.service';
 
 
 
@@ -43,6 +44,7 @@ export class DatosPersonalesComponent implements OnInit {
   constructor(
     private fb            : FormBuilder,
     private rrhhService   : RrhhService,
+    private paisService   : PaisService,
     private messageService: MessageService
   ) {
     this.lstGenero = lstSexo();
@@ -127,6 +129,7 @@ export class DatosPersonalesComponent implements OnInit {
   cargarZonas(event: any): void {
     this.registroPersona.ciudad!.codCiudad = event.value;
     if (this.registroPersona.ciudad?.codCiudad === null || this.registroPersona.ciudad?.codCiudad === undefined || this.registroPersona.ciudad?.codCiudad <= 0) return;
+    console.log("el codCiudad es  ",this.registroPersona.ciudad.codCiudad);
     this.obtenerZonaXCiudad(this.registroPersona.ciudad.codCiudad);
 
   }
@@ -135,7 +138,7 @@ export class DatosPersonalesComponent implements OnInit {
    * Procedimiento para obtener Paises
    */
   obtenerPaises(): void {
-    this.rrhhService.obtenerPaises().subscribe((resp) => {
+    this.paisService.obtenerPaises().subscribe((resp) => {
       if (resp) {
         this.lstPais = resp;
       }

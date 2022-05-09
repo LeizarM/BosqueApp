@@ -11,6 +11,7 @@ import { DocumentoComponent } from './cartas-cite/pages/documento/documento.comp
 import { RrhhModule } from './rrhh/rrhh.module';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { CargoComponent } from './cargo/cargo.component';
+import { PaisComponent } from './pais/pais.component';
 
 @NgModule({
 	declarations: [
@@ -19,6 +20,7 @@ import { CargoComponent } from './cargo/cargo.component';
 		DocumentoComponent,
   EmpresasComponent,
   CargoComponent,
+  PaisComponent,
 
 	],
 	imports: [

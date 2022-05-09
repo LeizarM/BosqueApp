@@ -22,6 +22,7 @@ import { ActivoEInactivoPipe } from './pipes/activo-einactivo.pipe';
 import { FormacionPipe } from './pipes/formacion.pipe';
 import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
+import { PaisPipe } from './pipes/pais.pipe';
 
 
 
@@ -46,6 +47,7 @@ import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-labora
     ActivoEInactivoPipe,
     FormacionPipe,
     CiExpedidoPipe,
+    PaisPipe,
   ],
   imports: [
     CommonModule,

@@ -47,7 +47,7 @@
           {{ emp.persona.datoPersona }}
         </td>
         <td>
-          {{ emp.cargo.descripcion }}
+          {{ emp.empleadoCargo.cargoSucursal.cargo.descripcion }}
         </td>
         <td>
           <span [ngStyle]="{ 'background-color': emp.relEmpEmpr.esActivo === 1 ? '#259403' : ' #df4444' }">

@@ -35,12 +35,12 @@ export class DatosEmpleadoComponent implements OnInit{
     this.registroEmpleado = this.regEmp;
 
     this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
-
+    console.log(this.registroEmpleado);
     this.formEmpleado = this.fb.group({
       cuentaBancaria    : [ this.registroEmpleado.numCuenta ],
-      codEmpresa        : [ this.registroEmpleado.cargo?.cargoSucursal?.sucursal?.empresa?.codEmpresa ],
-      codSucursal       : [ this.registroEmpleado.cargo?.cargoSucursal?.sucursal?.codSucursal ],
-      codCargo          : [ this.registroEmpleado.cargo?.codCargo ],
+      codEmpresa        : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa ],
+      codSucursal       : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal ],
+      codCargo          : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo ],
       apartirDe         : [ this.registroEmpleado.empleadoCargo?.fechaInicio ],
       relacionLaboral   : [ this.registroEmpleado.relEmpEmpr?.esActivo ],
       tipoRelacion      : [ this.registroEmpleado.relEmpEmpr?.tipoRel ],
@@ -66,8 +66,10 @@ export class DatosEmpleadoComponent implements OnInit{
    * Procedimiento para cambiar el valor de la empresa
    * @param
    */
-  cargarCiudades( event: any ):void{
+   cargarSucursales( event: any ):void{
+
     this.formEmpleado.controls['codEmpresa'].setValue( event.value );
+
   }
 
   /**

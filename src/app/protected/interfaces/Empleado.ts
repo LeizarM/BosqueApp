@@ -1,21 +1,20 @@
-import { Cargo } from './Cargo';
 import { Persona } from './Persona';
 import { RelEmplEmpr } from './RelEmpEmpr';
 import { EmpleadoCargo } from './EmpleadoCargo';
 
 export interface Empleado {
-  codEmpleado?:      number;
-  codPersona?:       number;
-  numCuenta?:        string;
-  codRelBeneficios?: number;
-  codRelPlanilla?:   number;
-  audUsuarioI?:      number;
-  persona?:          Persona;
-  cargo?:            Cargo;
-  empleadoCargo?:    EmpleadoCargo;
-  relEmpEmpr?:       RelEmplEmpr;
-}
+  codEmpleado?:        number;
+  codPersona?:         number;
+  numCuenta?:          string;
+  codRelBeneficios?:   number;
+  codRelPlanilla?:     number;
+  audUsuarioI?:        number;
+  persona?:            Persona;
+  empleadoCargo?:      EmpleadoCargo;
+  relEmpEmpr?:         RelEmplEmpr;
 
+
+}
 
 // Converts JSON strings to/from your types
 export class Convert {
