@@ -1,12 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 .color-blanco-text {
-  color:white;
+  color: white;
 }
+
 /* Para determinar el size de los datepicker o calendar  */
- .p-datepicker table td > span {
+.p-datepicker table td>span {
   width: auto !important;
   height: 1.5rem !important;
   border-radius: 50%;
   transition: box-shadow 0.2s;
   border: 1px solid transparent;
+}
+
+
+
+.ui-dropdown-panel {
+  max-width: 0;
 }

@@ -6,6 +6,7 @@ import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
 import { Sucursal } from '../../../interfaces/Sucursal';
 import { CargoSucursal } from '../../../interfaces/CargoSucursal';
+import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected/interfaces/Tipos';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -23,9 +24,12 @@ export class DatosEmpleadoComponent implements OnInit{
 
   formEmpleado: FormGroup = new FormGroup({});
 
-  lstEmpresas : Empresa[] = []
-  lstSucursales :Sucursal[] = [];
-  lstCargoSucursales : CargoSucursal[] = [];
+  lstEmpresas         : Empresa[] = [];
+  lstSucursales       : Sucursal[] = [];
+  lstCargoSucursales  : CargoSucursal[] = [];
+  lstRelacionLaboral  : Tipos[] = [];
+  lstTipoRelEmp       : Tipos[] = [];
+
 
   constructor(private rrhhService: RrhhService,
               private empresaService : EmpresaService,
@@ -38,7 +42,11 @@ export class DatosEmpleadoComponent implements OnInit{
   ngOnInit(): void {
     this.registroEmpleado = this.regEmp;
 
-    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
+
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date( this.registroEmpleado.empleadoCargo?.fechaInicio! );
+    this.registroEmpleado.relEmpEmpr!.fechaIni = new Date( this.registroEmpleado.relEmpEmpr?.fechaIni! );
+    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date ( this.registroEmpleado.relEmpEmpr?.fechaFin! );
+
     this.obtenerSucursalesXEmpresa( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa! );
     this.obtenerCargoXSucursal(  this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal! );
 
@@ -65,7 +73,10 @@ export class DatosEmpleadoComponent implements OnInit{
   desplegarModal(): void {
     this.displayModal = true;
     this.registroEmpleado = {};
-    this.ngOnInit();
+
+    this.lstRelacionLaboral = lstEstadoActivoInactivo();
+    this.lstTipoRelEmp = lstTipoRelEmp();
+
 
   }
   /**
@@ -74,15 +85,18 @@ export class DatosEmpleadoComponent implements OnInit{
    */
    cargarSucursales( event: any ):void{
 
-    this.formEmpleado.controls['codSucursal'].setValue( event.value );
+    this.formEmpleado.controls['codSucursal'].setValue( 0 );
+
     this.obtenerSucursalesXEmpresa( event.value );
+    this.lstCargoSucursales = [];
+
   }
   /**
    * Procedimiento para obtener los cargos por sucursales
    * @param event
    */
   cargarCargos(  event: any ) :void{
-    this.formEmpleado.controls['codCargo'].setValue( event.value );
+    this.formEmpleado.controls['codCargo'].setValue( 0 );
     this.obtenerCargoXSucursal( event.value );
   }
 

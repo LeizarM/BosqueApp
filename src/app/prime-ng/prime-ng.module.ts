@@ -17,6 +17,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { ToastModule } from 'primeng/toast';
     InputTextareaModule,
     InputTextModule,
     CalendarModule,
-    ToastModule
+    ToastModule,
+    InputNumberModule,
+    KeyFilterModule
 
   ]
 })
