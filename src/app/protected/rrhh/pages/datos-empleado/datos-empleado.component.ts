@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
+import { Sucursal } from '../../../interfaces/Sucursal';
+import { CargoSucursal } from '../../../interfaces/CargoSucursal';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -22,6 +24,8 @@ export class DatosEmpleadoComponent implements OnInit{
   formEmpleado: FormGroup = new FormGroup({});
 
   lstEmpresas : Empresa[] = []
+  lstSucursales :Sucursal[] = [];
+  lstCargoSucursales : CargoSucursal[] = [];
 
   constructor(private rrhhService: RrhhService,
               private empresaService : EmpresaService,
@@ -35,7 +39,9 @@ export class DatosEmpleadoComponent implements OnInit{
     this.registroEmpleado = this.regEmp;
 
     this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
-    console.log(this.registroEmpleado);
+    this.obtenerSucursalesXEmpresa( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa! );
+    this.obtenerCargoXSucursal(  this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal! );
+
     this.formEmpleado = this.fb.group({
       cuentaBancaria    : [ this.registroEmpleado.numCuenta ],
       codEmpresa        : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa ],
@@ -68,8 +74,16 @@ export class DatosEmpleadoComponent implements OnInit{
    */
    cargarSucursales( event: any ):void{
 
-    this.formEmpleado.controls['codEmpresa'].setValue( event.value );
-
+    this.formEmpleado.controls['codSucursal'].setValue( event.value );
+    this.obtenerSucursalesXEmpresa( event.value );
+  }
+  /**
+   * Procedimiento para obtener los cargos por sucursales
+   * @param event
+   */
+  cargarCargos(  event: any ) :void{
+    this.formEmpleado.controls['codCargo'].setValue( event.value );
+    this.obtenerCargoXSucursal( event.value );
   }
 
   /**
@@ -83,6 +97,36 @@ export class DatosEmpleadoComponent implements OnInit{
     }, (err) => {
       this.lstEmpresas = [];
       console.log(err);
+    });
+  }
+
+  /**
+   * Obtendra las sucursales por empresa
+   * @param codEmpresa
+   */
+  obtenerSucursalesXEmpresa(  codEmpresa: number ): void{
+    this.rrhhService.obtenerSucursalesXEmpresa( codEmpresa ).subscribe((resp)=>{
+      if(resp){
+        this.lstSucursales = resp;
+      }
+    },(err)=>{
+      console.log(err);
+      this.lstSucursales = [];
+    });
+  }
+
+  /**
+   * Obtendra los cargos por sucursal
+   * @param codSucursal
+   */
+  obtenerCargoXSucursal( codSucursal : number  ):void{
+    this.rrhhService.obtenerCargoXSucursal( codSucursal ).subscribe((resp)=>{
+      if(resp){
+        this.lstCargoSucursales = resp;
+      }
+    },(err)=>{
+      console.log(err);
+      this.lstCargoSucursales = [];
     });
   }
 
