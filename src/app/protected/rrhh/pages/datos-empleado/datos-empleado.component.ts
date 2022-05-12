@@ -7,6 +7,7 @@ import { EmpresaService } from '../../../empresas/services/empresa.service';
 import { Sucursal } from '../../../interfaces/Sucursal';
 import { CargoSucursal } from '../../../interfaces/CargoSucursal';
 import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected/interfaces/Tipos';
+import { LoginService } from 'src/app/auth/services/login.service';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -14,7 +15,7 @@ import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected
   styleUrls: ['./datos-empleado.component.css'],
 
 })
-export class DatosEmpleadoComponent implements OnInit{
+export class DatosEmpleadoComponent implements OnInit {
 
   @Input() regEmp !: Empleado;
 
@@ -24,46 +25,54 @@ export class DatosEmpleadoComponent implements OnInit{
 
   formEmpleado: FormGroup = new FormGroup({});
 
-  lstEmpresas         : Empresa[] = [];
-  lstSucursales       : Sucursal[] = [];
-  lstCargoSucursales  : CargoSucursal[] = [];
-  lstRelacionLaboral  : Tipos[] = [];
-  lstTipoRelEmp       : Tipos[] = [];
+  lstEmpresas: Empresa[] = [];
+  lstSucursales: Sucursal[] = [];
+  lstCargoSucursales: CargoSucursal[] = [];
+  lstRelacionLaboral: Tipos[] = [];
+  lstTipoRelEmp: Tipos[] = [];
+
+  tipoUsuario         !: boolean;
 
 
-  constructor(private rrhhService: RrhhService,
-              private empresaService : EmpresaService,
-              private fb: FormBuilder,) {
+  constructor(private loginService: LoginService,
+    private rrhhService: RrhhService,
+    private empresaService: EmpresaService,
+    private fb: FormBuilder,) {
 
     this.obtenerEmpresas();
-
+    this.lstRelacionLaboral = lstEstadoActivoInactivo();
+    this.lstTipoRelEmp = lstTipoRelEmp();
+    this.obtenerTipoUsuario();
   }
 
   ngOnInit(): void {
     this.registroEmpleado = this.regEmp;
 
 
-    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date( this.registroEmpleado.empleadoCargo?.fechaInicio! );
-    this.registroEmpleado.relEmpEmpr!.fechaIni = new Date( this.registroEmpleado.relEmpEmpr?.fechaIni! );
-    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date ( this.registroEmpleado.relEmpEmpr?.fechaFin! );
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
+    this.registroEmpleado.relEmpEmpr!.fechaIni = new Date(this.registroEmpleado.relEmpEmpr?.fechaIni!);
+    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.registroEmpleado.relEmpEmpr?.fechaFin!);
 
-    this.obtenerSucursalesXEmpresa( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa! );
-    this.obtenerCargoXSucursal(  this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal! );
+
+    this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
+    this.obtenerCargoXSucursal(this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal!);
+
+    console.log(this.registroEmpleado.relEmpEmpr?.esActivo);
 
     this.formEmpleado = this.fb.group({
-      cuentaBancaria    : [ this.registroEmpleado.numCuenta ],
-      codEmpresa        : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa ],
-      codSucursal       : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal ],
-      codCargo          : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo ],
-      apartirDe         : [ this.registroEmpleado.empleadoCargo?.fechaInicio ],
-      relacionLaboral   : [ this.registroEmpleado.relEmpEmpr?.esActivo ],
-      tipoRelacion      : [ this.registroEmpleado.relEmpEmpr?.tipoRel ],
-      fechaInicio       : [ this.registroEmpleado.relEmpEmpr?.fechaIni ],
-      fechaFin          : [ this.registroEmpleado.relEmpEmpr?.fechaFin ],
-      motivoFin         : [ this.registroEmpleado.relEmpEmpr?.motivoFin ],
-      fecInicioBeneficio: [ this.registroEmpleado.relEmpEmpr?.fechaInicioBeneficio ],
-      fecInicioPlanilla : [ this.registroEmpleado.relEmpEmpr?.fechaInicioPlanilla ],
-     });
+      cuentaBancaria      : [this.registroEmpleado.numCuenta],
+      codEmpresa          : [this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa],
+      codSucursal         : [this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal],
+      codCargo            : [this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
+      apartirDe           : [this.registroEmpleado.empleadoCargo?.fechaInicio],
+      relacionLaboral     : [this.registroEmpleado.relEmpEmpr?.esActivo?.toString()],
+      tipoRelacion        : [this.registroEmpleado.relEmpEmpr?.tipoRel],
+      fechaInicio         : [this.registroEmpleado.relEmpEmpr?.fechaIni],
+      fechaFin            : [this.registroEmpleado.relEmpEmpr?.fechaFin],
+      motivoFin           : [this.registroEmpleado.relEmpEmpr?.motivoFin],
+      fecInicioBeneficio  : [this.registroEmpleado.relEmpEmpr?.fechaInicioBeneficio],
+      fecInicioPlanilla   : [this.registroEmpleado.relEmpEmpr?.fechaInicioPlanilla],
+    });
 
   }
 
@@ -72,22 +81,16 @@ export class DatosEmpleadoComponent implements OnInit{
    */
   desplegarModal(): void {
     this.displayModal = true;
-    this.registroEmpleado = {};
-
-    this.lstRelacionLaboral = lstEstadoActivoInactivo();
-    this.lstTipoRelEmp = lstTipoRelEmp();
-
-
   }
   /**
    * Procedimiento para cambiar el valor de la empresa
    * @param
    */
-   cargarSucursales( event: any ):void{
+  cargarSucursales(event: any): void {
 
-    this.formEmpleado.controls['codSucursal'].setValue( 0 );
+    this.formEmpleado.controls['codSucursal'].setValue(0);
 
-    this.obtenerSucursalesXEmpresa( event.value );
+    this.obtenerSucursalesXEmpresa(event.value);
     this.lstCargoSucursales = [];
 
   }
@@ -95,9 +98,9 @@ export class DatosEmpleadoComponent implements OnInit{
    * Procedimiento para obtener los cargos por sucursales
    * @param event
    */
-  cargarCargos(  event: any ) :void{
-    this.formEmpleado.controls['codCargo'].setValue( 0 );
-    this.obtenerCargoXSucursal( event.value );
+  cargarCargos(event: any): void {
+    this.formEmpleado.controls['codCargo'].setValue(0);
+    this.obtenerCargoXSucursal(event.value);
   }
 
   /**
@@ -118,12 +121,12 @@ export class DatosEmpleadoComponent implements OnInit{
    * Obtendra las sucursales por empresa
    * @param codEmpresa
    */
-  obtenerSucursalesXEmpresa(  codEmpresa: number ): void{
-    this.rrhhService.obtenerSucursalesXEmpresa( codEmpresa ).subscribe((resp)=>{
-      if(resp){
+  obtenerSucursalesXEmpresa(codEmpresa: number): void {
+    this.rrhhService.obtenerSucursalesXEmpresa(codEmpresa).subscribe((resp) => {
+      if (resp) {
         this.lstSucursales = resp;
       }
-    },(err)=>{
+    }, (err) => {
       console.log(err);
       this.lstSucursales = [];
     });
@@ -133,15 +136,25 @@ export class DatosEmpleadoComponent implements OnInit{
    * Obtendra los cargos por sucursal
    * @param codSucursal
    */
-  obtenerCargoXSucursal( codSucursal : number  ):void{
-    this.rrhhService.obtenerCargoXSucursal( codSucursal ).subscribe((resp)=>{
-      if(resp){
+  obtenerCargoXSucursal(codSucursal: number): void {
+    this.rrhhService.obtenerCargoXSucursal(codSucursal).subscribe((resp) => {
+      if (resp) {
         this.lstCargoSucursales = resp;
       }
-    },(err)=>{
+    }, (err) => {
       console.log(err);
       this.lstCargoSucursales = [];
     });
   }
 
+  /**
+   * Obtendra el tipo de usuario
+   */
+  obtenerTipoUsuario(): boolean {
+
+    if (this.loginService.tipoUsuario === 'ROLE_ADM'){
+      return false;
+    }
+    return true;
+  }
 }
