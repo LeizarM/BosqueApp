@@ -59,8 +59,13 @@ export class DatosPersonalesComponent implements OnInit {
     this.registroPersona = { ...this.regPer }
     this.obtenerDatosPersonales( this.regEmp.codPersona! );
 
-    this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento!);
-    this.registroPersona.fechaNacimiento = new Date(this.registroPersona.fechaNacimiento!);
+    this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento?.toString()!);
+    this.registroPersona.ciFechaVencimiento!.setDate( this.registroPersona.ciFechaVencimiento!.getDate() );
+    this.registroPersona.fechaNacimiento = new Date(this.registroPersona.fechaNacimiento?.toString()!);
+    this.registroPersona.fechaNacimiento!.setDate( this.registroPersona.fechaNacimiento!.getDate() );
+
+
+    console.log( this.registroPersona.fechaNacimiento!.setDate( this.registroPersona.fechaNacimiento!.getDate()+1 ) );
 
     this.obtenerCiudadesXPais(this.registroPersona.ciudad?.codPais!);
     this.obtenerZonaXCiudad(this.registroPersona.ciudad?.codCiudad!);

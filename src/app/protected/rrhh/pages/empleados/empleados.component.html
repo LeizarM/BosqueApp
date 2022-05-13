@@ -50,7 +50,10 @@
           {{ emp.empleadoCargo.cargoSucursal.cargo.descripcion }}
         </td>
         <td>
-          <span [ngStyle]="{ 'background-color': emp.relEmpEmpr.esActivo === 1 ? '#259403' : ' #df4444' }">
+          <span [ngClass]="{
+                              'fondoVerde' : emp.relEmpEmpr.esActivo === 1,
+                              'fondoRojo' : emp.relEmpEmpr.esActivo === 0
+                            }" >
             {{ emp.relEmpEmpr.esActivo === 1 ? 'Activo' : 'Inactivo' }}
           </span>
         </td>

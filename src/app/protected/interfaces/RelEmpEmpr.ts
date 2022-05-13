@@ -4,8 +4,8 @@ export interface RelEmplEmpr {
   esActivo?:           number;
   tipoRel?:            string;
   nombreFileContrato?: string;
-  fechaIni?:           Date;
-  fechaFin?:           Date;
+  fechaIni?:           Date | number;
+  fechaFin?:           Date | number;
   motivoFin?:          string;
   audUsuario?:         number;
 

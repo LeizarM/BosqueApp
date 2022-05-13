@@ -12,7 +12,7 @@ export interface Cargo {
   audUsuario?:      number;
   nombreEmpresa?:   string;
   descripcionCargoPlanilla?: string;
-  cargoSucursal?: CargoSucursal;
+
 }
 
 // Converts JSON strings to/from your types
