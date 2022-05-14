@@ -51,9 +51,9 @@ export class DatosEmpleadoComponent implements OnInit {
     this.registroEmpleado = {...this.regEmp};
 
 
-   /*  this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.regEmp.empleadoCargo?.fechaInicio!);
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.regEmp.empleadoCargo?.fechaInicio!);
     this.registroEmpleado.relEmpEmpr!.fechaIni = new Date(this.regEmp.relEmpEmpr?.fechaIni!);
-    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.regEmp.relEmpEmpr?.fechaFin!); */
+    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.regEmp.relEmpEmpr?.fechaFin!);
 
 
     this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
