@@ -7,6 +7,12 @@ export interface EmpleadoCargo {
   fechaInicio         ?: Date;
   audUsuario          ?: number;
   cargoSucursal       ?: CargoSucursal;
+
+
+  /**
+   * Variables de apoyo
+   */
+  cargoPlanilla       ?: string;
 }
 
 // Converts JSON strings to/from your types

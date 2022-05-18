@@ -1,3 +1,7 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
 <p-panel header="DATOS DE EMPLEADO">
   <ng-template pTemplate="icons">
     <button pButton label="Nueva Gestión" icon="pi pi-plus" class="p-button-success"></button>
@@ -61,13 +65,13 @@
   [breakpoints]="{'960px': '80vw', '640px': '100vw'}" [style]="{width: '75vw'}" [style]="{width: '75vw'}"
   [draggable]="true">
   <hr>
-  <form autocomplete="off" [formGroup]="formEmpleado">
+  <form autocomplete="off" [formGroup]="formEmpleado" (ngSubmit)="guardar()"  >
 
     <div class="formgrid grid" *ngIf="registroEmpleado">
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <label for="cuentaBan">Número de Cuenta Bancaria: </label>
-          <input id="cuentaBan" type="text" formControlName="cuentaBancaria" pInputText pKeyFilter="num"
+          <input id="cuentaBan" type="text" formControlName="numCuenta" pInputText pKeyFilter="num"
             class="inputfield w-full">
         </div>
       </div>

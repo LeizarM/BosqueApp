@@ -8,11 +8,13 @@ import { Sucursal } from '../../../interfaces/Sucursal';
 import { CargoSucursal } from '../../../interfaces/CargoSucursal';
 import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected/interfaces/Tipos';
 import { LoginService } from 'src/app/auth/services/login.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-datos-empleado',
   templateUrl: './datos-empleado.component.html',
   styleUrls: ['./datos-empleado.component.css'],
+  providers: [ MessageService ]
 
 })
 export class DatosEmpleadoComponent implements OnInit {
@@ -34,10 +36,11 @@ export class DatosEmpleadoComponent implements OnInit {
   tipoUsuario         !: boolean;
 
 
-  constructor(private loginService: LoginService,
-    private rrhhService: RrhhService,
-    private empresaService: EmpresaService,
-    private fb: FormBuilder,) {
+  constructor(private loginService  : LoginService,
+              private rrhhService   : RrhhService,
+              private empresaService: EmpresaService,
+              private fb            : FormBuilder,
+              private messageService: MessageService) {
 
     this.obtenerEmpresas();
     this.lstRelacionLaboral = lstEstadoActivoInactivo();
@@ -59,12 +62,14 @@ export class DatosEmpleadoComponent implements OnInit {
     this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
     this.obtenerCargoXSucursal(this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal!);
 
-    console.log(this.registroEmpleado.relEmpEmpr?.esActivo);
+    console.log(this.registroEmpleado);
 
     this.formEmpleado = this.fb.group({
       codEmpleado         : [ this.registroEmpleado.codEmpleado ],
       codPersona          : [ this.registroEmpleado.codPersona ],
-      cuentaBancaria      : [ this.registroEmpleado.numCuenta],
+      numCuenta           : [ this.registroEmpleado.numCuenta],
+      codRelBeneficios    : [ this.registroEmpleado.codRelBeneficios],
+      codRelPlanilla      : [ this.registroEmpleado.codRelPlanilla ],
       codEmpresa          : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa],
       codSucursal         : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.sucursal?.codSucursal],
       codCargo            : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
@@ -159,5 +164,54 @@ export class DatosEmpleadoComponent implements OnInit {
 
     if (this.loginService.tipoUsuario === 'ROLE_ADM') return false;
     return true;
+  }
+  /**
+   * Para registrar la información del empleado
+   */
+  guardar():void{
+
+    const { codEmpleado, codPersona, numCuenta, codRelBeneficios, codRelPlanilla } =  this.formEmpleado.value;
+
+    let empleado : Empleado = {};
+    empleado.codEmpleado      = codEmpleado;
+    empleado.codPersona       = codPersona;
+    empleado.numCuenta        = numCuenta;
+    empleado.codRelBeneficios = codRelBeneficios;
+    empleado.codRelPlanilla   = codRelPlanilla;
+
+    this.rrhhService.registrarInfoEmpleado( empleado ).subscribe((resp) => {
+
+      if (resp?.ok === 'ok' && resp) {
+        console.log("bien");
+        this.displayModal =  false;
+        this.obtenerDatoEmpleado( codEmpleado );
+
+        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
+
+      } else {
+        console.log(resp);
+        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+      }
+    }, (err) => {
+      console.log("Error General");
+      console.log(err);
+    });
+
+
+
+
+  }
+  /**
+   * Obtendra los datos de empleado
+   * @param codEmpleado
+   */
+  private obtenerDatoEmpleado(codEmpleado: any) {
+    this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
+      if (resp) {
+        this.regEmp = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 }

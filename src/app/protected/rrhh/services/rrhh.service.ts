@@ -297,7 +297,7 @@ export class RrhhService {
    * @param persona
    * @returns
    */
-  registrarInformacion( persona : Persona ){
+  registrarInfoPersona( persona : Persona ){
 
     const url = `${this.baseUrl}/rrhh/registroPersona`;
 
@@ -366,6 +366,28 @@ export class RrhhService {
           return throwError(e);
         })
       );
+  }
+
+  /**
+   * Procedimiento para registrar o actualizar la informacion  de un empleado
+   * @param empleado
+   * @returns
+   */
+   registrarInfoEmpleado( empleado : Empleado ){
+
+    const url = `${this.baseUrl}/rrhh/registroEmpleado`;
+
+    return this.http.post<Empleado>( url, empleado  )
+      .pipe(
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
+      );
+
   }
 
 }

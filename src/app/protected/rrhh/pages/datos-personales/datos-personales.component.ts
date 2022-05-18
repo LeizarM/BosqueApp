@@ -214,7 +214,7 @@ export class DatosPersonalesComponent implements OnInit {
 
     const persona: Persona = this.formDatosPersonales.value;
 
-    this.rrhhService.registrarInformacion(persona).subscribe((resp) => {
+    this.rrhhService.registrarInfoPersona(persona).subscribe((resp) => {
 
       if (resp?.ok === 'ok' && resp) {
         console.log("bien");
@@ -230,8 +230,6 @@ export class DatosPersonalesComponent implements OnInit {
       console.log("Error General");
       console.log(err);
     });
-
-
 
   }
 }
