@@ -14,6 +14,7 @@ import { Ciudad } from '../../interfaces/Ciudad';
 import { Zona } from '../../interfaces/Zona';
 import { Sucursal } from '../../interfaces/Sucursal';
 import { CargoSucursal } from '../../interfaces/CargoSucursal';
+import { EmpleadoCargo } from '../../interfaces/EmpleadoCargo';
 
 
 @Injectable({
@@ -378,6 +379,29 @@ export class RrhhService {
     const url = `${this.baseUrl}/rrhh/registroEmpleado`;
 
     return this.http.post<Empleado>( url, empleado  )
+      .pipe(
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
+      );
+
+  }
+
+
+  /**
+   * Procedimiento para registro del Empleado Cargo
+   * @param empleadoCargo
+   * @returns
+   */
+  registrarInfoEmpleadoCargo( empleadoCargo : EmpleadoCargo ){
+
+    const url = `${this.baseUrl}/rrhh/registroEmpleadoCargo`;
+
+    return this.http.post<Empleado>( url, empleadoCargo  )
       .pipe(
         tap( resp => {
           if ( !resp ){

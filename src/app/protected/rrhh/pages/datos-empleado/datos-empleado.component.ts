@@ -9,6 +9,8 @@ import { CargoSucursal } from '../../../interfaces/CargoSucursal';
 import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected/interfaces/Tipos';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { MessageService } from 'primeng/api';
+import { RelEmplEmpr } from 'src/app/protected/interfaces/RelEmpEmpr';
+import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -170,7 +172,8 @@ export class DatosEmpleadoComponent implements OnInit {
    */
   guardar():void{
 
-    const { codEmpleado, codPersona, numCuenta, codRelBeneficios, codRelPlanilla } =  this.formEmpleado.value;
+    //para actualizar el empleado y su informacion
+    const { codEmpleado, codPersona, numCuenta, codRelBeneficios, codRelPlanilla, codEmpresa, codSucursal, codCargo, apartirDe } =  this.formEmpleado.value;
 
     let empleado : Empleado = {};
     empleado.codEmpleado      = codEmpleado;
@@ -179,12 +182,19 @@ export class DatosEmpleadoComponent implements OnInit {
     empleado.codRelBeneficios = codRelBeneficios;
     empleado.codRelPlanilla   = codRelPlanilla;
 
-    this.rrhhService.registrarInfoEmpleado( empleado ).subscribe((resp) => {
+    let empleadoCargo : EmpleadoCargo = {};
+    empleadoCargo.codEmpleado = codEmpleado;
+    empleadoCargo.codCargoSucursal = codSucursal;
+    empleadoCargo.fechaInicio = apartirDe;
 
+
+
+    //se registra la informacion del empleado
+    this.rrhhService.registrarInfoEmpleado( empleado ).subscribe((resp) => {
       if (resp?.ok === 'ok' && resp) {
         console.log("bien");
         this.displayModal =  false;
-        this.obtenerDatoEmpleado( codEmpleado );
+
 
         this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
 
@@ -197,8 +207,24 @@ export class DatosEmpleadoComponent implements OnInit {
       console.log(err);
     });
 
+    this.rrhhService.registrarInfoEmpleadoCargo( empleadoCargo ).subscribe((resp) => {
+      if (resp?.ok === 'ok' && resp) {
+        console.log("bien");
+        this.displayModal =  false;
 
 
+        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
+
+      } else {
+        console.log(resp);
+        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+      }
+    }, (err) => {
+      console.log("Error General");
+      console.log(err);
+    });
+
+    this.obtenerDatoEmpleado( codEmpleado );
 
   }
   /**
