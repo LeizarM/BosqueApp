@@ -14,19 +14,28 @@
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa:</label>
     <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{
-      regEmp?.empleadoCargo?.cargoSucursal?.sucursal?.empresa?.nombre }}</label>
+      regEmp?.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresa }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Sucursal:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.cargoSucursal?.sucursal?.nombre
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.sucursal
       }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.descripcion
-      }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.descripcion}}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">A Partir de:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.fechaInicio | date: 'dd/MM/yyyy' }}
-    </label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.fechaInicio | date: 'dd/MM/yyyy' }}</label>
+
+<!--     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa Planilla:</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{regEmp?.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresaPlanilla }}</label>
+
+    <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Sucursal Planilla:</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.sucursalPlanilla }}</label> -->
+
+    <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo Planilla:</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.descripcionPlanilla}}</label>
+
+
 
     <!-- <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo Planilla:</label>
   <label class="col-12 md:col-3 lg:col-3 ajustar-text"></label> -->
@@ -62,8 +71,7 @@
 
 <!-- Modal para editar la informacion del empleado -->
 <p-dialog header="ACTUALIZAR DATOS DE EMPLEADO" [(visible)]="displayModal" [modal]="true"
-  [breakpoints]="{'960px': '80vw', '640px': '100vw'}" [style]="{width: '75vw'}" [style]="{width: '75vw'}"
-  [draggable]="true">
+  [breakpoints]="{'960px': '80vw', '640px': '100vw'}" [style]="{width: '85vw'}" [draggable]="true">
   <hr>
   <form autocomplete="off" [formGroup]="formEmpleado" (ngSubmit)="guardar()"  >
 
@@ -76,40 +84,69 @@
         </div>
       </div>
 
-      <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
+      <!-- Para datos internos -->
+      <div class=" align-items-center justify-content-center  green-container col-12 md:col-6">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <div class="grid">
-            <div class="field col-12 md:col-6">
+            <div class="field col-12 md:col-12">
               <label for="empresa">Empresa: </label>
               <p-dropdown id="empresa" [options]="lstEmpresas" formControlName="codEmpresa" optionLabel="nombre"
                 optionValue="codEmpresa" class="inputfield w-full" placeholder="Seleccione Empresa"
                 (onChange)="cargarSucursales( $event )">
               </p-dropdown>
             </div>
-            <div class="field col-12 md:col-6">
+            <div class="field col-12 md:col-12">
               <label for="sucursal">Sucursal: </label>
               <p-dropdown id="sucursal" [options]="lstSucursales" formControlName="codSucursal" optionLabel="nombre"
                 optionValue="codSucursal" class="inputfield w-full" placeholder="Seleccione Sucursal"
                 [autoDisplayFirst]="false" (onChange)="cargarCargos( $event )">
               </p-dropdown>
             </div>
-            <div class="field col-12 md:col-6">
+            <div class="field col-12 md:col-12">
               <label for="cargo">Cargo: </label>
               <p-dropdown id="cargo" [options]="lstCargoSucursales" formControlName="codCargo" optionLabel="datoCargo"
-                optionValue="codCargo" placeholder="Seleccione cargo">
+                optionValue="codCargo" placeholder="Seleccione cargo" >
               </p-dropdown>
-
-
             </div>
-            <div class="field col-12 md:col-6">
+
+            <div class="field col-12 md:col-12">
               <label for="apartirDe">A partir de: </label>
               <p-calendar inputId="apartirDe" formControlName="apartirDe" dateFormat="dd/mm/yy" [showIcon]="true" [disabled]="obtenerTipoUsuario()" >
               </p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Para datos planilla -->
+      <div class=" align-items-center justify-content-center  green-container col-12 md:col-6">
+        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+          <div class="grid">
+            <div class="field col-12 md:col-12">
+              <label for="empresa">Empresa: </label>
+              <p-dropdown id="empresa" [options]="lstEmpresasP" formControlName="codEmpresaP" optionLabel="nombre"
+                optionValue="codEmpresa" class="inputfield w-full" placeholder="Seleccione Empresa"
+                (onChange)="cargarSucursalesPlanilla( $event )">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-12">
+              <label for="sucursal">Sucursal: </label>
+              <p-dropdown id="sucursal" [options]="lstSucursalesP" formControlName="codSucursalP" optionLabel="nombre"
+                optionValue="codSucursal" class="inputfield w-full" placeholder="Seleccione Sucursal"
+                [autoDisplayFirst]="false" (onChange)="cargarCargosPlanilla( $event )">
+              </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-12">
+              <label for="cargo">Cargo Planilla : </label>
+              <p-dropdown id="cargo" [options]="lstCargoSucursalesP" formControlName="codCargoP" optionLabel="datoCargo"
+                optionValue="codCargo" placeholder="Seleccione cargo">
+              </p-dropdown>
             </div>
 
           </div>
         </div>
       </div>
+
 
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">

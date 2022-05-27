@@ -134,7 +134,6 @@ export class DatosPersonalesComponent implements OnInit {
   cargarZonas(event: any): void {
     this.registroPersona.ciudad!.codCiudad = event.value;
     if (this.registroPersona.ciudad?.codCiudad === null || this.registroPersona.ciudad?.codCiudad === undefined || this.registroPersona.ciudad?.codCiudad <= 0) return;
-    console.log("el codCiudad es  ",this.registroPersona.ciudad.codCiudad);
     this.obtenerZonaXCiudad(this.registroPersona.ciudad.codCiudad);
 
   }
