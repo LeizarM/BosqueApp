@@ -153,7 +153,7 @@
           <div class="grid">
             <div class="field col-12 md:col-6">
               <label for="relLab">Relacion Laboral: </label>
-              <p-dropdown id="relLab" [options]="lstRelacionLaboral" formControlName="relacionLaboral"
+              <p-dropdown id="relLab" [options]="lstRelacionLaboral" formControlName="esActivo"
                 optionLabel="nombre" optionValue="codTipos" class="inputfield w-full">
               </p-dropdown>
             </div>
@@ -192,11 +192,17 @@
           <div class="grid">
             <div class="field col-12 md:col-6">
               <label for="relLab">Fecha Inicio Beneficio: </label>
-              <input id="relLab" type="text" formControlName="fecInicioBeneficio" class="inputfield w-full">
+              <!-- <input id="relLab" type="text" formControlName="codRelBeneficios" class="inputfield w-full"> -->
+              <p-dropdown id="relLab" [options]="lstFechaBenficio" formControlName="codRelBeneficios" optionLabel="datoFechasBeneficio"
+                optionValue="codRelEmplEmpr" class="inputfield w-full">
+              </p-dropdown>
             </div>
             <div class="field col-12 md:col-6">
-              <label for="relLab">Fecha Inicio Planilla: </label>
-              <input id="relLab" type="text" formControlName="fecInicioPlanilla" class="inputfield w-full">
+              <label for="relLabP">Fecha Inicio Planilla: </label>
+              <!-- <input id="relLabP" type="text" formControlName="codRelPlanilla" class="inputfield w-full"> -->
+              <p-dropdown id="relLabP" [options]="lstFechaBenficio" formControlName="codRelPlanilla" optionLabel="datoFechasBeneficio"
+              optionValue="codRelEmplEmpr" class="inputfield w-full">
+            </p-dropdown>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+
 import { Empleado } from '../../interfaces/Empleado';
 import { Persona } from '../../interfaces/Persona';
 import { Email } from '../../interfaces/Email';
@@ -15,6 +16,7 @@ import { Zona } from '../../interfaces/Zona';
 import { Sucursal } from '../../interfaces/Sucursal';
 import { CargoSucursal } from '../../interfaces/CargoSucursal';
 import { EmpleadoCargo } from '../../interfaces/EmpleadoCargo';
+import { RelEmplEmpr } from '../../interfaces/RelEmpEmpr';
 
 
 @Injectable({
@@ -162,6 +164,8 @@ export class RrhhService {
 
   /**
    * Procedimiento para obtener la experiencia laboral por empleado
+   * @param codEmpleado
+   * @returns
    */
   obtenerExperienciaLaboral ( codEmpleado : number ): Observable<ExperienciaLaboral[]>{
 
@@ -412,6 +416,32 @@ export class RrhhService {
         catchError( err => of( err.error)  )
       );
 
+  }
+  /**
+   * Procedimiento para obtener las fechas beneficio por empleado
+   * @param codEmpleado
+   * @returns
+   */
+  obtenerFechasBeneficio ( codEmpleado : number ): Observable<RelEmplEmpr[]>{
+
+    const url = `${this.baseUrl}/rrhh/fechasBeneficio`;
+    const ree: RelEmplEmpr = {
+      codEmpleado: codEmpleado
+    };
+
+    return this.http.post<RelEmplEmpr[]>( url, ree )
+      .pipe(
+        catchError(e => {
+          if (e.status == 401) {
+            return throwError(e);
+          }
+          if (e.ok === false) {
+            console.error(e.error.error);
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
   }
 
 }

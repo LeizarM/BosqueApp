@@ -11,6 +11,7 @@ export interface RelEmplEmpr {
 
   fechaInicioBeneficio?: Date;
   fechaInicioPlanilla?:  Date;
+  datoFechasBeneficio?: string;
 }
 
 // Converts JSON strings to/from your types

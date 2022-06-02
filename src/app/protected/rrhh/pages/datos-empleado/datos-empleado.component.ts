@@ -10,6 +10,7 @@ import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected
 import { LoginService } from 'src/app/auth/services/login.service';
 import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
+import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -35,6 +36,7 @@ export class DatosEmpleadoComponent implements OnInit {
   lstSucursalesP      : Sucursal[] = []; //para determinar el cargo para la planilla
   lstCargoSucursales  : CargoSucursal[] = [];
   lstCargoSucursalesP : CargoSucursal[] = []; //para determinar el cargo para la planilla
+  lstFechaBenficio    : RelEmplEmpr[] = [];
 
   lstRelacionLaboral  : Tipos[] = [];
   lstTipoRelEmp       : Tipos[] = [];
@@ -56,15 +58,18 @@ export class DatosEmpleadoComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.obtenerDatoEmpleado(this.regEmp.codEmpleado!);
 
-    this.registroEmpleado = {...this.regEmp};
+    this.registroEmpleado = {...this.regEmp };
+
+    console.log(this.registroEmpleado);
 
 
-    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.regEmp.empleadoCargo?.fechaInicio!);
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new  Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
     this.registroEmpleado.empleadoCargo!.fechaInicio.setDate( this.registroEmpleado.empleadoCargo!.fechaInicio.getDate() + 1 );
-    this.registroEmpleado.relEmpEmpr!.fechaIni = new Date(this.regEmp.relEmpEmpr?.fechaIni!);
+    this.registroEmpleado.relEmpEmpr!.fechaIni = new Date(this.registroEmpleado.relEmpEmpr?.fechaIni!);
     this.registroEmpleado.relEmpEmpr!.fechaIni.setDate( this.registroEmpleado.relEmpEmpr!.fechaIni.getDate() + 1 );
-    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.regEmp.relEmpEmpr?.fechaFin!);
+    this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.registroEmpleado.relEmpEmpr?.fechaFin!);
     this.registroEmpleado.relEmpEmpr!.fechaFin.setDate( this.registroEmpleado.relEmpEmpr!.fechaFin.getDate() + 1 );
 
     this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
@@ -74,8 +79,8 @@ export class DatosEmpleadoComponent implements OnInit {
     this.obtenerSucursalesXEmpresaPlanilla( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
     this.obtenerCargoXSucursalPlanilla( this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla!);
 
-    console.log(this.registroEmpleado);
-    console.log(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo);
+    //Para cargar las fechas beneficio
+    this.obtenerFechasBeneficio( this.registroEmpleado.codEmpleado! );
 
     this.formEmpleado = this.fb.group({
       codEmpleado              : [ this.registroEmpleado.codEmpleado ],
@@ -86,20 +91,20 @@ export class DatosEmpleadoComponent implements OnInit {
 
       codEmpresa               : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa],
       codSucursal              : [ this.registroEmpleado.empleadoCargo?.codCargoSucursal],
-      codCargo         : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
+      codCargo                 : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
+      apartirDe                : [ this.registroEmpleado.empleadoCargo?.fechaInicio], // necessary for update
 
       codEmpresaP              : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla],
       codSucursalP             : [ this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla ],
-      codCargoP        : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargoPlanilla  ],
+      codCargoP                : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargoPlanilla  ],
 
-      apartirDe                : [ this.registroEmpleado.empleadoCargo?.fechaInicio],
-      relacionLaboral          : [ this.registroEmpleado.relEmpEmpr?.esActivo?.toString()],
+
+      esActivo                 : [ this.registroEmpleado.relEmpEmpr?.esActivo?.toString()],
       tipoRelacion             : [ this.registroEmpleado.relEmpEmpr?.tipoRel],
       fechaInicio              : [ this.registroEmpleado.relEmpEmpr?.fechaIni],
       fechaFin                 : [ this.registroEmpleado.relEmpEmpr!.fechaFin = this.registroEmpleado.relEmpEmpr?.esActivo == 0 ? this.registroEmpleado.relEmpEmpr?.fechaFin : 0  ],
       motivoFin                : [ this.registroEmpleado.relEmpEmpr?.motivoFin],
-      fecInicioBeneficio       : [ this.registroEmpleado.relEmpEmpr?.fechaInicioBeneficio],
-      fecInicioPlanilla        : [ this.registroEmpleado.relEmpEmpr?.fechaInicioPlanilla],
+
     });
 
   }
@@ -108,9 +113,9 @@ export class DatosEmpleadoComponent implements OnInit {
    * Procedimiento para desplegar el modal
    */
   desplegarModal(): void {
-    this.ngOnInit();
-    this.displayModal = true;
 
+    this.displayModal = true;
+    this.ngOnInit();
   }
   /**
    * Procedimiento para cambiar el valor de la empresa
@@ -141,7 +146,6 @@ export class DatosEmpleadoComponent implements OnInit {
    */
   cargarCargos(event: any): void {
     this.formEmpleado.controls['codCargo'].setValue(0);
-    console.log(event.value);
     this.obtenerCargoXSucursal(event.value);
   }
 
@@ -210,7 +214,6 @@ export class DatosEmpleadoComponent implements OnInit {
     this.rrhhService.obtenerCargoXSucursal(codSucursal).subscribe((resp) => {
       if (resp) {
         this.lstCargoSucursales = resp;
-        console.log(this.lstCargoSucursales);
       }
     }, (err) => {
       console.log(err);
@@ -242,6 +245,37 @@ export class DatosEmpleadoComponent implements OnInit {
     if (this.loginService.tipoUsuario === 'ROLE_ADM') return false;
     return true;
   }
+
+  /**
+   * Obtendra los datos de empleado
+   * @param codEmpleado
+   */
+   obtenerDatoEmpleado(codEmpleado: number) {
+    this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
+      if (resp) {
+        this.regEmp = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  /**
+   * Procedimiento para obtener las lista de fechas beneficio de un empleado
+   * @param codEmpleado
+   */
+  obtenerFechasBeneficio( codEmpleado : number ){
+    this.rrhhService.obtenerFechasBeneficio( codEmpleado ).subscribe((resp)=>{
+      if(resp){
+        this.lstFechaBenficio = resp;
+      }
+    },(err)=>{
+      this.lstFechaBenficio = [];
+      console.log(err);
+    });
+  }
+
+
   /**
    * Para registrar la información del empleado
    */
@@ -268,31 +302,28 @@ export class DatosEmpleadoComponent implements OnInit {
             ,fecInicioBeneficio
             ,fecInicioPlanilla  } =  this.formEmpleado.value;
 
-    let  empCarg : EmpleadoCargo = {};
+    let  emp : Empleado = {};
 
-    empCarg.codCargoSucursal =  this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
-    empCarg.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP )[0].codCargoSucursal;
+    emp.codEmpleado = codEmpleado;
+    emp.codPersona = codPersona;
+    emp.numCuenta = numCuenta;
+    emp.codRelBeneficios = codRelBeneficios;
+    emp.codRelPlanilla = codRelPlanilla;
 
-
-    console.log(empCarg.codCargoSucursal);
+    /* console.log(empCarg.codCargoSucursal);
     console.log(codCargo);
     console.log(codSucursal);
 
 
     console.log(empCarg.codCargoSucPlanilla);
     console.log(codCargoP);
-    console.log(codSucursalP);
+    console.log(codSucursalP); */
 
-    let ec : EmpleadoCargo = {};
-    ec.codEmpleado      = codEmpleado;
-    ec.codCargoSucursal = empCarg.codCargoSucursal;
-    ec.codCargoSucPlanilla  = empCarg.codCargoSucPlanilla;
-    ec.fechaInicio = apartirDe;
 
 
 
     //se registra la informacion del empleado
-    /*this.rrhhService.registrarInfoEmpleado( ec ).subscribe((resp) => {
+     this.rrhhService.registrarInfoEmpleado( emp ).subscribe((resp) => {
       if (resp?.ok === 'ok' && resp) {
         console.log("bien");
         this.displayModal =  false;
@@ -312,8 +343,8 @@ export class DatosEmpleadoComponent implements OnInit {
 
     let empleadoCargo : EmpleadoCargo = {};
     empleadoCargo.codEmpleado         = codEmpleado;
-    empleadoCargo.codCargoSucursal    = codCargo;
-    empleadoCargo.codCargoSucPlanilla = codCargo;
+    empleadoCargo.codCargoSucursal    = this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
+    empleadoCargo.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP )[0].codCargoSucursal;
     empleadoCargo.fechaInicio         = apartirDe;
 
     this.rrhhService.registrarInfoEmpleadoCargo( empleadoCargo ).subscribe((resp) => {
@@ -331,22 +362,10 @@ export class DatosEmpleadoComponent implements OnInit {
     }, (err) => {
       console.log("Error General");
       console.log(err);
-    });*/
+    });
 
     this.obtenerDatoEmpleado( codEmpleado );
 
   }
-  /**
-   * Obtendra los datos de empleado
-   * @param codEmpleado
-   */
-  obtenerDatoEmpleado(codEmpleado: number) {
-    this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
-      if (resp) {
-        this.regEmp = resp;
-      }
-    }, (err) => {
-      console.log(err);
-    });
-  }
+
 }
