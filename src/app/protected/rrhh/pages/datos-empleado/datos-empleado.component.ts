@@ -100,7 +100,7 @@ export class DatosEmpleadoComponent implements OnInit {
       codSucursalP             : [ this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla ],
       codCargoP                : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargoPlanilla  ],
 
-
+      codRelEmplEmpr           : [ this.registroEmpleado.relEmpEmpr?.codRelEmplEmpr ],
       esActivo                 : [ this.registroEmpleado.relEmpEmpr?.esActivo?.toString()],
       tipoRelacion             : [ this.registroEmpleado.relEmpEmpr?.tipoRel],
       fechaInicio              : [ this.registroEmpleado.relEmpEmpr?.fechaIni],
@@ -297,7 +297,8 @@ export class DatosEmpleadoComponent implements OnInit {
             ,codSucursalP
             ,codCargoP
             ,apartirDe
-            ,relacionLaboral
+            ,codRelEmplEmpr
+            ,esActivo
             ,tipoRelacion
             ,fechaInicio
             ,fechaFin
@@ -305,28 +306,32 @@ export class DatosEmpleadoComponent implements OnInit {
             ,fecInicioBeneficio
             ,fecInicioPlanilla  } =  this.formEmpleado.value;
 
+    // Para actualizar datos de empleado
     let  emp : Empleado = {};
-
     emp.codEmpleado = codEmpleado;
     emp.codPersona = codPersona;
     emp.numCuenta = numCuenta;
     emp.codRelBeneficios = codRelBeneficios;
     emp.codRelPlanilla = codRelPlanilla;
 
-    /* console.log(empCarg.codCargoSucursal);
-    console.log(codCargo);
-    console.log(codSucursal);
-
-
-    console.log(empCarg.codCargoSucPlanilla);
-    console.log(codCargoP);
-    console.log(codSucursalP); */
-
+    //Para actualizar datos del los cargos
     let empleadoCargo : EmpleadoCargo = {};
     empleadoCargo.codEmpleado         = codEmpleado;
     empleadoCargo.codCargoSucursal    = this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
     empleadoCargo.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP )[0].codCargoSucursal;
     empleadoCargo.fechaInicio         = apartirDe;
+
+    //Para actualizar la relacion con la empresa
+    let relacionEmp : RelEmplEmpr = {};
+    relacionEmp.codRelEmplEmpr = codRelEmplEmpr;
+    relacionEmp.codEmpleado = codEmpleado;
+    relacionEmp.esActivo = esActivo;
+    relacionEmp.tipoRel = tipoRelacion;
+    relacionEmp.nombreFileContrato = "";
+    relacionEmp.fechaIni = fechaInicio;
+    relacionEmp.fechaFin = fechaFin;
+    relacionEmp.motivoFin = motivoFin;
+
 
 
     //se registra la informacion del empleado
