@@ -83,7 +83,7 @@
             class="inputfield w-full">
         </div>
       </div>
-
+      {{ formEmpleado.value | json  }}
       <!-- Para datos internos -->
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-6">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
@@ -176,7 +176,7 @@
                 [showIcon]="true">
               </p-calendar>
             </div>
-            {{ formEmpleado.value | json  }}
+
             <div class="field col-12 md:col-12">
               <label for="motivo">Motivo: </label>
               <textarea id="motivo" type="text" formControlName="motivoFin" class="inputfield w-full"

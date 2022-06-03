@@ -11,6 +11,7 @@ import { LoginService } from 'src/app/auth/services/login.service';
 import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
+import { finalize } from 'rxjs/internal/operators/finalize';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -57,13 +58,10 @@ export class DatosEmpleadoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.registroEmpleado = {};
     this.obtenerDatoEmpleado(this.regEmp.codEmpleado!);
 
     this.registroEmpleado = {...this.regEmp };
-
-    console.log(this.registroEmpleado);
-
 
     this.registroEmpleado.empleadoCargo!.fechaInicio = new  Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
     this.registroEmpleado.empleadoCargo!.fechaInicio.setDate( this.registroEmpleado.empleadoCargo!.fechaInicio.getDate() + 1 );
@@ -72,15 +70,19 @@ export class DatosEmpleadoComponent implements OnInit {
     this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.registroEmpleado.relEmpEmpr?.fechaFin!);
     this.registroEmpleado.relEmpEmpr!.fechaFin.setDate( this.registroEmpleado.relEmpEmpr!.fechaFin.getDate() + 1 );
 
+    console.log(this.registroEmpleado);
+
+    //Para los internos
     this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
     this.obtenerCargoXSucursal(this.registroEmpleado.empleadoCargo?.codCargoSucursal!);
 
     //Para planillas
-    this.obtenerSucursalesXEmpresaPlanilla( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
+    this.obtenerSucursalesXEmpresaPlanilla( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla!);
     this.obtenerCargoXSucursalPlanilla( this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla!);
 
     //Para cargar las fechas beneficio
     this.obtenerFechasBeneficio( this.registroEmpleado.codEmpleado! );
+
 
     this.formEmpleado = this.fb.group({
       codEmpleado              : [ this.registroEmpleado.codEmpleado ],
@@ -251,6 +253,7 @@ export class DatosEmpleadoComponent implements OnInit {
    * @param codEmpleado
    */
    obtenerDatoEmpleado(codEmpleado: number) {
+    console.log("entro para actualizar");
     this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
@@ -319,53 +322,58 @@ export class DatosEmpleadoComponent implements OnInit {
     console.log(codCargoP);
     console.log(codSucursalP); */
 
-
-
-
-    //se registra la informacion del empleado
-     this.rrhhService.registrarInfoEmpleado( emp ).subscribe((resp) => {
-      if (resp?.ok === 'ok' && resp) {
-        console.log("bien");
-        this.displayModal =  false;
-
-
-        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
-
-      } else {
-        console.log(resp);
-        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
-      }
-    }, (err) => {
-      console.log("Error General");
-      console.log(err);
-    });
-
-
     let empleadoCargo : EmpleadoCargo = {};
     empleadoCargo.codEmpleado         = codEmpleado;
     empleadoCargo.codCargoSucursal    = this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
     empleadoCargo.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP )[0].codCargoSucursal;
     empleadoCargo.fechaInicio         = apartirDe;
 
-    this.rrhhService.registrarInfoEmpleadoCargo( empleadoCargo ).subscribe((resp) => {
-      if (resp?.ok === 'ok' && resp) {
-        console.log("bien");
-        this.displayModal =  false;
+
+    //se registra la informacion del empleado
+     this.rrhhService.registrarInfoEmpleado(emp)
+      .pipe(finalize( () => registroEmpleadoCargo ))
+
+      .subscribe((resp) => {
+        if (resp) {
+          console.log("bien 1");
+
+          this.displayModal = false;
+          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+
+        } else {
+          console.log(resp);
+          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+        }
+      }, (err) => {
+        console.log("Error General");
+        console.log(err);
+      });
 
 
-        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
 
-      } else {
-        console.log(resp);
-        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
-      }
-    }, (err) => {
-      console.log("Error General");
-      console.log(err);
-    });
 
-    this.obtenerDatoEmpleado( codEmpleado );
+    const registroEmpleadoCargo = this.rrhhService.registrarInfoEmpleadoCargo(empleadoCargo)
+      .pipe(finalize( () => this.obtenerDatoEmpleado( codEmpleado )))
+      .subscribe((resp) => {
+        if (resp) {
+          console.log("bien 2");
+          this.displayModal = false;
+
+
+          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+
+        } else {
+          console.log(resp);
+          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+        }
+      }, (err) => {
+        console.log("Error General");
+        console.log(err);
+      });
+
 
   }
+
+
 
 }

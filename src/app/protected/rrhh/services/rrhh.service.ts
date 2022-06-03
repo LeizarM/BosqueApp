@@ -378,7 +378,7 @@ export class RrhhService {
    * @param empleado
    * @returns
    */
-   registrarInfoEmpleado( empleado : Empleado ){
+   registrarInfoEmpleado( empleado : Empleado ):Observable<Empleado>{
 
     const url = `${this.baseUrl}/rrhh/registroEmpleado`;
 
@@ -401,7 +401,7 @@ export class RrhhService {
    * @param empleadoCargo
    * @returns
    */
-  registrarInfoEmpleadoCargo( empleadoCargo : EmpleadoCargo ){
+  registrarInfoEmpleadoCargo( empleadoCargo : EmpleadoCargo ):Observable<EmpleadoCargo>{
 
     const url = `${this.baseUrl}/rrhh/registroEmpleadoCargo`;
 
