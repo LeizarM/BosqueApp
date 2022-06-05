@@ -444,4 +444,26 @@ export class RrhhService {
       );
   }
 
+  /**
+   * Procedimiento para registro de relacion con la empresa y el empleado
+   * @param ree
+   * @returns
+   */
+   registrarRelacionEmpleadoEmpresa( ree : RelEmplEmpr ):Observable<RelEmplEmpr>{
+
+    const url = `${this.baseUrl}/rrhh/registroRelEmp`;
+
+    return this.http.post<RelEmplEmpr>( url, ree  )
+      .pipe(
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
+      );
+
+  }
+
 }

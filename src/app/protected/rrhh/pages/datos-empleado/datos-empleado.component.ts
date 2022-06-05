@@ -322,22 +322,21 @@ export class DatosEmpleadoComponent implements OnInit {
     empleadoCargo.fechaInicio         = apartirDe;
 
     //Para actualizar la relacion con la empresa
-    let relacionEmp : RelEmplEmpr = {};
-    relacionEmp.codRelEmplEmpr = codRelEmplEmpr;
-    relacionEmp.codEmpleado = codEmpleado;
-    relacionEmp.esActivo = esActivo;
-    relacionEmp.tipoRel = tipoRelacion;
-    relacionEmp.nombreFileContrato = "";
-    relacionEmp.fechaIni = fechaInicio;
-    relacionEmp.fechaFin = fechaFin;
-    relacionEmp.motivoFin = motivoFin;
+    let relacionEmpEmpr : RelEmplEmpr = {};
+    relacionEmpEmpr.codRelEmplEmpr = codRelEmplEmpr;
+    relacionEmpEmpr.codEmpleado = codEmpleado;
+    relacionEmpEmpr.esActivo = esActivo;
+    relacionEmpEmpr.tipoRel = tipoRelacion;
+    relacionEmpEmpr.nombreFileContrato = "";
+    relacionEmpEmpr.fechaIni = fechaInicio;
+    relacionEmpEmpr.fechaFin = fechaFin;
+    relacionEmpEmpr.motivoFin = motivoFin;
 
 
 
     //se registra la informacion del empleado
      this.rrhhService.registrarInfoEmpleado(emp)
       .pipe(finalize( () => registroEmpleadoCargo ))
-
       .subscribe((resp) => {
         if (resp) {
           console.log("bien 1");
@@ -358,7 +357,7 @@ export class DatosEmpleadoComponent implements OnInit {
 
 
     const registroEmpleadoCargo = this.rrhhService.registrarInfoEmpleadoCargo(empleadoCargo)
-      .pipe(finalize( () => this.obtenerDatoEmpleado( codEmpleado )))
+      .pipe(finalize( () => registroRelEmp ))
       .subscribe((resp) => {
         if (resp) {
           console.log("bien 2");
@@ -376,6 +375,24 @@ export class DatosEmpleadoComponent implements OnInit {
         console.log(err);
       });
 
+      const registroRelEmp = this.rrhhService.registrarRelacionEmpleadoEmpresa( relacionEmpEmpr )
+      .pipe(finalize( () => this.obtenerDatoEmpleado( codEmpleado )))
+      .subscribe((resp) => {
+        if (resp) {
+          console.log("bien 3");
+          this.displayModal = false;
+
+
+          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+
+        } else {
+          console.log(resp);
+          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+        }
+      }, (err) => {
+        console.log("Error General");
+        console.log(err);
+      });
 
   }
 
