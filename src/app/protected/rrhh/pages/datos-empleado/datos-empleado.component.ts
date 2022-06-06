@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Empleado } from '../../../interfaces/Empleado';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
 import { finalize } from 'rxjs/internal/operators/finalize';
+import { getTestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-datos-empleado',
@@ -87,7 +88,7 @@ export class DatosEmpleadoComponent implements OnInit {
     this.formEmpleado = this.fb.group({
       codEmpleado              : [ this.registroEmpleado.codEmpleado ],
       codPersona               : [ this.registroEmpleado.codPersona ],
-      numCuenta                : [ this.registroEmpleado.numCuenta],
+      numCuenta                : [ this.registroEmpleado.numCuenta, [ Validators.required ]],
       codRelBeneficios         : [ this.registroEmpleado.codRelBeneficios], // esto cambiarlo con el combo
       codRelPlanilla           : [ this.registroEmpleado.codRelPlanilla ],// esto cambiarlo con el combo
 
@@ -104,7 +105,7 @@ export class DatosEmpleadoComponent implements OnInit {
       esActivo                 : [ this.registroEmpleado.relEmpEmpr?.esActivo?.toString()],
       tipoRelacion             : [ this.registroEmpleado.relEmpEmpr?.tipoRel],
       fechaInicio              : [ this.registroEmpleado.relEmpEmpr?.fechaIni],
-      fechaFin                 : [ this.registroEmpleado.relEmpEmpr!.fechaFin = this.registroEmpleado.relEmpEmpr?.esActivo == 0 ? this.registroEmpleado.relEmpEmpr?.fechaFin : 0  ],
+      fechaFin                 : [ this.registroEmpleado.relEmpEmpr!.fechaFin = this.registroEmpleado.relEmpEmpr?.esActivo == 0 ? this.registroEmpleado.relEmpEmpr?.fechaFin : null  ],
       motivoFin                : [ this.registroEmpleado.relEmpEmpr?.motivoFin],
 
     });
@@ -395,7 +396,15 @@ export class DatosEmpleadoComponent implements OnInit {
       });
 
   }
-
+  /**
+   * Metodo para validar campo
+   * @param campo
+   * @returns
+   */
+  campoNoValido( campo: string ) {
+    return this.formEmpleado.get( campo )?.invalid
+            && this.formEmpleado.get( campo )?.touched;
+  }
 
 
 }

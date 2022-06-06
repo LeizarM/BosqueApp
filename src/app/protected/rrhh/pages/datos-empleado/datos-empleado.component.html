@@ -79,15 +79,18 @@
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <label for="cuentaBan">Número de Cuenta Bancaria: </label>
-          <input id="cuentaBan" type="text" formControlName="numCuenta" pInputText pKeyFilter="num"
-            class="inputfield w-full">
+          <input id="cuentaBan" type="text" formControlName="numCuenta" pInputText pKeyFilter="num" class="inputfield w-full">
+          <span *ngIf="campoNoValido('numCuenta')" class="p-error block">Numero de Cuenta no valido.</span>
         </div>
       </div>
-      {{ formEmpleado.value | json  }}
+
       <!-- Para datos internos -->
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-6">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <div class="grid">
+            <p class="text-center">
+              DATOS DE CARGO
+            </p>
             <div class="field col-12 md:col-12">
               <label for="empresa">Empresa: </label>
               <p-dropdown id="empresa" [options]="lstEmpresas" formControlName="codEmpresa" optionLabel="nombre"
@@ -111,7 +114,7 @@
 
             <div class="field col-12 md:col-12">
               <label for="apartirDe">A partir de: </label>
-              <p-calendar inputId="apartirDe" formControlName="apartirDe" dateFormat="dd/mm/yy" [showIcon]="true" [disabled]="obtenerTipoUsuario()" >
+              <p-calendar inputId="apartirDe" formControlName="apartirDe" dateFormat="dd/mm/yy" [showIcon]="true" [disabled]="true" >
               </p-calendar>
             </div>
           </div>
@@ -122,6 +125,9 @@
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-6">
         <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
           <div class="grid">
+            <p class="text-center">
+              DATOS DE CARGO PLANILLA
+            </p>
             <div class="field col-12 md:col-12">
               <label for="empresa">Empresa: </label>
               <p-dropdown id="empresa" [options]="lstEmpresasP" formControlName="codEmpresaP" optionLabel="nombre"
@@ -186,7 +192,7 @@
           </div>
         </div>
       </div>
-
+      {{ formEmpleado.value | json  }}
       <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
         <div class="my-5 border-round bg-orange-100  font-bold p-3 flex align-items-center justify-content-center">
           <div class="grid">
@@ -213,4 +219,5 @@
         class="p-button-outlined p-button-success"></button>
     </div>
   </form>
+  <h2> {{ formEmpleado.valid  }} </h2>
 </p-dialog>
