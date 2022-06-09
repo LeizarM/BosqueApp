@@ -3,10 +3,58 @@
     <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="cargarEmails()" label="Editar">
     </button>
   </ng-template>
-
   <ul *ngFor="let email of emails">
     <li>
-      {{  email.email }}
+      {{ email.email }}
     </li>
   </ul>
 </p-panel>
+
+<!-- Dialog para editar o agregar mas Emails  -->
+<p-dialog header="ACTUALIZAR DATOS DE EMAIL" [(visible)]="displayModal" [modal]="true" [draggable]="true">
+  <hr>
+  <form autocomplete="off" [formGroup]="formEmail" (ngSubmit)="guardarEmails()">
+    <button pButton class="p-button-help" (click)="agregarNuevoRegistro()"> Nuevo Registro </button>
+
+    <div formArrayName="lstFormEmail">
+
+      <div *ngFor=" let e of lstFormEmail.controls; let i = index" >
+
+          <input  type="text" [formControlName]="i"  />
+
+      </div>
+
+    </div>
+
+    <!-- <p-table [value]="lstEmail">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Email</th>
+          <th>Accion</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-e>
+        <tr>
+          <td>
+            <input pInputText type="email" [(ngModel)]="e.email">
+          </td>
+          <td>
+            <button pButton type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table> -->
+    <hr>
+    <button pButton class="p-button-success" type="submit"> Guardar </button>
+  </form>
+
+
+  <span>Valid</span>
+  <pre>{{ formEmail.valid }}</pre>
+  <br>
+
+  <span>Value</span>
+  <pre>{{ formEmail.value | json}}</pre>
+
+</p-dialog>

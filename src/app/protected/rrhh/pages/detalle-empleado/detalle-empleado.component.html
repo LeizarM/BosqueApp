@@ -14,15 +14,15 @@
 
 <!-- DATOS DE EMPLEADO -->
 <div class="grid">
-  <div class="col-12 md:col-8 lg:col-8 ">
+  <div class="col-12 md:col-8 lg:col-6 ">
     <app-datos-empleado *ngIf="regEmp" [regEmp]="regEmp"></app-datos-empleado>
   </div>
 
-  <div class="col-12 md:col-4 lg:col-2 ajustar-text">
+  <div class="col-12 md:col-4 lg:col-3 ajustar-text">
     <app-dato-email  *ngIf="regEmp" [regEmp]="regEmp"></app-dato-email>
   </div>
 
-  <div class="col-12 md:col-4 lg:col-2">
+  <div class="col-12 md:col-4 lg:col-3">
     <app-dato-telefonos [regEmp]="regEmp"></app-dato-telefonos>
   </div>
 </div>

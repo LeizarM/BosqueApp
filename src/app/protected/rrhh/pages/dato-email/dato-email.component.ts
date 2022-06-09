@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Email } from '../../../interfaces/Email';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
+import { LoginService } from '../../../../auth/services/login.service';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-dato-email',
@@ -10,28 +12,37 @@ import { RrhhService } from '../../services/rrhh.service';
 })
 export class DatoEmailComponent  {
 
-  @Input() regEmp!: Empleado;
+  @Input() regEmp !: Empleado;
+  emails          : Email[] = [];
+  lstEmail        : Email[] = [];
+  displayModal    : boolean = false;
+  //Inicializando el Formulario
+  formEmail: FormGroup = this.fb.group({
+    lstFormEmail: this.fb.array([  ], Validators.required)
+  });
 
-  emails : Email[] = [];
-
-  constructor( private rrhhService : RrhhService ) {
+  constructor( private rrhhService : RrhhService,
+               private fb: FormBuilder,
+               private login: LoginService) {
 
   }
-
   ngOnInit(): void {
     this.obtenerEmails( this.regEmp.codPersona! );
+
   }
+
+
+
 
 
   /**
    *  Procedimiento para obtener los correos de una persona
    * @param codPersona
    */
-   obtenerEmails( codPersona: number ) {
+   obtenerEmails( codPersona: number ): void {
     this.rrhhService.obtenerDatosEmail( codPersona ).subscribe((resp) => {
       if (resp) {
-        this.emails = resp;
-
+        this.emails = resp ;
       }
     }, (err) => {
       this.emails = [];
@@ -43,8 +54,38 @@ export class DatoEmailComponent  {
    * Procedimiento para ve captura los datos de los emails
    */
   cargarEmails(){
-    console.log("para ver si persiste los emails  ",this.emails.length);
+    this.lstEmail =  [...this.emails];
+    console.log("1");
+    this.formEmail = this.fb.group({
+      lstFormEmail: this.fb.array( [ this.lstEmail ], Validators.required )
+    },);
+
+    this.displayModal = true;
 
   }
 
+  get lstFormEmail(){
+    return this.formEmail.get('lstFormEmail') as FormArray;
+
+  }
+
+  /**
+   * Para agregar nuevo registro a la lista
+   */
+  agregarNuevoRegistro():void{
+    const nuevoEmail : Email = {
+      codEmail    : 0,
+      codPersona  : this.regEmp.codPersona,
+      email       : '',
+      audUsuario  : this.login.codUsuario
+    }
+    this.lstEmail.push( nuevoEmail );
+  }
+
+  /**
+   * Para guadar la lista de emails
+   */
+   guardarEmails():void{
+     console.log(this.lstEmail);
+   }
 }

@@ -19,7 +19,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { KeyFilterModule } from 'primeng/keyfilter';
-
+import { BlockUIModule } from 'primeng/blockui';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @NgModule({
 
@@ -43,7 +44,9 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     CalendarModule,
     ToastModule,
     InputNumberModule,
-    KeyFilterModule
+    KeyFilterModule,
+    BlockUIModule,
+    ConfirmPopupModule
 
   ]
 })

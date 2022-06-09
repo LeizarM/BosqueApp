@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 
 import { EmpleadosComponent } from './pages/empleados/empleados.component';
@@ -53,7 +53,8 @@ import { PaisPipe } from './pipes/pais.pipe';
     CommonModule,
     PrimeNgModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
   ],
   exports: [
     EstadoCivilPipe,

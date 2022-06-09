@@ -19,7 +19,7 @@ import { getTestBed } from '@angular/core/testing';
   templateUrl: './datos-empleado.component.html',
   styleUrls: ['./datos-empleado.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [ MessageService ]
+  providers: [MessageService]
 
 })
 export class DatosEmpleadoComponent implements OnInit {
@@ -28,9 +28,9 @@ export class DatosEmpleadoComponent implements OnInit {
 
   @Input() regEmp !: Empleado;
 
-  displayModal: boolean = false;
+  displayModal    : boolean = false;
 
-  formEmpleado: FormGroup = new FormGroup({});
+  formEmpleado    : FormGroup = new FormGroup({});
 
   lstEmpresas         : Empresa[] = [];
   lstEmpresasP        : Empresa[] = []; //Para determinar el cargo para la planilla
@@ -40,17 +40,17 @@ export class DatosEmpleadoComponent implements OnInit {
   lstCargoSucursalesP : CargoSucursal[] = []; //para determinar el cargo para la planilla
   lstFechaBenficio    : RelEmplEmpr[] = [];
 
-  lstRelacionLaboral  : Tipos[] = [];
-  lstTipoRelEmp       : Tipos[] = [];
+  lstRelacionLaboral: Tipos[] = [];
+  lstTipoRelEmp     : Tipos[] = [];
 
   tipoUsuario         !: boolean;
 
 
-  constructor(private loginService  : LoginService,
-              private rrhhService   : RrhhService,
-              private empresaService: EmpresaService,
-              private fb            : FormBuilder,
-              private messageService: MessageService) {
+  constructor(private loginService: LoginService,
+    private rrhhService: RrhhService,
+    private empresaService: EmpresaService,
+    private fb: FormBuilder,
+    private messageService: MessageService) {
 
     this.obtenerEmpresas();
     this.lstRelacionLaboral = lstEstadoActivoInactivo();
@@ -62,27 +62,26 @@ export class DatosEmpleadoComponent implements OnInit {
     this.registroEmpleado = {};
     this.obtenerDatoEmpleado(this.regEmp.codEmpleado!);
 
-    this.registroEmpleado = {...this.regEmp };
+    this.registroEmpleado = {...this.regEmp};
 
-    this.registroEmpleado.empleadoCargo!.fechaInicio = new  Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
-    this.registroEmpleado.empleadoCargo!.fechaInicio.setDate( this.registroEmpleado.empleadoCargo!.fechaInicio.getDate() + 1 );
+    this.registroEmpleado.empleadoCargo!.fechaInicio = new Date(this.registroEmpleado.empleadoCargo?.fechaInicio!);
+    this.registroEmpleado.empleadoCargo!.fechaInicio.setDate(this.registroEmpleado.empleadoCargo!.fechaInicio.getDate() + 1);
     this.registroEmpleado.relEmpEmpr!.fechaIni = new Date(this.registroEmpleado.relEmpEmpr?.fechaIni!);
-    this.registroEmpleado.relEmpEmpr!.fechaIni.setDate( this.registroEmpleado.relEmpEmpr!.fechaIni.getDate() + 1 );
+    this.registroEmpleado.relEmpEmpr!.fechaIni.setDate(this.registroEmpleado.relEmpEmpr!.fechaIni.getDate() + 1);
     this.registroEmpleado.relEmpEmpr!.fechaFin = new Date(this.registroEmpleado.relEmpEmpr?.fechaFin!);
-    this.registroEmpleado.relEmpEmpr!.fechaFin.setDate( this.registroEmpleado.relEmpEmpr!.fechaFin.getDate() + 1 );
+    this.registroEmpleado.relEmpEmpr!.fechaFin.setDate(this.registroEmpleado.relEmpEmpr!.fechaFin.getDate() + 1);
 
-    console.log(this.registroEmpleado);
 
     //Para los internos
     this.obtenerSucursalesXEmpresa(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa!);
     this.obtenerCargoXSucursal(this.registroEmpleado.empleadoCargo?.codCargoSucursal!);
 
     //Para planillas
-    this.obtenerSucursalesXEmpresaPlanilla( this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla!);
-    this.obtenerCargoXSucursalPlanilla( this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla!);
+    this.obtenerSucursalesXEmpresaPlanilla(this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla!);
+    this.obtenerCargoXSucursalPlanilla(this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla!);
 
     //Para cargar las fechas beneficio
-    this.obtenerFechasBeneficio( this.registroEmpleado.codEmpleado! );
+    this.obtenerFechasBeneficio(this.registroEmpleado.codEmpleado!);
 
 
     this.formEmpleado = this.fb.group({
@@ -95,7 +94,7 @@ export class DatosEmpleadoComponent implements OnInit {
       codEmpresa               : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa],
       codSucursal              : [ this.registroEmpleado.empleadoCargo?.codCargoSucursal],
       codCargo                 : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
-      apartirDe                : [ this.registroEmpleado.empleadoCargo?.fechaInicio], // necessary for update
+      apartirDe                : [ {value: this.registroEmpleado.empleadoCargo?.fechaInicio, disabled:true }], // necessary for update
 
       codEmpresaP              : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla],
       codSucursalP             : [ this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla ],
@@ -148,6 +147,7 @@ export class DatosEmpleadoComponent implements OnInit {
    * @param event
    */
   cargarCargos(event: any): void {
+    console.log(event.value);
     this.formEmpleado.controls['codCargo'].setValue(0);
     this.obtenerCargoXSucursal(event.value);
   }
@@ -197,7 +197,7 @@ export class DatosEmpleadoComponent implements OnInit {
    * Obtendra las sucursales por empresa para la planilla
    * @param codEmpresa
    */
-   obtenerSucursalesXEmpresaPlanilla(codEmpresa: number): void {
+  obtenerSucursalesXEmpresaPlanilla(codEmpresa: number): void {
     this.rrhhService.obtenerSucursalesXEmpresa(codEmpresa).subscribe((resp) => {
       if (resp) {
         this.lstSucursalesP = resp;
@@ -253,7 +253,7 @@ export class DatosEmpleadoComponent implements OnInit {
    * Obtendra los datos de empleado
    * @param codEmpleado
    */
-   obtenerDatoEmpleado(codEmpleado: number) {
+  obtenerDatoEmpleado(codEmpleado: number) {
     console.log("entro para actualizar");
     this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
       if (resp) {
@@ -268,12 +268,12 @@ export class DatosEmpleadoComponent implements OnInit {
    * Procedimiento para obtener las lista de fechas beneficio de un empleado
    * @param codEmpleado
    */
-  obtenerFechasBeneficio( codEmpleado : number ){
-    this.rrhhService.obtenerFechasBeneficio( codEmpleado ).subscribe((resp)=>{
-      if(resp){
+  obtenerFechasBeneficio(codEmpleado: number) {
+    this.rrhhService.obtenerFechasBeneficio(codEmpleado).subscribe((resp) => {
+      if (resp) {
         this.lstFechaBenficio = resp;
       }
-    },(err)=>{
+    }, (err) => {
       this.lstFechaBenficio = [];
       console.log(err);
     });
@@ -283,32 +283,32 @@ export class DatosEmpleadoComponent implements OnInit {
   /**
    * Para registrar la información del empleado
    */
-  guardar():void{
+  guardar(): void {
 
     //para actualizar el empleado y su informacion
     const { codEmpleado
-            ,codPersona
-            ,numCuenta
-            ,codRelBeneficios
-            ,codRelPlanilla
-            ,codEmpresa
-            ,codSucursal
-            ,codCargo
-            ,codEmpresaP
-            ,codSucursalP
-            ,codCargoP
-            ,apartirDe
-            ,codRelEmplEmpr
-            ,esActivo
-            ,tipoRelacion
-            ,fechaInicio
-            ,fechaFin
-            ,motivoFin
-            ,fecInicioBeneficio
-            ,fecInicioPlanilla  } =  this.formEmpleado.value;
+      , codPersona
+      , numCuenta
+      , codRelBeneficios
+      , codRelPlanilla
+      , codEmpresa
+      , codSucursal
+      , codCargo
+      , codEmpresaP
+      , codSucursalP
+      , codCargoP
+      , apartirDe
+      , codRelEmplEmpr
+      , esActivo
+      , tipoRelacion
+      , fechaInicio
+      , fechaFin
+      , motivoFin
+      , fecInicioBeneficio
+      , fecInicioPlanilla } = this.formEmpleado.value;
 
     // Para actualizar datos de empleado
-    let  emp : Empleado = {};
+    let emp: Empleado = {};
     emp.codEmpleado = codEmpleado;
     emp.codPersona = codPersona;
     emp.numCuenta = numCuenta;
@@ -316,14 +316,15 @@ export class DatosEmpleadoComponent implements OnInit {
     emp.codRelPlanilla = codRelPlanilla;
 
     //Para actualizar datos del los cargos
-    let empleadoCargo : EmpleadoCargo = {};
-    empleadoCargo.codEmpleado         = codEmpleado;
-    empleadoCargo.codCargoSucursal    = this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
-    empleadoCargo.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP )[0].codCargoSucursal;
-    empleadoCargo.fechaInicio         = apartirDe;
+    let empleadoCargo: EmpleadoCargo = {};
+    empleadoCargo.codEmpleado = codEmpleado;
+    empleadoCargo.codCargoSucursal = this.lstCargoSucursales.filter(exp => exp.codCargo === codCargo && exp.codSucursal === codSucursal)[0].codCargoSucursal;
+    empleadoCargo.codCargoSucPlanilla = this.lstCargoSucursalesP.filter(exp => exp.codCargo === codCargoP && exp.codSucursal === codSucursalP)[0].codCargoSucursal;
+    empleadoCargo.fechaInicio = apartirDe;
+
 
     //Para actualizar la relacion con la empresa
-    let relacionEmpEmpr : RelEmplEmpr = {};
+    let relacionEmpEmpr: RelEmplEmpr = {};
     relacionEmpEmpr.codRelEmplEmpr = codRelEmplEmpr;
     relacionEmpEmpr.codEmpleado = codEmpleado;
     relacionEmpEmpr.esActivo = esActivo;
@@ -334,66 +335,71 @@ export class DatosEmpleadoComponent implements OnInit {
     relacionEmpEmpr.motivoFin = motivoFin;
 
 
-
-    //se registra la informacion del empleado
-     this.rrhhService.registrarInfoEmpleado(emp)
-      .pipe(finalize( () => registroEmpleadoCargo ))
-      .subscribe((resp) => {
-        if (resp) {
-          console.log("bien 1");
-
-          this.displayModal = false;
-          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
-
-        } else {
-          console.log(resp);
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
-        }
-      }, (err) => {
-        console.log("Error General");
-        console.log(err);
-      });
+    if (!this.formEmpleado.invalid) {
+      //se registra la informacion del empleado
+      this.rrhhService.registrarInfoEmpleado(emp)
+        .pipe(finalize(() => registroEmpleadoCargo))
+        .subscribe((resp) => {
+          if (resp) {
 
 
+            this.displayModal = false;
+            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+
+          } else {
+            console.log(resp);
+            this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+          }
+        }, (err) => {
+          console.log("Error General");
+          console.log(err);
+        });
 
 
-    const registroEmpleadoCargo = this.rrhhService.registrarInfoEmpleadoCargo(empleadoCargo)
-      .pipe(finalize( () => registroRelEmp ))
-      .subscribe((resp) => {
-        if (resp) {
-          console.log("bien 2");
-          this.displayModal = false;
 
 
-          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+      const registroEmpleadoCargo = this.rrhhService.registrarInfoEmpleadoCargo(empleadoCargo)
+        .pipe(finalize(() => registroRelEmp))
+        .subscribe((resp) => {
+          if (resp) {
 
-        } else {
-          console.log(resp);
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
-        }
-      }, (err) => {
-        console.log("Error General");
-        console.log(err);
-      });
-
-      const registroRelEmp = this.rrhhService.registrarRelacionEmpleadoEmpresa( relacionEmpEmpr )
-      .pipe(finalize( () => this.obtenerDatoEmpleado( codEmpleado )))
-      .subscribe((resp) => {
-        if (resp) {
-          console.log("bien 3");
-          this.displayModal = false;
+            this.displayModal = false;
 
 
-          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
 
-        } else {
-          console.log(resp);
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
-        }
-      }, (err) => {
-        console.log("Error General");
-        console.log(err);
-      });
+          } else {
+            console.log(resp);
+            this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+          }
+        }, (err) => {
+          console.log("Error General");
+          console.log(err);
+        });
+
+      const registroRelEmp = this.rrhhService.registrarRelacionEmpleadoEmpresa(relacionEmpEmpr)
+        .pipe(finalize(() => this.obtenerDatoEmpleado(codEmpleado)))
+        .subscribe((resp) => {
+          if (resp) {
+
+            this.displayModal = false;
+
+
+            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+
+          } else {
+            console.log(resp);
+            this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+          }
+        }, (err) => {
+          console.log("Error General");
+          console.log(err);
+        });
+    }else {
+      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+    }
+
+
 
   }
   /**
@@ -401,9 +407,9 @@ export class DatosEmpleadoComponent implements OnInit {
    * @param campo
    * @returns
    */
-  campoNoValido( campo: string ) {
-    return this.formEmpleado.get( campo )?.invalid
-            && this.formEmpleado.get( campo )?.touched;
+  campoNoValido(campo: string) {
+    return this.formEmpleado.get(campo)?.invalid
+      && this.formEmpleado.get(campo)?.touched;
   }
 
 
