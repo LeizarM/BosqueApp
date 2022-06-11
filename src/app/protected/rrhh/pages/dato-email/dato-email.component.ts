@@ -18,7 +18,7 @@ export class DatoEmailComponent  {
   displayModal    : boolean = false;
   //Inicializando el Formulario
   formEmail: FormGroup = this.fb.group({
-    lstFormEmail: this.fb.array([  ], Validators.required)
+    emailArr: this.fb.array([])
   });
 
   constructor( private rrhhService : RrhhService,
@@ -55,17 +55,18 @@ export class DatoEmailComponent  {
    */
   cargarEmails(){
     this.lstEmail =  [...this.emails];
-    console.log("1");
+    console.log(this.lstEmail);
+
     this.formEmail = this.fb.group({
-      lstFormEmail: this.fb.array( [ this.lstEmail ], Validators.required )
-    },);
+      emailArr: this.fb.array(   this.lstEmail   )
+    });
 
     this.displayModal = true;
 
   }
 
-  get lstFormEmail(){
-    return this.formEmail.get('lstFormEmail') as FormArray;
+ lstFormEmail(): FormArray{
+    return this.formEmail.get('emailArr') as FormArray;
 
   }
 
