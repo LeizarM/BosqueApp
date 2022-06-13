@@ -15,36 +15,17 @@
   <hr>
   <form autocomplete="off" [formGroup]="formEmail" (ngSubmit)="guardarEmails()">
     <button pButton class="p-button-help" (click)="agregarNuevoRegistro()"> Nuevo Registro </button>
-
+    <br>
     <div formArrayName="emailArr">
-
-      <div *ngFor=" let e of lstFormEmail().controls; let i = index">
-
-        {{i+1}}
-        {{lstFormEmail().controls[i].value.email }}
-        <input type="text" [formControlName]="i">
+      <div *ngFor="let em of lstFormEmail().controls;  let i = index" [formGroupName]="i">
+        <br>
+        <div class="grid">
+          <input class="col-8" pInputText formControlName="email" placeholder="Nuevo Email">
+          <button class="col-4">Remover</button>
+        </div>
 
       </div>
 
-      <!-- <p-table [value]="lstEmail">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Email</th>
-          <th>Accion</th>
-
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-e>
-        <tr>
-          <td>
-            <input pInputText type="email" [(ngModel)]="e.email">
-          </td>
-          <td>
-            <button pButton type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table> -->
     </div>
     <hr>
     <button pButton class="p-button-success" type="submit"> Guardar </button>

@@ -3,7 +3,7 @@ import { Email } from '../../../interfaces/Email';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
 import { LoginService } from '../../../../auth/services/login.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dato-email',
@@ -31,10 +31,6 @@ export class DatoEmailComponent  {
 
   }
 
-
-
-
-
   /**
    *  Procedimiento para obtener los correos de una persona
    * @param codPersona
@@ -51,23 +47,41 @@ export class DatoEmailComponent  {
   }
 
   /**
-   * Procedimiento para ve captura los datos de los emails
+   * Procedimiento para  capturar los datos de los emails en el form Array
    */
   cargarEmails(){
     this.lstEmail =  [...this.emails];
-    console.log(this.lstEmail);
 
     this.formEmail = this.fb.group({
-      emailArr: this.fb.array(   this.lstEmail   )
+      emailArr: this.fb.array(
+        this.lstEmail.map(e => this.preCargarFormulario( e ) )
+      )
     });
-
     this.displayModal = true;
 
   }
 
+/**
+ * Desplegara los datos del formulario
+ * @returns
+ */
  lstFormEmail(): FormArray{
     return this.formEmail.get('emailArr') as FormArray;
 
+ }
+
+  /**
+   * Llenar Formulario
+   * @param e
+   * @returns
+   */
+  preCargarFormulario(e : Email): FormGroup{
+    return new FormGroup({
+      codEmail: new FormControl( e.codEmail, [Validators.required] ),
+      codPersona: new FormControl(e.codPersona, [Validators.required]),
+      email: new FormControl(e.email, [Validators.required]),
+      audUsuario: new FormControl(e.audUsuario, [Validators.required]),
+    });
   }
 
   /**
