@@ -4,30 +4,31 @@ import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
 import { LoginService } from '../../../../auth/services/login.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dato-email',
   templateUrl: './dato-email.component.html',
   styleUrls: ['./dato-email.component.css']
 })
-export class DatoEmailComponent  {
+export class DatoEmailComponent {
 
   @Input() regEmp !: Empleado;
-  emails          : Email[] = [];
-  lstEmail        : Email[] = [];
-  displayModal    : boolean = false;
+  emails: Email[] = [];
+  lstEmail: Email[] = [];
+  displayModal: boolean = false;
   //Inicializando el Formulario
   formEmail: FormGroup = this.fb.group({
     emailArr: this.fb.array([])
   });
 
-  constructor( private rrhhService : RrhhService,
-               private fb: FormBuilder,
-               private login: LoginService) {
+  constructor(private rrhhService: RrhhService,
+    private fb: FormBuilder,
+    private login: LoginService) {
 
   }
   ngOnInit(): void {
-    this.obtenerEmails( this.regEmp.codPersona! );
+    this.obtenerEmails(this.regEmp.codPersona!);
 
   }
 
@@ -35,10 +36,10 @@ export class DatoEmailComponent  {
    *  Procedimiento para obtener los correos de una persona
    * @param codPersona
    */
-   obtenerEmails( codPersona: number ): void {
-    this.rrhhService.obtenerDatosEmail( codPersona ).subscribe((resp) => {
+  obtenerEmails(codPersona: number): void {
+    this.rrhhService.obtenerDatosEmail(codPersona).subscribe((resp) => {
       if (resp) {
-        this.emails = resp ;
+        this.emails = resp;
       }
     }, (err) => {
       this.emails = [];
@@ -49,35 +50,35 @@ export class DatoEmailComponent  {
   /**
    * Procedimiento para  capturar los datos de los emails en el form Array
    */
-  cargarEmails(){
-    this.lstEmail =  [...this.emails];
+  cargarEmails() {
+    this.lstEmail = [...this.emails];
 
     this.formEmail = this.fb.group({
       emailArr: this.fb.array(
-        this.lstEmail.map(e => this.preCargarFormulario( e ) )
+        this.lstEmail.map(e => this.preCargarFormulario(e))
       )
     });
     this.displayModal = true;
 
   }
 
-/**
- * Desplegara los datos del formulario
- * @returns
- */
- lstFormEmail(): FormArray{
+  /**
+   * Desplegara los datos del formulario
+   * @returns
+   */
+  lstFormEmail(): FormArray {
     return this.formEmail.get('emailArr') as FormArray;
 
- }
+  }
 
   /**
    * Llenar Formulario
    * @param e
    * @returns
    */
-  preCargarFormulario(e : Email): FormGroup{
+  preCargarFormulario(e: Email): FormGroup {
     return new FormGroup({
-      codEmail: new FormControl( e.codEmail, [Validators.required] ),
+      codEmail: new FormControl(e.codEmail, [Validators.required]),
       codPersona: new FormControl(e.codPersona, [Validators.required]),
       email: new FormControl(e.email, [Validators.required]),
       audUsuario: new FormControl(e.audUsuario, [Validators.required]),
@@ -87,20 +88,59 @@ export class DatoEmailComponent  {
   /**
    * Para agregar nuevo registro a la lista
    */
-  agregarNuevoRegistro():void{
-    const nuevoEmail : Email = {
-      codEmail    : 0,
-      codPersona  : this.regEmp.codPersona,
-      email       : '',
-      audUsuario  : this.login.codUsuario
-    }
-    this.lstEmail.push( nuevoEmail );
+  agregarNuevoRegistro(): void {
+    this.lstFormEmail().push( this.crearNuevoRegistro() );
   }
+  /**
+   * Crear nuevo registro
+   * @returns
+   */
+  crearNuevoRegistro(): FormGroup {
+    return this.fb.group({
+      codEmail: new FormControl(0),
+      codPersona: new FormControl(this.regEmp.codPersona!),
+      email: new FormControl('', [Validators.required]),
+      audUsuario: new FormControl(34)
+    });
+  }
+
+  eliminarRegistro( index: number, codEmail: number ): void {
+
+    if(codEmail === 0) {
+      this.lstFormEmail().removeAt(index);
+
+    }
+    //eliminar de la base de datos
+
+  }
+
 
   /**
    * Para guadar la lista de emails
    */
-   guardarEmails():void{
-     console.log(this.lstEmail);
-   }
+  guardarEmails(): void {
+
+
+    this.lstFormEmail().controls.map(e=>{
+      //console.log(e.value);
+      //let { codEmail, codPersona, email, audUsuario } = e.value;
+      this.rrhhService.registrarEmail(e.value).subscribe(
+        (resp) => {
+          if ( resp ) {
+            console.log("bien");
+            this.displayModal =  false;
+            this.obtenerEmails( e.value.codPersona );
+            //this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
+
+          } else {
+            console.log(resp);
+            //this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+          }
+        }, (err) => {
+          console.log("Error General");
+          console.log(err);
+        }
+      );
+    })
+  }
 }

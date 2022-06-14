@@ -13,22 +13,25 @@
 <!-- Dialog para editar o agregar mas Emails  -->
 <p-dialog header="ACTUALIZAR DATOS DE EMAIL" [(visible)]="displayModal" [modal]="true" [draggable]="true">
   <hr>
+  <button pButton class="p-button-help" (click)="agregarNuevoRegistro()"> Nuevo Registro </button>
   <form autocomplete="off" [formGroup]="formEmail" (ngSubmit)="guardarEmails()">
-    <button pButton class="p-button-help" (click)="agregarNuevoRegistro()"> Nuevo Registro </button>
+
     <br>
     <div formArrayName="emailArr">
       <div *ngFor="let em of lstFormEmail().controls;  let i = index" [formGroupName]="i">
         <br>
         <div class="grid">
-          <input class="col-8" pInputText formControlName="email" placeholder="Nuevo Email">
-          <button class="col-4">Remover</button>
+
+          <input class="col-7" pInputText formControlName="email" placeholder="Nuevo Email">
+          <button pButton class="col-4 mx-1 p-button-danger" type="button" label="Eliminar"
+            (click)="eliminarRegistro(i, lstFormEmail().controls[i].value.codEmail)" icon="pi pi-trash"></button>
         </div>
 
       </div>
 
     </div>
     <hr>
-    <button pButton class="p-button-success" type="submit"> Guardar </button>
+    <button pButton class="p-button-success" icon="pi pi-save" type="submit" label="Guardar" [disabled]="!formEmail.valid"></button>
   </form>
 
 

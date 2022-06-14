@@ -466,4 +466,20 @@ export class RrhhService {
 
   }
 
+  registrarEmail( e: Email ): Observable<Email>{
+    const url = `${this.baseUrl}/rrhh/registroEmail`;
+
+    return this.http.post<RelEmplEmpr>( url, e  )
+      .pipe(
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
+      );
+
+  }
+
 }
