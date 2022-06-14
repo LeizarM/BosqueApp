@@ -1,3 +1,10 @@
+
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<p-confirmPopup></p-confirmPopup>
+
 <p-panel header="EMAIL(S)">
   <ng-template pTemplate="icons">
     <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="cargarEmails()" label="Editar">
@@ -23,8 +30,9 @@
         <div class="grid">
 
           <input class="col-7" pInputText formControlName="email" placeholder="Nuevo Email">
+
           <button pButton class="col-4 mx-1 p-button-danger" type="button" label="Eliminar"
-            (click)="eliminarRegistro(i, lstFormEmail().controls[i].value.codEmail)" icon="pi pi-trash"></button>
+            (click)="eliminarRegistro($event, i, lstFormEmail().controls[i].value.codEmail)" icon="pi pi-trash"></button>
         </div>
 
       </div>
@@ -35,11 +43,11 @@
   </form>
 
 
-  <span>Valid</span>
+ <!--  <span>Valid</span>
   <pre>{{ formEmail.valid }}</pre>
   <br>
 
   <span>Value</span>
-  <pre>{{ formEmail.value | json}}</pre>
+  <pre>{{ formEmail.value | json}}</pre> -->
 
 </p-dialog>

@@ -465,9 +465,34 @@ export class RrhhService {
       );
 
   }
-
+  /**
+   * Procedimiento para registrar un Email por empleado
+   * @param e
+   * @returns
+   */
   registrarEmail( e: Email ): Observable<Email>{
     const url = `${this.baseUrl}/rrhh/registroEmail`;
+
+    return this.http.post<RelEmplEmpr>( url, e  )
+      .pipe(
+        tap( resp => {
+          if ( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of( err.error)  )
+      );
+
+  }
+
+  /**
+   * Procedimiento para eliminar un Email
+   * @param e
+   * @returns
+   */
+  eliminarEmail( e: Email ): Observable<Email>{
+    const url = `${this.baseUrl}/rrhh/eliminarEmail`;
 
     return this.http.post<RelEmplEmpr>( url, e  )
       .pipe(

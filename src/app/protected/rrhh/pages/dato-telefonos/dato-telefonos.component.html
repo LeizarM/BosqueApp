@@ -1,3 +1,10 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<p-confirmPopup></p-confirmPopup>
+
+
 <p-panel header="TELEFONOS">
   <ng-template pTemplate="icons">
     <button pButton icon="pi pi-cog" class="p-button-sm px-1" label="Editar">
@@ -5,7 +12,16 @@
   </ng-template>
  <ul *ngFor="let telf of telefonos">
     <li>
-      {{  telf.telefono }}
+      {{ telf.telefono }}
     </li>
   </ul>
 </p-panel>
+
+<!-- Dialog para editar la informacion de los telefonos -->
+<p-dialog header="ACTUALIZAR DATOS DE TELEFONOS" [(visible)]="displayModal" [modal]="true" [draggable]="true" >
+  <hr>
+  <button pButton class="p-button-help" (click)="agregarNuevoRegistro()"> Nuevo Registro</button>
+  <form autocomplete="off" [formGroup]="formTelefono" (ngSubmit)="guardarTelefono()">
+
+  </form>
+</p-dialog>
