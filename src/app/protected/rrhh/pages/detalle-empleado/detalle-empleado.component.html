@@ -23,7 +23,7 @@
   </div>
 
   <div class="col-12 md:col-4 lg:col-3">
-    <app-dato-telefonos [regEmp]="regEmp"></app-dato-telefonos>
+    <app-dato-telefonos *ngIf="regEmp" [regEmp]="regEmp"></app-dato-telefonos>
   </div>
 </div>
 <!-- FIN DATOS EMPLEADO-->

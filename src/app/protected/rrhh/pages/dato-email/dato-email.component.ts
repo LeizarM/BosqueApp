@@ -14,7 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./dato-email.component.css'],
   providers: [ConfirmationService, MessageService],
 })
-export class DatoEmailComponent {
+export class DatoEmailComponent implements OnInit{
 
   @Input() regEmp !: Empleado;
   emails: Email[] = [];
@@ -180,6 +180,6 @@ export class DatoEmailComponent {
           console.log(err);
         }
       );
-    })
+    });
   }
 }

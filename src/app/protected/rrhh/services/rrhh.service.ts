@@ -140,7 +140,7 @@ export class RrhhService {
   /**
    * Procedimiento para obtener lo telefonos por persona
    */
-  obtenerDatosTelefono ( codPersona : number ): Observable<Telefono[]>{
+  obtenerDatosTelefono(codPersona: number): Observable<Telefono[]> {
 
     const url = `${this.baseUrl}/rrhh/telfPersona`;
     const telf: Telefono = {
@@ -167,7 +167,7 @@ export class RrhhService {
    * @param codEmpleado
    * @returns
    */
-  obtenerExperienciaLaboral ( codEmpleado : number ): Observable<ExperienciaLaboral[]>{
+  obtenerExperienciaLaboral(codEmpleado: number): Observable<ExperienciaLaboral[]> {
 
     const url = `${this.baseUrl}/rrhh/expLabEmpleado`;
     const expLab: ExperienciaLaboral = {
@@ -193,7 +193,7 @@ export class RrhhService {
    * @param codEmpleado
    * @returns
    */
-  obtenerFormacion ( codEmpleado : number ): Observable<Formacion[]>{
+  obtenerFormacion(codEmpleado: number): Observable<Formacion[]> {
     const url = `${this.baseUrl}/rrhh/formacionEmpleado`;
     const form: Formacion = {
       codEmpleado: codEmpleado
@@ -219,10 +219,10 @@ export class RrhhService {
    * @param codPersona
    * @returns
    */
-  obtenerLicencia ( codPersona : number ): Observable<Licencia[]>{
+  obtenerLicencia(codPersona: number): Observable<Licencia[]> {
     const url = `${this.baseUrl}/rrhh/licenciaPersona`;
     const lic: Licencia = {
-      codPersona : codPersona
+      codPersona: codPersona
     };
 
     return this.http.post<Licencia[]>(url, lic)
@@ -247,7 +247,7 @@ export class RrhhService {
    * @param codPais
    * @returns
    */
-  obtenerCiudadesXPais( codPais: number ): Observable<Ciudad[]>{
+  obtenerCiudadesXPais(codPais: number): Observable<Ciudad[]> {
 
     const url = `${this.baseUrl}/rrhh/ciudadxPais`;
     const ciu: Ciudad = {
@@ -275,14 +275,14 @@ export class RrhhService {
    * @param codCiudad
    * @returns
    */
-  obtenerZonaxCiudad( codCiudad: number ): Observable<Zona[]>{
+  obtenerZonaxCiudad(codCiudad: number): Observable<Zona[]> {
 
     const url = `${this.baseUrl}/rrhh/zonas`;
     const zon: Ciudad = {
       codCiudad: codCiudad
     };
 
-    return this.http.post<Zona[]>(url, zon )
+    return this.http.post<Zona[]>(url, zon)
       .pipe(
         catchError(e => {
           if (e.status == 401) {
@@ -302,19 +302,19 @@ export class RrhhService {
    * @param persona
    * @returns
    */
-  registrarInfoPersona( persona : Persona ){
+  registrarInfoPersona(persona: Persona) {
 
     const url = `${this.baseUrl}/rrhh/registroPersona`;
 
-    return this.http.post<Persona>( url, persona  )
+    return this.http.post<Persona>(url, persona)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -324,14 +324,14 @@ export class RrhhService {
    * @param codEmpresa
    * @returns
    */
-  obtenerSucursalesXEmpresa( codEmpresa : number  ): Observable<Sucursal[]>{
+  obtenerSucursalesXEmpresa(codEmpresa: number): Observable<Sucursal[]> {
 
     const url = `${this.baseUrl}/rrhh/sucXEmpresa`;
     const suc: Sucursal = {
       codEmpresa: codEmpresa,
     };
 
-    return this.http.post<Zona[]>(url, suc )
+    return this.http.post<Zona[]>(url, suc)
       .pipe(
         catchError(e => {
           if (e.status == 401) {
@@ -351,14 +351,14 @@ export class RrhhService {
    * @param codSucursal
    * @returns
    */
-  obtenerCargoXSucursal( codSucursal : number ):Observable<CargoSucursal[]>{
+  obtenerCargoXSucursal(codSucursal: number): Observable<CargoSucursal[]> {
 
     const url = `${this.baseUrl}/rrhh/cargoXSuc`;
     const cs: CargoSucursal = {
       codSucursal: codSucursal,
     };
 
-    return this.http.post<Zona[]>(url, cs )
+    return this.http.post<Zona[]>(url, cs)
       .pipe(
         catchError(e => {
           if (e.status == 401) {
@@ -378,19 +378,19 @@ export class RrhhService {
    * @param empleado
    * @returns
    */
-   registrarInfoEmpleado( empleado : Empleado ):Observable<Empleado>{
+  registrarInfoEmpleado(empleado: Empleado): Observable<Empleado> {
 
     const url = `${this.baseUrl}/rrhh/registroEmpleado`;
 
-    return this.http.post<Empleado>( url, empleado  )
+    return this.http.post<Empleado>(url, empleado)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -401,19 +401,19 @@ export class RrhhService {
    * @param empleadoCargo
    * @returns
    */
-  registrarInfoEmpleadoCargo( empleadoCargo : EmpleadoCargo ):Observable<EmpleadoCargo>{
+  registrarInfoEmpleadoCargo(empleadoCargo: EmpleadoCargo): Observable<EmpleadoCargo> {
 
     const url = `${this.baseUrl}/rrhh/registroEmpleadoCargo`;
 
-    return this.http.post<Empleado>( url, empleadoCargo  )
+    return this.http.post<Empleado>(url, empleadoCargo)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -422,14 +422,14 @@ export class RrhhService {
    * @param codEmpleado
    * @returns
    */
-  obtenerFechasBeneficio ( codEmpleado : number ): Observable<RelEmplEmpr[]>{
+  obtenerFechasBeneficio(codEmpleado: number): Observable<RelEmplEmpr[]> {
 
     const url = `${this.baseUrl}/rrhh/fechasBeneficio`;
     const ree: RelEmplEmpr = {
       codEmpleado: codEmpleado
     };
 
-    return this.http.post<RelEmplEmpr[]>( url, ree )
+    return this.http.post<RelEmplEmpr[]>(url, ree)
       .pipe(
         catchError(e => {
           if (e.status == 401) {
@@ -449,19 +449,19 @@ export class RrhhService {
    * @param ree
    * @returns
    */
-   registrarRelacionEmpleadoEmpresa( ree : RelEmplEmpr ):Observable<RelEmplEmpr>{
+  registrarRelacionEmpleadoEmpresa(ree: RelEmplEmpr): Observable<RelEmplEmpr> {
 
     const url = `${this.baseUrl}/rrhh/registroRelEmp`;
 
-    return this.http.post<RelEmplEmpr>( url, ree  )
+    return this.http.post<RelEmplEmpr>(url, ree)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -470,18 +470,18 @@ export class RrhhService {
    * @param e
    * @returns
    */
-  registrarEmail( e: Email ): Observable<Email>{
+  registrarEmail(e: Email): Observable<Email> {
     const url = `${this.baseUrl}/rrhh/registroEmail`;
 
-    return this.http.post<RelEmplEmpr>( url, e  )
+    return this.http.post<Email>(url, e)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -491,18 +491,60 @@ export class RrhhService {
    * @param e
    * @returns
    */
-  eliminarEmail( e: Email ): Observable<Email>{
+  eliminarEmail(e: Email): Observable<Email> {
     const url = `${this.baseUrl}/rrhh/eliminarEmail`;
 
-    return this.http.post<RelEmplEmpr>( url, e  )
+    return this.http.post<Email>(url, e)
       .pipe(
-        tap( resp => {
-          if ( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of( err.error)  )
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+
+  }
+
+  /**
+  * Procedimiento para registrar un Telefono por empleado
+  * @param t
+  * @returns
+  */
+  registrarTelefono(t: Telefono): Observable<Telefono> {
+    const url = `${this.baseUrl}/rrhh/registroTelefono`;
+
+    return this.http.post<Telefono>(url, t)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+
+  }
+
+  /**
+   * Procedimiento para eliminar un Telefono
+   * @param t
+   * @returns
+   */
+   eliminarTelefono(e: Telefono): Observable<Telefono> {
+    const url = `${this.baseUrl}/rrhh/eliminarTelefono`;
+
+    return this.http.post<Telefono>(url, e)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
