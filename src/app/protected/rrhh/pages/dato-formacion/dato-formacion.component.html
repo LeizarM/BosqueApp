@@ -1,6 +1,11 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
 <p-panel header="DATOS FORMACION">
   <ng-template pTemplate="icons">
-    <button pButton icon="pi pi-cog" label="Editar">
+    <button pButton icon="pi pi-plus" class="p-button-success" label="Nuevo Registro">
     </button>
   </ng-template>
   <p-table [value]="formacion" responsiveLayout="scroll">
@@ -16,13 +21,23 @@
     </ng-template>
     <ng-template pTemplate="body" let-form>
       <tr>
-        <td>{{ form.tipoFormacion | formacion  }}</td>
+        <td>{{ form.tipoFormacion | formacion }}</td>
         <td>{{ form.descripcion }}</td>
         <td>{{ form.duracion }}</td>
         <td>{{ form.tipoDuracion }}</td>
         <td>{{ form.fechaFormacion | date: 'dd/MM/yyyy' }}</td>
-
+        <td>
+          <button pButton type="button" label="Editar" (click)="capturarRegistro( form )" icon="pi pi-pencil"
+            class="p-button-warning"></button>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 </p-panel>
+<!--  DESPLEGAR EL MODAL PARA EDITAR LA INFORMACIÓN -->
+<p-dialog header="REGISTRO DE FORMACION" [(visible)]="displayModal" [modal]="true" [draggable]="true" [resizable]="true"
+  [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '60vw'}">
+  <form autocomplete="off">
+    <br>
+  </form>
+</p-dialog>

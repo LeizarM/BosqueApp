@@ -1,3 +1,9 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+<!-- <p-confirmPopup></p-confirmPopup> -->
+
 <p-panel header="DATOS EXPERIENCIA LABORAL">
   <ng-template pTemplate="icons">
     <button pButton icon="pi pi-plus" class="p-button-success" label="Nuevo Registro"></button>
@@ -31,9 +37,9 @@
   </p-table>
 </p-panel>
 
-<!-- PROCEDIMIENTO PARA DESPLEGAR EL MODAL PARA EDITAR LA INFORMACIÓN -->
+<!--  DESPLEGAR EL MODAL PARA EDITAR LA INFORMACIÓN -->
 <p-dialog header="REGISTRO DE EXPERIENCIA LABORAL" [(visible)]="displayModal" [modal]="true" [draggable]="true"
-  [resizable]="true" [style]="{width: '50vw'}">
+  [resizable]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '60vw'}">
   <form autocomplete="off" [formGroup]="formExpLab" (ngSubmit)="guardarExpLab()">
     <br>
     <div class="grid">
@@ -72,7 +78,9 @@
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
       </div>
     </div>
-    <button pButton class="p-button-success" icon="pi pi-save" label="Guardar" type="submit" ></button>
+    <div class="justify-content-center">
+      <button pButton class="p-button-success align-items-center justify-content-center" icon="pi pi-save" label="Guardar" type="submit" ></button>
+    </div>
   </form>
 
 </p-dialog>

@@ -549,4 +549,25 @@ export class RrhhService {
 
   }
 
+   /**
+   * Procedimiento para registrar la experiencia laboral de un empleado
+   * @param expl
+   * @returns
+   */
+    registrarExperienciaLaboral( expl: ExperienciaLaboral ): Observable<ExperienciaLaboral> {
+      const url = `${this.baseUrl}/rrhh/registrarExpLaboral`;
+
+      return this.http.post<ExperienciaLaboral>(url, expl)
+        .pipe(
+          tap(resp => {
+            if (!resp) {
+              console.log(resp);
+            }
+          }),
+          map(resp => resp),
+          catchError(err => of(err.error))
+        );
+
+    }
+
 }
