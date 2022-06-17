@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Licencia } from '../../../interfaces/Licencia';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
@@ -6,13 +7,16 @@ import { Empleado } from '../../../interfaces/Empleado';
 @Component({
   selector: 'app-dato-licencia-conducir',
   templateUrl: './dato-licencia-conducir.component.html',
-  styleUrls: ['./dato-licencia-conducir.component.css']
+  styleUrls: ['./dato-licencia-conducir.component.css'],
+  providers: [ MessageService ]
 })
 export class DatoLicenciaConducirComponent implements OnInit {
 
   @Input() regEmp !: Empleado;
 
   licencia : Licencia[] = [];
+
+  displayModal : boolean = false;
 
   constructor( private rrhhService : RrhhService ) { }
 

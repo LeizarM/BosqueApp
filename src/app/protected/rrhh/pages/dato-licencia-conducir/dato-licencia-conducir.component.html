@@ -1,3 +1,8 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
 <p-panel header="LICENCIAS DE CONDUCIR">
   <ng-template pTemplate="icons">
     <button pButton icon="pi pi-cog" label="Editar">
@@ -15,9 +20,21 @@
       <tr>
         <td>{{lic.categoria}}</td>
         <td>{{lic.fechaCaducidad | date: 'dd/MM/yyyy' }}</td>
-
+        <td>
+         <button pButton label="Editar" icon="pi pi-pencil" class="p-button-warning"></button>
+        </td>
       </tr>
     </ng-template>
 
   </p-table>
 </p-panel>
+
+<!-- Para desplegar el dialog para editar la informacion de la licencia -->
+<p-dialog header=" REGISTRO DE LICENCIA DE CONDUCIR" [(visible)]="displayModal" [modal]="true" [draggable]="true" [resizable]="true"
+          [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '60vw'}">
+  <form>
+    <br>
+
+  </form>
+
+</p-dialog>

@@ -66,20 +66,25 @@ export class DatoExperienciaLaboralComponent implements OnInit {
    */
   capturarRegistro(expLab: ExperienciaLaboral): void {
 
-    expLab.fechaInicio = new Date(expLab.fechaInicio!);
-    expLab.fechaFin = new Date(expLab.fechaFin!);
+    let temp = {...expLab };
+
+    temp.fechaInicio = new Date(temp.fechaInicio!);
+    temp.fechaFin = new Date(temp.fechaFin!);
+
+    temp.fechaInicio.setDate( temp.fechaInicio.getDate() + 1 );
+    temp.fechaFin.setDate( temp.fechaFin.getDate() + 1 );
 
     this.formExpLab = this.fb.group({
 
-      codExperienciaLaboral : [expLab.codExperienciaLaboral],
-      codEmpleado           : [expLab.codEmpleado],
-      nombreEmpresa         : [expLab.nombreEmpresa, [Validators.required]],
-      cargo                 : [expLab.cargo, [Validators.required]],
-      descripcion           : [expLab.descripcion, [Validators.required]],
-      fechaInicio           : [expLab.fechaInicio, [Validators.required]],
-      fechaFin              : [expLab.fechaFin, [Validators.required]],
-      nroReferencia         : [expLab.nroReferencia,],
-      audUsuario            : [expLab.audUsuario]
+      codExperienciaLaboral : [temp.codExperienciaLaboral],
+      codEmpleado           : [temp.codEmpleado],
+      nombreEmpresa         : [temp.nombreEmpresa, [Validators.required]],
+      cargo                 : [temp.cargo, [Validators.required]],
+      descripcion           : [temp.descripcion, [Validators.required]],
+      fechaInicio           : [temp.fechaInicio, [Validators.required]],
+      fechaFin              : [temp.fechaFin, [Validators.required]],
+      nroReferencia         : [temp.nroReferencia,],
+      audUsuario            : [temp.audUsuario]
 
     });
     this.displayModal = true; //
@@ -106,8 +111,6 @@ export class DatoExperienciaLaboralComponent implements OnInit {
       console.log("Error General");
       console.log(err);
     });
-    console.log(temp.codEmpleado);
-
 
   }
 

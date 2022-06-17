@@ -33,7 +33,6 @@ export class DatoTelefonosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(" el regEmp  ", this.regEmp);
     this.obtenerTelefonos(this.regEmp.codPersona!);
   }
 

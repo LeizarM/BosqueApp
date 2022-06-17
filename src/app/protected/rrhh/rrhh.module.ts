@@ -23,6 +23,7 @@ import { FormacionPipe } from './pipes/formacion.pipe';
 import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
 import { PaisPipe } from './pipes/pais.pipe';
+import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
 
 
 
@@ -48,6 +49,7 @@ import { PaisPipe } from './pipes/pais.pipe';
     FormacionPipe,
     CiExpedidoPipe,
     PaisPipe,
+    TipoDuracionPipe,
   ],
   imports: [
     CommonModule,

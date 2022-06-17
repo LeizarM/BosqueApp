@@ -570,4 +570,46 @@ export class RrhhService {
 
     }
 
+  /**
+   * Procedimiento para registrar la formacion de un empleado
+   * @param fr
+   * @returns
+   */
+     registrarFormacion( fr: Formacion ): Observable<Formacion> {
+      const url = `${this.baseUrl}/rrhh/registrarFormacion`;
+
+      return this.http.post<Formacion>(url, fr)
+        .pipe(
+          tap(resp => {
+            if (!resp) {
+              console.log(resp);
+            }
+          }),
+          map(resp => resp),
+          catchError(err => of(err.error))
+        );
+
+    }
+
+    /**
+   * Procedimiento para actualizar la licencia de conducir de un empleado
+   * @param lc
+   * @returns
+   */
+     registrarLicencia( lc : Licencia ): Observable<Licencia> {
+      const url = `${this.baseUrl}/rrhh/registrarLicencia`;
+
+      return this.http.post<Licencia>(url, lc)
+        .pipe(
+          tap(resp => {
+            if (!resp) {
+              console.log(resp);
+            }
+          }),
+          map(resp => resp),
+          catchError(err => of(err.error))
+        );
+
+    }
+
 }

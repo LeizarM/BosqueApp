@@ -253,8 +253,7 @@ export function lstEstadoCivil():Tipos[]{
 }
 
 /**
- * Devolvera una lista del nivel de licencia de conducir o conduccion
- */
+ * Devolvera una lista del tipo de formacion */
  export function lstTipoFormacion():Tipos[]{
   const lstTemp: Tipos[] = [];
 
@@ -356,3 +355,41 @@ export function lstEstadoCivil():Tipos[]{
     return lstTemp;
 
    }
+
+   /**
+    * Devolvera una lista del tipo de medicion
+    * @returns lstTemp Tipos
+    */
+   export function lstTipoMedicion():Tipos[]{
+    const lstTemp: Tipos[] = [];
+
+    lstTemp.push(
+      {
+        codTipos: 'hrs',
+        nombre: 'Horas',
+        codGrupo: 7,
+      },
+      {
+        codTipos: 'dia',
+        nombre: 'Dia(s)',
+        codGrupo: 7,
+      },
+      {
+        codTipos: 'mes',
+        nombre: 'Mes(es)',
+        codGrupo: 7,
+      },
+      {
+        codTipos: 'sem',
+        nombre: 'Semana(s)',
+        codGrupo: 7,
+      },
+      {
+        codTipos: 'ani',
+        nombre: 'Año(s)',
+        codGrupo: 7,
+      },
+    );
+
+    return lstTemp;
+}

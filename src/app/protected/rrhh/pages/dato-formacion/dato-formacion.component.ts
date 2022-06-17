@@ -4,6 +4,8 @@ import { RrhhService } from '../../services/rrhh.service';
 import { Empleado } from '../../../interfaces/Empleado';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Tipos } from 'src/app/protected/interfaces/Tipos';
+import { lstTipoMedicion, lstTipoFormacion } from '../../../interfaces/Tipos';
 
 @Component({
   selector: 'app-dato-formacion',
@@ -15,7 +17,9 @@ export class DatoFormacionComponent implements OnInit {
 
   @Input() regEmp !: Empleado;
 
-  formacion     : Formacion[] = []
+  lstFormacion  : Tipos[] = [];
+  lstMedicion   : Tipos[] = [];
+  formacion     : Formacion[] = [];
   displayModal  : boolean = false;
 
   formFormacion : FormGroup = new FormGroup({});
@@ -29,11 +33,13 @@ export class DatoFormacionComponent implements OnInit {
       codEmpleado     : [ 0 ],
       descripcion     : [ '' ],
       duracion        : [ 0 ],
-      tipoDuracion    : [ '' ],
+      tipoDuracion    : [ 0 ],
       tipoFormacion   : [ '' ],
       fechaFormacion  : [ 0 ],
-      audUsuario      : [  0 ]
+      audUsuario      : [ 0 ]
     });
+    this.lstFormacion = lstTipoFormacion();
+    this.lstMedicion  = lstTipoMedicion();
   }
 
   ngOnInit(): void {
@@ -61,23 +67,49 @@ export class DatoFormacionComponent implements OnInit {
    * @param form
    */
   capturarRegistro( form : Formacion ): void {
+    console.log("la fecha es ",form.fechaFormacion);
+    let temp : Formacion = {...form };
 
-    form.fechaFormacion = new Date( form.fechaFormacion! );
+    temp.fechaFormacion = new Date( temp.fechaFormacion! );
+    temp.fechaFormacion.setDate(temp.fechaFormacion.getDate() + 1);
+
+
 
     this.formFormacion = this.fb.group({
-      codFormacion    : [ form.codFormacion ],
-      codEmpleado     : [ form.codEmpleado ],
-      descripcion     : [ form.descripcion, [ Validators.required ] ],
-      duracion        : [ form.duracion, [ Validators.required ] ],
-      tipoDuracion    : [ form.tipoDuracion, [ Validators.required ] ],
-      tipoFormacion   : [ form.tipoFormacion, [ Validators.required ] ],
-      fechaFormacion  : [ form.fechaFormacion, [ Validators.required ] ],
-      audUsuario      : [ form.audUsuario ]
+      codFormacion    : [ temp.codFormacion, [ Validators.min(1) ] ],
+      codEmpleado     : [ temp.codEmpleado ],
+      descripcion     : [ temp.descripcion, [ Validators.required ] ],
+      duracion        : [ temp.duracion, [ Validators.required ] ],
+      tipoDuracion    : [ temp.tipoDuracion, [ Validators.required ] ],
+      tipoFormacion   : [ temp.tipoFormacion, [ Validators.required ] ],
+      fechaFormacion  : [ temp.fechaFormacion, [ Validators.required ] ],
+      audUsuario      : [ temp.audUsuario ]
     });
 
     this.displayModal = true;
 
+  }
 
+  /**
+   * Para guardar la información de la formacion
+   */
+  guardar():void{
+    let temp: Formacion = {};
+    temp = this.formFormacion.value;
+
+    this.rrhhService.registrarFormacion(temp).subscribe((resp) => {
+      if (resp) {
+        this.displayModal = false;
+        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+        this.obtenerFormacion( temp.codEmpleado! );
+      } else {
+        console.log(resp);
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+      }
+    }, (err) => {
+      console.log("Error General");
+      console.log(err);
+    });
   }
 
 }
