@@ -87,7 +87,7 @@ export class DatoExperienciaLaboralComponent implements OnInit {
       audUsuario            : [temp.audUsuario]
 
     });
-    this.displayModal = true; //
+    this.displayModal = true;
   }
 
   /**

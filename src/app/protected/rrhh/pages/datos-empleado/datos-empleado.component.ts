@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Empleado } from '../../../interfaces/Empleado';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
@@ -94,7 +94,7 @@ export class DatosEmpleadoComponent implements OnInit {
       codEmpresa               : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresa],
       codSucursal              : [ this.registroEmpleado.empleadoCargo?.codCargoSucursal],
       codCargo                 : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codCargo],
-      apartirDe                : [ {value: this.registroEmpleado.empleadoCargo?.fechaInicio, disabled:true }], // necessary for update
+      apartirDe                : [ this.registroEmpleado.empleadoCargo?.fechaInicio ], // necessary for update
 
       codEmpresaP              : [ this.registroEmpleado.empleadoCargo?.cargoSucursal?.cargo?.codEmpresaPlanilla],
       codSucursalP             : [ this.registroEmpleado.empleadoCargo?.codCargoSucPlanilla ],

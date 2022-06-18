@@ -67,7 +67,6 @@ export class DatoFormacionComponent implements OnInit {
    * @param form
    */
   capturarRegistro( form : Formacion ): void {
-    console.log("la fecha es ",form.fechaFormacion);
     let temp : Formacion = {...form };
 
     temp.fechaFormacion = new Date( temp.fechaFormacion! );

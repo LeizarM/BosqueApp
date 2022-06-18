@@ -393,3 +393,51 @@ export function lstEstadoCivil():Tipos[]{
 
     return lstTemp;
 }
+
+/**
+ * Devolvera una lista para determinar el tipo de licencia de conducir
+ * @returns
+ */
+export function lstTipoLicencia():Tipos[]{
+  const lstTemp: Tipos[] = [];
+
+  lstTemp.push(
+    {
+      codTipos: 'M',
+      nombre: 'M - Motociclista;  Motocicletas, triciclos y cuadriciclos (cuadra tracks)',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'P',
+      nombre: 'P - Particular ;  Automóviles, camionetas, jeeps y vagonetas de uso particular, hasta 7 ocupantes',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'A',
+      nombre: 'A - Profesional ; Incluye Cat. P. Vehiculos de carga con capacidad de hasta de 2 1/2 toneladas. ',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'B',
+      nombre: 'B - Profesional ; Incluye Cat. Prof. A. Vehículos de carga con capacidad de hasta 6 toneladas. Hasta 22 pasajeros',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'C',
+      nombre: 'C - Profesional ; Incluye Cat. Prof. B. Vehiculos de carga superior a 6 toneladas, con y sin acople, volquetas y cisternas. Sup. a 22 pasajeros',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'CI',
+      nombre: 'C Indefinido - Profesional ; Incluye Cat. P, Profesionales A, B y C.',
+      codGrupo: 17,
+    },
+    {
+      codTipos: 'T',
+      nombre: 'T - Motorista ; Maquinaria motorizada pesada, como montacargas, tractores, moto-niveladoras, retro-excavadoras, grúas y otras similares',
+      codGrupo: 17,
+    }
+  );
+
+  return lstTemp;
+}
