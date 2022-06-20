@@ -1,4 +1,4 @@
-import { Component,  Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
@@ -9,14 +9,14 @@ import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
 import { PaisService } from '../../../pais/services/pais.service';
-
+import maplibregl from 'maplibre-gl';
 
 
 @Component({
   selector: 'app-datos-personales',
   templateUrl: './datos-personales.component.html',
   styleUrls: ['./datos-personales.component.css'],
-  providers: [ MessageService ]
+  providers: [MessageService]
 
 })
 export class DatosPersonalesComponent implements OnInit {
@@ -30,21 +30,21 @@ export class DatosPersonalesComponent implements OnInit {
 
   registroPersona: Persona = {};
 
-  lstGenero     : Tipos[] = [];
-  lstPais       : Pais[] = [];
-  lstCiudad     : Ciudad[] = [];
-  lstZona       : Zona[] = [];
+  lstGenero: Tipos[] = [];
+  lstPais: Pais[] = [];
+  lstCiudad: Ciudad[] = [];
+  lstZona: Zona[] = [];
   lstEstadoCivil: Tipos[] = [];
-  lstCiExpedido : Tipos[] = [];
+  lstCiExpedido: Tipos[] = [];
 
   formDatosPersonales: FormGroup = new FormGroup({});
 
 
 
   constructor(
-    private fb            : FormBuilder,
-    private rrhhService   : RrhhService,
-    private paisService   : PaisService,
+    private fb: FormBuilder,
+    private rrhhService: RrhhService,
+    private paisService: PaisService,
     private messageService: MessageService
   ) {
     this.lstGenero = lstSexo();
@@ -57,12 +57,12 @@ export class DatosPersonalesComponent implements OnInit {
 
     //recibiendo datos del componente padre
     this.registroPersona = { ...this.regPer }
-    this.obtenerDatosPersonales( this.regEmp.codPersona! );
+    this.obtenerDatosPersonales(this.regEmp.codPersona!);
 
     this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento?.toString()!);
-    this.registroPersona.ciFechaVencimiento!.setDate( this.registroPersona.ciFechaVencimiento!.getDate() + 1 );
+    this.registroPersona.ciFechaVencimiento!.setDate(this.registroPersona.ciFechaVencimiento!.getDate() + 1);
     this.registroPersona.fechaNacimiento = new Date(this.registroPersona.fechaNacimiento?.toString()!);
-    this.registroPersona.fechaNacimiento!.setDate( this.registroPersona.fechaNacimiento!.getDate() + 1 );
+    this.registroPersona.fechaNacimiento!.setDate(this.registroPersona.fechaNacimiento!.getDate() + 1);
 
 
 
@@ -72,31 +72,38 @@ export class DatosPersonalesComponent implements OnInit {
 
     this.formDatosPersonales = this.fb.group({
 
-      codPersona        : [ this.registroPersona.codPersona ],
-      nombres           : [ this.registroPersona.nombres ],
-      apPaterno         : [ this.registroPersona.apPaterno ],
-      apMaterno         : [ this.registroPersona.apMaterno ],
-      sexo              : [ this.registroPersona.sexo ],
-      nacionalidad      : [ this.registroPersona.nacionalidad ],
-      lugarNacimiento   : [ this.registroPersona.lugarNacimiento ],
-      ciNumero          : [ this.registroPersona.ciNumero ],
-      ciExpedido        : [ this.registroPersona.ciExpedido ],
-      codPais           : [ this.registroPersona.ciudad?.codPais ],
-      codCiudad         : [ this.registroPersona.ciudad?.codCiudad ],
-      codZona           : [ this.registroPersona.codZona ],
-      ciFechaVencimiento: [ this.registroPersona.ciFechaVencimiento ],
-      fechaNacimiento   : [ this.registroPersona.fechaNacimiento ],
-      direccion         : [ this.registroPersona.direccion ],
-      estadoCivil       : [ this.registroPersona.estadoCivil ],
+      codPersona          : [this.registroPersona.codPersona],
+      nombres             : [this.registroPersona.nombres],
+      apPaterno           : [this.registroPersona.apPaterno],
+      apMaterno           : [this.registroPersona.apMaterno],
+      sexo                : [this.registroPersona.sexo],
+      nacionalidad        : [this.registroPersona.nacionalidad],
+      lugarNacimiento     : [this.registroPersona.lugarNacimiento],
+      ciNumero            : [this.registroPersona.ciNumero],
+      ciExpedido          : [this.registroPersona.ciExpedido],
+      codPais             : [this.registroPersona.ciudad?.codPais],
+      codCiudad           : [this.registroPersona.ciudad?.codCiudad],
+      codZona             : [this.registroPersona.codZona],
+      ciFechaVencimiento  : [this.registroPersona.ciFechaVencimiento],
+      fechaNacimiento     : [this.registroPersona.fechaNacimiento],
+      direccion           : [this.registroPersona.direccion],
+      estadoCivil         : [this.registroPersona.estadoCivil],
 
     });
+
+    var map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: [-68.13539986925227, -16.51605372184381],
+      zoom: 18
+      });
   }
 
   /**
    * Procedimiento para obtener los datos personales del empleado
    * @param codPersona
    */
-   obtenerDatosPersonales(codPersona: number) {
+  obtenerDatosPersonales(codPersona: number) {
     this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.regPer = resp;
@@ -192,7 +199,7 @@ export class DatosPersonalesComponent implements OnInit {
   /**
    * Procedimiento para guardar la informacion del formulario
    */
-  guardar():void {
+  guardar(): void {
     //console.log( this.formDatosPersonales.value );
     /* const  { codPersona
             ,nombres
@@ -217,13 +224,13 @@ export class DatosPersonalesComponent implements OnInit {
 
       if (resp?.ok === 'ok' && resp) {
         console.log("bien");
-        this.displayModal =  false;
-        this.obtenerDatosPersonales( persona.codPersona! );
-        this.messageService.add({key: 'bc', severity:'success', summary: 'Accion Realizada', detail: 'Registro Actualizado'});
+        this.displayModal = false;
+        this.obtenerDatosPersonales(persona.codPersona!);
+        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
 
       } else {
         console.log(resp);
-        this.messageService.add({key: 'bc', severity:'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
       }
     }, (err) => {
       console.log("Error General");
