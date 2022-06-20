@@ -114,4 +114,13 @@ export class DatoExperienciaLaboralComponent implements OnInit {
 
   }
 
+  /**
+   * Prepara el formulario para un nuevo registro
+   */
+  nuevoRegistro():void{
+    this.formExpLab.reset();
+    this.formExpLab.controls['codEmpleado'].setValue( this.regEmp.codEmpleado );
+    this.displayModal = true;
+  }
+
 }

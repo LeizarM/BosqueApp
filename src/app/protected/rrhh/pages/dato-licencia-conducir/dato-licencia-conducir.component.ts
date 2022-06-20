@@ -108,7 +108,14 @@ export class DatoLicenciaConducirComponent implements OnInit {
 
     });
 
-
   }
 
+  /**
+   * Prepara el registro para un nuevo registro
+   */
+  nuevoRegistro(): void {
+    this.formLic.reset();
+    this.formLic.controls['codPersona'].setValue( this.regEmp.codPersona );
+    this.displayModal =  true;
+  }
 }

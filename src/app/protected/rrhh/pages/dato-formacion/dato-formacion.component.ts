@@ -110,5 +110,13 @@ export class DatoFormacionComponent implements OnInit {
       console.log(err);
     });
   }
+  /**
+   * Prepara el formulario para un nuevo registro
+   */
+  nuevoRegistro():void{
+    this.formFormacion.reset();
+    this.formFormacion.controls['codEmpleado'].setValue( this.regEmp.codEmpleado );
+    this.displayModal = true;
+  }
 
 }
