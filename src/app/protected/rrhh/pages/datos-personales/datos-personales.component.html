@@ -69,12 +69,17 @@
         </div>
       </div>
 
-      <div class=" align-items-center justify-content-center  green-container col-12 md:col-12">
+      <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+        <label> CROQUIS </label>
+        <br>
+        <button pButton label="+" (click)="zoomIn()">
+        </button>
+
+        <button pButton label="-" (click)="zoomOut()">
+        </button>
         <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-          <div id="map" class="col-12" style="height: 250px;">
-            <button>
-              +
-            </button>
+          <div #mapR class="col-12" style="height: 250px;">
+
           </div>
         </div>
 

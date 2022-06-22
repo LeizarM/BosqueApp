@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
@@ -9,7 +9,7 @@ import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
 import { PaisService } from '../../../pais/services/pais.service';
-import maplibregl from 'maplibre-gl';
+import maplibregl, { MapLibreZoomEvent } from 'maplibre-gl';
 
 
 @Component({
@@ -19,23 +19,25 @@ import maplibregl from 'maplibre-gl';
   providers: [MessageService]
 
 })
-export class DatosPersonalesComponent implements OnInit {
+export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() regPer !: Persona;
   @Input() regEmp !: Empleado;
 
+  @ViewChild('mapR') mapR !: ElementRef;
+  mapa            !: maplibregl.Map;
+  center: [number, number ] = [ -68.13539986925227, -16.51605372184381 ];
 
+  displayModal    : boolean = false;
 
-  displayModal: boolean = false;
+  registroPersona : Persona = {};
 
-  registroPersona: Persona = {};
-
-  lstGenero: Tipos[] = [];
-  lstPais: Pais[] = [];
-  lstCiudad: Ciudad[] = [];
-  lstZona: Zona[] = [];
-  lstEstadoCivil: Tipos[] = [];
-  lstCiExpedido: Tipos[] = [];
+  lstGenero       : Tipos[] = [];
+  lstPais         : Pais[] = [];
+  lstCiudad       : Ciudad[] = [];
+  lstZona         : Zona[] = [];
+  lstEstadoCivil  : Tipos[] = [];
+  lstCiExpedido   : Tipos[] = [];
 
   formDatosPersonales: FormGroup = new FormGroup({});
 
@@ -51,6 +53,26 @@ export class DatosPersonalesComponent implements OnInit {
     this.obtenerPaises();
     this.lstEstadoCivil = lstEstadoCivil();
     this.lstCiExpedido = lstDocumentoExpedido();
+  }
+
+  ngOnDestroy(): void {
+    this.mapa.off('move', () => {});
+  }
+
+  ngAfterViewInit(): void {
+   this.mapa = new maplibregl.Map({
+      container: this.mapR.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: this.center,
+      zoom: 18,
+    });
+
+    this.mapa.on('move', (event) => {
+      const { lng, lat } =   event.target.getCenter();
+      this.center = [lng, lat];
+    });
+
+    new maplibregl.Marker().setLngLat(this.center).addTo(this.mapa);
   }
 
   ngOnInit(): void {
@@ -91,12 +113,7 @@ export class DatosPersonalesComponent implements OnInit {
 
     });
 
-    var map = new maplibregl.Map({
-      container: 'map',
-      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-      center: [-68.13539986925227, -16.51605372184381],
-      zoom: 18
-      });
+
   }
 
   /**
@@ -200,23 +217,6 @@ export class DatosPersonalesComponent implements OnInit {
    * Procedimiento para guardar la informacion del formulario
    */
   guardar(): void {
-    //console.log( this.formDatosPersonales.value );
-    /* const  { codPersona
-            ,nombres
-            ,apPaterno
-            ,apMaterno
-            ,sexo
-            ,nacionalidad
-            ,lugarNacimiento
-            ,ciNumero
-            ,ciExpedido
-            ,codPais
-            ,codCiudad
-            ,codZona
-            ,ciFechaVencimiento
-            ,fechaNacimiento
-            ,direccion
-            ,estadoCivil } = this.formDatosPersonales.value; */
 
     const persona: Persona = this.formDatosPersonales.value;
 
@@ -237,5 +237,15 @@ export class DatosPersonalesComponent implements OnInit {
       console.log(err);
     });
 
+  }
+
+
+  zoomIn() : void{
+    this.mapa.zoomIn();
+
+  }
+
+  zoomOut() : void{
+    this.mapa.zoomOut();
   }
 }
