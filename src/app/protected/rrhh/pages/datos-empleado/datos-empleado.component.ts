@@ -12,7 +12,6 @@ import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
 import { finalize } from 'rxjs/internal/operators/finalize';
-import { getTestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-datos-empleado',

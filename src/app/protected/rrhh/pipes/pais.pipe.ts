@@ -3,7 +3,9 @@ import { PaisService } from '../../pais/services/pais.service';
 import { Pais } from '../../interfaces/Pais';
 
 @Pipe({
-  name: 'pais'
+  name: 'pais',
+  pure: false
+
 })
 export class PaisPipe implements PipeTransform {
 
@@ -15,7 +17,7 @@ export class PaisPipe implements PipeTransform {
 
   transform(valor: number = 1): string {
     if(!valor) return "-No se encontro valor-";
-    if( this.lstPaises.length == 0 ) return "-No existen paises registrados-";
+    if( this.lstPaises.length === 0 ) return "-No existen paises registrados-";
     return  this.lstPaises.filter(pais => pais.codPais === valor)[0].pais!;
   }
 

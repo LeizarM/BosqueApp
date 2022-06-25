@@ -9,7 +9,7 @@ import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
 import { PaisService } from '../../../pais/services/pais.service';
-import maplibregl, { MapLibreZoomEvent } from 'maplibre-gl';
+import maplibregl from 'maplibre-gl';
 
 
 @Component({
@@ -25,7 +25,11 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
   @Input() regEmp !: Empleado;
 
   @ViewChild('mapR') mapR !: ElementRef;
+  @ViewChild('mapE') mapE !: ElementRef;
+
   mapa            !: maplibregl.Map;
+  mapaEdit        !: maplibregl.Map;
+
   center: [number, number ] = [ -68.13539986925227, -16.51605372184381 ];
 
   displayModal    : boolean = false;
@@ -41,8 +45,6 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
   formDatosPersonales: FormGroup = new FormGroup({});
 
-
-
   constructor(
     private fb: FormBuilder,
     private rrhhService: RrhhService,
@@ -57,40 +59,31 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnDestroy(): void {
     this.mapa.off('move', () => {});
+    this.mapa.off('load', () => {});
+    this.mapa.off('dragend', () => {});
+
   }
 
   ngAfterViewInit(): void {
-   this.mapa = new maplibregl.Map({
-      container: this.mapR.nativeElement,
-      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-      center: this.center,
-      zoom: 18,
-    });
-
-    this.mapa.on('move', (event) => {
-      const { lng, lat } =   event.target.getCenter();
-      this.center = [lng, lat];
-    });
-
-    new maplibregl.Marker().setLngLat(this.center).addTo(this.mapa);
+    this.mapaLectura( this.registroPersona.lat!, this.registroPersona.lng! );
   }
 
   ngOnInit(): void {
 
     //recibiendo datos del componente padre
-    this.registroPersona = { ...this.regPer }
+
+
     this.obtenerDatosPersonales(this.regEmp.codPersona!);
+    this.registroPersona = {...this.regPer};
 
     this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento?.toString()!);
     this.registroPersona.ciFechaVencimiento!.setDate(this.registroPersona.ciFechaVencimiento!.getDate() + 1);
     this.registroPersona.fechaNacimiento = new Date(this.registroPersona.fechaNacimiento?.toString()!);
     this.registroPersona.fechaNacimiento!.setDate(this.registroPersona.fechaNacimiento!.getDate() + 1);
 
-
-
-
     this.obtenerCiudadesXPais(this.registroPersona.ciudad?.codPais!);
     this.obtenerZonaXCiudad(this.registroPersona.ciudad?.codCiudad!);
+
 
     this.formDatosPersonales = this.fb.group({
 
@@ -110,11 +103,28 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
       fechaNacimiento     : [this.registroPersona.fechaNacimiento],
       direccion           : [this.registroPersona.direccion],
       estadoCivil         : [this.registroPersona.estadoCivil],
+      lat                 : [this.registroPersona.lat],
+      lng                 : [this.registroPersona.lng]
 
     });
-
-
   }
+  /**
+   * Para desplegar el mapa y cargar datos
+   * @param lat
+   * @param lng
+   */
+  mapaLectura( lat : number, lng : number):void{
+    this.mapa = new maplibregl.Map({
+      container: this.mapR.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: [ lat, lng ],
+      zoom: 16,
+    });
+
+    // Agregando marcador
+    new maplibregl.Marker().setLngLat([ lat, lng ]).addTo(this.mapa);
+  }
+
 
   /**
    * Procedimiento para obtener los datos personales del empleado
@@ -134,8 +144,41 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
    * Procedimiento desplegar el modal
    */
   desplegarModal(): void {
-    this.displayModal = true;
     this.ngOnInit();
+
+    this.center = [  this.registroPersona.lat!, this.registroPersona.lng!];
+
+    this.mapaEdit = new maplibregl.Map({
+      container: this.mapE.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: this.center,
+      zoom: 18,
+
+    });
+
+    this.mapaEdit.once('load', () => {
+      this.mapaEdit.resize();
+    })
+
+    this.mapaEdit.on('move', (event) => {
+      const {  lat, lng, } = event.target.getCenter();
+      this.center = [ lat, lng];
+    });
+
+    // Agregando marcador para editar
+    const markEdit = new maplibregl.Marker(
+      {
+        draggable: true,
+      }
+    ).setLngLat(this.center).addTo(this.mapaEdit);
+
+    markEdit.on('dragend',( ev )=>{
+      const { lng , lat } = ev.target._lngLat;
+      this.formDatosPersonales.controls['lng'].setValue(lat);
+      this.formDatosPersonales.controls['lat'].setValue(lng);
+    });
+
+    this.displayModal = true;
   }
 
   /**
@@ -226,6 +269,7 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
         console.log("bien");
         this.displayModal = false;
         this.obtenerDatosPersonales(persona.codPersona!);
+        this.mapaLectura(persona.lat!, persona.lng!);
         this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
 
       } else {
@@ -239,12 +283,16 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
   }
 
-
+  /**
+   * Para acercar el mapa
+   */
   zoomIn() : void{
     this.mapa.zoomIn();
-
   }
 
+  /**
+   * Para alejar el mapa
+   */
   zoomOut() : void{
     this.mapa.zoomOut();
   }

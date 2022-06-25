@@ -16,6 +16,8 @@ export interface Persona {
   lugarNacimiento?:    string;
   nacionalidad?:       number;
   sexo?:               string;
+  lat?:                number;
+  lng?:                number;
   audUsuarioI?:        number;
   //variables de apoyo
   datoPersona?:        string;

@@ -22,6 +22,7 @@ export class DetalleEmpleadoComponent implements OnInit {
 
     this.activeRoute.queryParams.subscribe(params => {
       this.obtenerDetalleEmpleado( params.codEmpleado );
+
     }
   );
 
@@ -40,11 +41,26 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
+        this.obtenerDatosPersonales( this.regEmp.codPersona! );
       }
     }, (err) => {
       console.log(err);
     });
 
+  }
+
+  /**
+   * Procedimiento para obtener los datos personales del empleado
+   * @param codPersona
+   */
+   obtenerDatosPersonales(codPersona: number) {
+    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
+      if (resp) {
+        this.regPer = resp;
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 

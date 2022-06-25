@@ -24,7 +24,7 @@
   </p-panel>
 
 
-  <p-panel class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
+  <p-panel  class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
     <ng-template pTemplate="icons">
       <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="desplegarModal()" label="Editar"> </button>
     </ng-template>
@@ -39,7 +39,7 @@
             }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.nacionalidad | pais }}</label>
+          <label  class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.nacionalidad | pais }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
           <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
@@ -69,16 +69,15 @@
         </div>
       </div>
 
-      <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+      <div  class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
         <label> CROQUIS </label>
         <br>
-        <button pButton label="+" (click)="zoomIn()">
-        </button>
+        <button pButton label="+" (click)="zoomIn()"></button>
 
-        <button pButton label="-" (click)="zoomOut()">
-        </button>
-        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-          <div #mapR class="col-12" style="height: 250px;">
+        <button pButton label="-" (click)="zoomOut()"></button>
+
+        <div  class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+          <div  #mapR class="col-12" style="height: 250px;">
 
           </div>
         </div>
@@ -187,8 +186,23 @@
           class="w-full inputfield" formControlName="estadoCivil" placeholder="Seleccione Estado Civil">
         </p-dropdown>
       </div>
-      <div class="field col-12 md:col-12">
-        NO OLVIDAR AQUI PONER EL MAPA
+
+
+      <label class="col-12">
+        CROQUIS:
+      </label>
+      <div class="col-4">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="text" pInputText placeholder="Buscar un lugar" />
+        </span>
+      </div>
+
+      <div class="col-12 md:col-12">
+        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+          <div #mapE class="col-12" style="height: 350px;">
+          </div>
+        </div>
       </div>
     </div>
     <div align="center">
