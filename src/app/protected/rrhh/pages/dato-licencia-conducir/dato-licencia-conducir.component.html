@@ -50,7 +50,7 @@
 
     </div>
     <div class="">
-      <button pButton label="Guardar" icon="pi pi-save" class="p-button-success" type="submit"></button>
+      <button pButton label="Guardar" icon="pi pi-save" class="p-button-success" [disabled]="!formLic.valid" type="submit"></button>
     </div>
   </form>
 </p-dialog>

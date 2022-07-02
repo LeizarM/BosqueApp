@@ -17,12 +17,16 @@ import { Sucursal } from '../../interfaces/Sucursal';
 import { CargoSucursal } from '../../interfaces/CargoSucursal';
 import { EmpleadoCargo } from '../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../interfaces/RelEmpEmpr';
+import { Lugares, Feature } from '../../interfaces/Lugares';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class RrhhService {
+
+  public isLoading: boolean = false;
+  public lugares: Feature[] = [];
 
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) { }
@@ -533,7 +537,7 @@ export class RrhhService {
    * @param t
    * @returns
    */
-   eliminarTelefono(e: Telefono): Observable<Telefono> {
+  eliminarTelefono(e: Telefono): Observable<Telefono> {
     const url = `${this.baseUrl}/rrhh/eliminarTelefono`;
 
     return this.http.post<Telefono>(url, e)
@@ -549,67 +553,84 @@ export class RrhhService {
 
   }
 
-   /**
-   * Procedimiento para registrar la experiencia laboral de un empleado
-   * @param expl
-   * @returns
-   */
-    registrarExperienciaLaboral( expl: ExperienciaLaboral ): Observable<ExperienciaLaboral> {
-      const url = `${this.baseUrl}/rrhh/registrarExpLaboral`;
+  /**
+  * Procedimiento para registrar la experiencia laboral de un empleado
+  * @param expl
+  * @returns
+  */
+  registrarExperienciaLaboral(expl: ExperienciaLaboral): Observable<ExperienciaLaboral> {
+    const url = `${this.baseUrl}/rrhh/registrarExpLaboral`;
 
-      return this.http.post<ExperienciaLaboral>(url, expl)
-        .pipe(
-          tap(resp => {
-            if (!resp) {
-              console.log(resp);
-            }
-          }),
-          map(resp => resp),
-          catchError(err => of(err.error))
-        );
+    return this.http.post<ExperienciaLaboral>(url, expl)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
 
-    }
+  }
 
   /**
    * Procedimiento para registrar la formacion de un empleado
    * @param fr
    * @returns
    */
-     registrarFormacion( fr: Formacion ): Observable<Formacion> {
-      const url = `${this.baseUrl}/rrhh/registrarFormacion`;
+  registrarFormacion(fr: Formacion): Observable<Formacion> {
+    const url = `${this.baseUrl}/rrhh/registrarFormacion`;
 
-      return this.http.post<Formacion>(url, fr)
-        .pipe(
-          tap(resp => {
-            if (!resp) {
-              console.log(resp);
-            }
-          }),
-          map(resp => resp),
-          catchError(err => of(err.error))
-        );
+    return this.http.post<Formacion>(url, fr)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
 
-    }
+  }
 
-    /**
-   * Procedimiento para actualizar la licencia de conducir de un empleado
-   * @param lc
-   * @returns
+  /**
+ * Procedimiento para actualizar la licencia de conducir de un empleado
+ * @param lc
+ * @returns
+ */
+  registrarLicencia(lc: Licencia): Observable<Licencia> {
+    const url = `${this.baseUrl}/rrhh/registrarLicencia`;
+
+    return this.http.post<Licencia>(url, lc)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+
+  }
+
+  /**
+   *
+   * @param query
    */
-     registrarLicencia( lc : Licencia ): Observable<Licencia> {
-      const url = `${this.baseUrl}/rrhh/registrarLicencia`;
+  buscarLugar(query: string = ""): Feature[] {
 
-      return this.http.post<Licencia>(url, lc)
-        .pipe(
-          tap(resp => {
-            if (!resp) {
-              console.log(resp);
-            }
-          }),
-          map(resp => resp),
-          catchError(err => of(err.error))
-        );
+    this.isLoading = true;
 
-    }
+    this.http.get<Lugares>(`https://nominatim.openstreetmap.org/search?q=${query}&format=geojson&polygon_geojson=1&addressdetails=1`).
+      subscribe(resp => {
+        this.isLoading = false;
+        this.lugares = resp.features;
+        console.log("En lugares del servicio");
+      });
+    return this.lugares;
+  }
 
 }

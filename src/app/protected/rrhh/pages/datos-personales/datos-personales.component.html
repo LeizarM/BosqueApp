@@ -24,7 +24,7 @@
   </p-panel>
 
 
-  <p-panel  class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
+  <p-panel class="col-12 md:col-6 lg:col-7" header="DATOS PERSONALES">
     <ng-template pTemplate="icons">
       <button pButton icon="pi pi-cog" class="p-button-sm px-1" (click)="desplegarModal()" label="Editar"> </button>
     </ng-template>
@@ -39,7 +39,7 @@
             }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-          <label  class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.nacionalidad | pais }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.nacionalidad | pais }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
           <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
@@ -69,15 +69,15 @@
         </div>
       </div>
 
-      <div  class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+      <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
         <label> CROQUIS </label>
         <br>
         <button pButton label="+" (click)="zoomIn()"></button>
 
         <button pButton label="-" (click)="zoomOut()"></button>
 
-        <div  class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-          <div  #mapR class="col-12" style="height: 250px;">
+        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+          <div #mapR class="col-12" style="height: 250px;">
 
           </div>
         </div>
@@ -191,12 +191,38 @@
       <label class="col-12">
         CROQUIS:
       </label>
-      <div class="col-4">
+      <!-- <div class="col-4">
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input type="text" pInputText placeholder="Buscar un lugar" />
+          <input type="text" #txtQuery (keyup)="onQueryChanged(txtQuery.value)" pInputText
+            placeholder="Buscar un lugar" />
         </span>
-      </div>
+
+        <div class="bg-cyan-100  border-round">
+          <div *ngIf="isLoading"
+            class="my-1 border-round bg-cyan-500 text-white font-bold p-3 flex align-items-center justify-content-center">
+            Cargando...
+          </div>
+          <div *ngIf="lugares.length > 0"
+            class="my-1 border-round bg-white-600 text-black font-bold p-3 flex align-items-center justify-content-center">
+            <ul>
+              <li *ngFor="let lugar of lugares">
+                <h6>{{ lugar?.properties?.address?.county }}</h6>
+                <p>
+                  {{ lugar?.properties?.display_name }}
+                </p>
+                <hr>
+
+              </li>
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div> -->
+
+
 
       <div class="col-12 md:col-12">
         <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
@@ -206,8 +232,7 @@
       </div>
     </div>
     <div align="center">
-      <button pButton type="submit" label="Guardar" icon="pi pi-save"
-        class="p-button-outlined p-button-success"></button>
+      <button pButton type="submit" label="Guardar" icon="pi pi-save"       class="p-button-outlined p-button-success"></button>
     </div>
 
   </form>

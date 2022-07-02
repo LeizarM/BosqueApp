@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/auth/services/login.service';
 import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
-import { finalize } from 'rxjs/internal/operators/finalize';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datos-empleado',

@@ -9,7 +9,8 @@ import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
 import { PaisService } from '../../../pais/services/pais.service';
-import maplibregl from 'maplibre-gl';
+import maplibregl, { Marker, Popup } from 'maplibre-gl';
+import { Feature } from '../../../interfaces/Lugares';
 
 
 @Component({
@@ -27,21 +28,25 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('mapR') mapR !: ElementRef;
   @ViewChild('mapE') mapE !: ElementRef;
 
+  private debounceTimer?: NodeJS.Timeout;
+  private markers: Marker[] = [];
+
+
   mapa            !: maplibregl.Map;
   mapaEdit        !: maplibregl.Map;
 
-  center: [number, number ] = [ -68.13539986925227, -16.51605372184381 ];
+  center: [number, number] = [-68.13539986925227, -16.51605372184381];
 
-  displayModal    : boolean = false;
+  displayModal: boolean = false;
 
-  registroPersona : Persona = {};
+  registroPersona: Persona = {};
 
-  lstGenero       : Tipos[] = [];
-  lstPais         : Pais[] = [];
-  lstCiudad       : Ciudad[] = [];
-  lstZona         : Zona[] = [];
-  lstEstadoCivil  : Tipos[] = [];
-  lstCiExpedido   : Tipos[] = [];
+  lstGenero: Tipos[] = [];
+  lstPais: Pais[] = [];
+  lstCiudad: Ciudad[] = [];
+  lstZona: Zona[] = [];
+  lstEstadoCivil: Tipos[] = [];
+  lstCiExpedido: Tipos[] = [];
 
   formDatosPersonales: FormGroup = new FormGroup({});
 
@@ -58,14 +63,14 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnDestroy(): void {
-    this.mapa.off('move', () => {});
-    this.mapa.off('load', () => {});
-    this.mapa.off('dragend', () => {});
+    this.mapa.off('move', () => { });
+    this.mapa.off('load', () => { });
+    this.mapa.off('dragend', () => { });
 
   }
 
   ngAfterViewInit(): void {
-    this.mapaLectura( this.registroPersona.lat!, this.registroPersona.lng! );
+    this.mapaLectura(this.registroPersona.lat!, this.registroPersona.lng!);
   }
 
   ngOnInit(): void {
@@ -74,7 +79,7 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
 
     this.obtenerDatosPersonales(this.regEmp.codPersona!);
-    this.registroPersona = {...this.regPer};
+    this.registroPersona = { ...this.regPer };
 
     this.registroPersona.ciFechaVencimiento = new Date(this.registroPersona.ciFechaVencimiento?.toString()!);
     this.registroPersona.ciFechaVencimiento!.setDate(this.registroPersona.ciFechaVencimiento!.getDate() + 1);
@@ -87,24 +92,24 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
     this.formDatosPersonales = this.fb.group({
 
-      codPersona          : [this.registroPersona.codPersona],
-      nombres             : [this.registroPersona.nombres],
-      apPaterno           : [this.registroPersona.apPaterno],
-      apMaterno           : [this.registroPersona.apMaterno],
-      sexo                : [this.registroPersona.sexo],
-      nacionalidad        : [this.registroPersona.nacionalidad],
-      lugarNacimiento     : [this.registroPersona.lugarNacimiento],
-      ciNumero            : [this.registroPersona.ciNumero],
-      ciExpedido          : [this.registroPersona.ciExpedido],
-      codPais             : [this.registroPersona.ciudad?.codPais],
-      codCiudad           : [this.registroPersona.ciudad?.codCiudad],
-      codZona             : [this.registroPersona.codZona],
-      ciFechaVencimiento  : [this.registroPersona.ciFechaVencimiento],
-      fechaNacimiento     : [this.registroPersona.fechaNacimiento],
-      direccion           : [this.registroPersona.direccion],
-      estadoCivil         : [this.registroPersona.estadoCivil],
-      lat                 : [this.registroPersona.lat],
-      lng                 : [this.registroPersona.lng]
+      codPersona: [this.registroPersona.codPersona],
+      nombres: [this.registroPersona.nombres],
+      apPaterno: [this.registroPersona.apPaterno],
+      apMaterno: [this.registroPersona.apMaterno],
+      sexo: [this.registroPersona.sexo],
+      nacionalidad: [this.registroPersona.nacionalidad],
+      lugarNacimiento: [this.registroPersona.lugarNacimiento],
+      ciNumero: [this.registroPersona.ciNumero],
+      ciExpedido: [this.registroPersona.ciExpedido],
+      codPais: [this.registroPersona.ciudad?.codPais],
+      codCiudad: [this.registroPersona.ciudad?.codCiudad],
+      codZona: [this.registroPersona.codZona],
+      ciFechaVencimiento: [this.registroPersona.ciFechaVencimiento],
+      fechaNacimiento: [this.registroPersona.fechaNacimiento],
+      direccion: [this.registroPersona.direccion],
+      estadoCivil: [this.registroPersona.estadoCivil],
+      lat: [this.registroPersona.lat],
+      lng: [this.registroPersona.lng]
 
     });
   }
@@ -113,16 +118,16 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
    * @param lat
    * @param lng
    */
-  mapaLectura( lat : number, lng : number):void{
+  mapaLectura(lat: number, lng: number): void {
     this.mapa = new maplibregl.Map({
       container: this.mapR.nativeElement,
       style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-      center: [ lat, lng ],
+      center: [lat, lng],
       zoom: 16,
     });
 
     // Agregando marcador
-    new maplibregl.Marker().setLngLat([ lat, lng ]).addTo(this.mapa);
+    new maplibregl.Marker().setLngLat([lat, lng]).addTo(this.mapa);
   }
 
 
@@ -146,7 +151,7 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
   desplegarModal(): void {
     this.ngOnInit();
 
-    this.center = [  this.registroPersona.lat!, this.registroPersona.lng!];
+    this.center = [this.registroPersona.lat!, this.registroPersona.lng!];
 
     this.mapaEdit = new maplibregl.Map({
       container: this.mapE.nativeElement,
@@ -161,8 +166,8 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
     })
 
     this.mapaEdit.on('move', (event) => {
-      const {  lat, lng, } = event.target.getCenter();
-      this.center = [ lat, lng];
+      const { lat, lng, } = event.target.getCenter();
+      this.center = [lat, lng];
     });
 
     // Agregando marcador para editar
@@ -172,8 +177,9 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
       }
     ).setLngLat(this.center).addTo(this.mapaEdit);
 
-    markEdit.on('dragend',( ev )=>{
-      const { lng , lat } = ev.target._lngLat;
+    markEdit.on('dragend', (ev) => {
+      const { lng, lat } = ev.target._lngLat;
+      // Se invierten la latitud y longitud
       this.formDatosPersonales.controls['lng'].setValue(lat);
       this.formDatosPersonales.controls['lat'].setValue(lng);
     });
@@ -282,18 +288,74 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
     });
 
   }
+  /**
+   * Metodo para mostrar los datos para el mapa
+   * @param query
+   */
+  onQueryChanged(query: string = "") {
+
+    if (query.length === 0) {
+      this.rrhhService.lugares = [];
+      this.rrhhService.isLoading = false;
+      return;
+    }
+    const lugares : Feature[] = this.rrhhService.buscarLugar(query);
+    if (this.debounceTimer) clearTimeout(this.debounceTimer);
+
+    this.debounceTimer = setTimeout(() => {
+
+      if (!this.mapaEdit) throw Error("mapaEdit is required ");
+
+      this.markers.forEach(marker => marker.remove());
+
+      const newMarkers: Marker[] = [];
+
+      for (const lugar of lugares) {
+        let center = [lugar.bbox[0] + (lugar.bbox[2] - lugar.bbox[0]) / 2, lugar.bbox[1] + (lugar.bbox[3] - lugar.bbox[1]) / 2];
+
+        const [lng, lat] = center;
+
+        const popup = new Popup()
+        .setHTML(`<h6>${lugar?.properties?.display_name}</h6>`);
+
+        const newMarker = new Marker({ color: 'red' }).setLngLat([lng, lat])
+          .setPopup(popup)
+          .addTo(this.mapaEdit);
+
+        newMarkers.push(newMarker);
+      }
+
+      console.log("markers loaded");
+      this.markers = newMarkers;
+
+    }, 250);
+  }
+
 
   /**
    * Para acercar el mapa
    */
-  zoomIn() : void{
+  zoomIn(): void {
     this.mapa.zoomIn();
   }
 
   /**
    * Para alejar el mapa
    */
-  zoomOut() : void{
+  zoomOut(): void {
     this.mapa.zoomOut();
+  }
+
+  /**
+   * Obteniendo el atributo
+  */
+  get isLoading(): boolean {
+    return this.rrhhService.isLoading;
+  }
+  /**
+   * Para obtener los lugares
+   */
+  get lugares(): Feature[] {
+    return this.rrhhService.lugares;
   }
 }
