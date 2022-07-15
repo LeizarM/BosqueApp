@@ -24,6 +24,8 @@ import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { DatoExperienciaLaboralComponent } from './pages/dato-experiencia-laboral/dato-experiencia-laboral.component';
 import { PaisPipe } from './pipes/pais.pipe';
 import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
+import { RegistroDatoPersonaComponent } from './pages/registro-dato-persona/registro-dato-persona.component';
+import { RegistroDatoEmpleadoComponent } from './pages/registro-dato-empleado/registro-dato-empleado.component';
 
 
 
@@ -50,6 +52,8 @@ import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
     CiExpedidoPipe,
     PaisPipe,
     TipoDuracionPipe,
+    RegistroDatoPersonaComponent,
+    RegistroDatoEmpleadoComponent,
   ],
   imports: [
     CommonModule,

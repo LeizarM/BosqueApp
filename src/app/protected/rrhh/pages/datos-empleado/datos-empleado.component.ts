@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Empleado } from '../../../interfaces/Empleado';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
@@ -8,10 +10,8 @@ import { Sucursal } from '../../../interfaces/Sucursal';
 import { CargoSucursal } from '../../../interfaces/CargoSucursal';
 import { lstEstadoActivoInactivo, lstTipoRelEmp, Tipos } from 'src/app/protected/interfaces/Tipos';
 import { LoginService } from 'src/app/auth/services/login.service';
-import { MessageService } from 'primeng/api';
 import { EmpleadoCargo } from '../../../interfaces/EmpleadoCargo';
 import { RelEmplEmpr } from '../../../interfaces/RelEmpEmpr';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datos-empleado',

@@ -85,7 +85,6 @@
       </div>
     </div>
   </p-panel>
-
 </div>
 
 <!-- Modal para editar y/o guardar la informacion -->
@@ -133,7 +132,8 @@
         <div id="ci" class="flex">
           <input class="col-8" type="text" formControlName="ciNumero" class="inputfield w-full" />
           <p-dropdown class="col-4" [options]="lstCiExpedido" optionLabel="nombre" optionValue="codTipos"
-            formControlName="ciExpedido"></p-dropdown>
+            formControlName="ciExpedido">
+          </p-dropdown>
         </div>
 
       </div>
@@ -232,7 +232,8 @@
       </div>
     </div>
     <div align="center">
-      <button pButton type="submit" label="Guardar" icon="pi pi-save"       class="p-button-outlined p-button-success"></button>
+      <button pButton type="submit" label="Guardar" icon="pi pi-save"
+        class="p-button-outlined p-button-success"></button>
     </div>
 
   </form>

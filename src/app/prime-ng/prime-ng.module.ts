@@ -21,6 +21,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { BlockUIModule } from 'primeng/blockui';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { StepsModule } from 'primeng/steps';
+
 
 @NgModule({
 
@@ -46,7 +48,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     InputNumberModule,
     KeyFilterModule,
     BlockUIModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    StepsModule
 
   ]
 })

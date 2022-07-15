@@ -92,24 +92,24 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
     this.formDatosPersonales = this.fb.group({
 
-      codPersona: [this.registroPersona.codPersona],
-      nombres: [this.registroPersona.nombres],
-      apPaterno: [this.registroPersona.apPaterno],
-      apMaterno: [this.registroPersona.apMaterno],
-      sexo: [this.registroPersona.sexo],
-      nacionalidad: [this.registroPersona.nacionalidad],
-      lugarNacimiento: [this.registroPersona.lugarNacimiento],
-      ciNumero: [this.registroPersona.ciNumero],
-      ciExpedido: [this.registroPersona.ciExpedido],
-      codPais: [this.registroPersona.ciudad?.codPais],
-      codCiudad: [this.registroPersona.ciudad?.codCiudad],
-      codZona: [this.registroPersona.codZona],
+      codPersona        : [this.registroPersona.codPersona],
+      nombres           : [this.registroPersona.nombres],
+      apPaterno         : [this.registroPersona.apPaterno],
+      apMaterno         : [this.registroPersona.apMaterno],
+      sexo              : [this.registroPersona.sexo],
+      nacionalidad      : [this.registroPersona.nacionalidad],
+      lugarNacimiento   : [this.registroPersona.lugarNacimiento],
+      ciNumero          : [this.registroPersona.ciNumero],
+      ciExpedido        : [this.registroPersona.ciExpedido],
+      codPais           : [this.registroPersona.ciudad?.codPais],
+      codCiudad         : [this.registroPersona.ciudad?.codCiudad],
+      codZona           : [this.registroPersona.codZona],
       ciFechaVencimiento: [this.registroPersona.ciFechaVencimiento],
-      fechaNacimiento: [this.registroPersona.fechaNacimiento],
-      direccion: [this.registroPersona.direccion],
-      estadoCivil: [this.registroPersona.estadoCivil],
-      lat: [this.registroPersona.lat],
-      lng: [this.registroPersona.lng]
+      fechaNacimiento   : [this.registroPersona.fechaNacimiento],
+      direccion         : [this.registroPersona.direccion],
+      estadoCivil       : [this.registroPersona.estadoCivil],
+      lat               : [this.registroPersona.lat],
+      lng               : [this.registroPersona.lng]
 
     });
   }
