@@ -11,33 +11,33 @@
   </ng-template>
   <div class="grid">
     <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Nro.Cuenta Bancaria:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.numCuenta }} </label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.numCuenta }} </label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa:</label>
     <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{
-      regEmp?.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresa }}</label>
+      regEmp.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresa }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Sucursal:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.sucursal
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.sucursal
       }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.descripcion}}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.descripcion}}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">A Partir de:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp?.empleadoCargo?.fechaInicio | date: 'dd/MM/yyyy' }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.fechaInicio | date: 'dd/MM/yyyy' }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo Planilla:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.empleadoCargo?.cargoSucursal?.cargo?.descripcionPlanilla}}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.descripcionPlanilla}}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Relacion Laboral:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.esActivo | activoEInactivo }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.esActivo | activoEInactivo }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Tipo Relacion:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.tipoRel | relacionEmpresa }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.tipoRel | relacionEmpresa }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Inicio de Funciones:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaIni | date: 'dd/MM/yyyy' }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.fechaIni | date: 'dd/MM/yyyy' }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fin de Funciones:</label>
 
@@ -46,14 +46,14 @@
     <label *ngIf="regEmp?.relEmpEmpr?.esActivo === 1" class="col-12 md:col-3 lg:col-3 ajustar-text">{{" "}}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Motivo Fin:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.motivoFin }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.motivoFin }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fecha Inicio Beneficio:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaInicioBeneficio | date:
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.fechaInicioBeneficio | date:
       'dd/MM/yyyy' }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Fecha Inicio Planilla:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.relEmpEmpr?.fechaInicioPlanilla | date: 'dd/MM/yyyy'
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.relEmpEmpr?.fechaInicioPlanilla | date: 'dd/MM/yyyy'
       }}</label>
   </div>
 </p-panel>

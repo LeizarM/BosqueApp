@@ -308,6 +308,7 @@ export class RrhhService {
    */
   registrarInfoPersona(persona: Persona) {
 
+    console.log(persona);
     const url = `${this.baseUrl}/rrhh/registroPersona`;
 
     return this.http.post<Persona>(url, persona)
@@ -383,7 +384,7 @@ export class RrhhService {
    * @returns
    */
   registrarInfoEmpleado(empleado: Empleado): Observable<Empleado> {
-
+    console.log("en resgistrarInfoEmpleado servicio****** ", empleado);
     const url = `${this.baseUrl}/rrhh/registroEmpleado`;
 
     return this.http.post<Empleado>(url, empleado)
@@ -393,7 +394,6 @@ export class RrhhService {
             console.log(resp);
           }
         }),
-        map(resp => resp),
         catchError(err => of(err.error))
       );
 
@@ -518,7 +518,8 @@ export class RrhhService {
   */
   registrarTelefono(t: Telefono): Observable<Telefono> {
     const url = `${this.baseUrl}/rrhh/registroTelefono`;
-
+    console.log("el telefono obj es ");
+    console.log(t);
     return this.http.post<Telefono>(url, t)
       .pipe(
         tap(resp => {
@@ -534,7 +535,7 @@ export class RrhhService {
 
   /**
    * Procedimiento para eliminar un Telefono
-   * @param t
+   * @param e
    * @returns
    */
   eliminarTelefono(e: Telefono): Observable<Telefono> {
@@ -617,7 +618,7 @@ export class RrhhService {
   }
 
   /**
-   *
+   * para la busqueda del mapa
    * @param query
    */
   buscarLugar(query: string = ""): Feature[] {
@@ -631,6 +632,47 @@ export class RrhhService {
         console.log("En lugares del servicio");
       });
     return this.lugares;
+  }
+  /**
+   * Obtendra el ulticmo codigo de un empleado agregado
+   * @returns
+   */
+  obtenerUltimoCodigoEmpleado(): Observable<Empleado> {
+    const url = `${this.baseUrl}/rrhh/ultimoCodEmpleado`;
+
+    return this.http.post<Empleado>(url, {})
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+            resp = {};
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+
+  }
+
+  /**
+   * Obtendra el ulticmo codigo de un persona agregado
+   * @returns
+   */
+   obtenerUltimoCodigoPersona(): Observable<Persona> {
+    const url = `${this.baseUrl}/rrhh/ultimoCodPersona`;
+
+    return this.http.post<Persona>(url, {})
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+            resp = {};
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+
   }
 
 }

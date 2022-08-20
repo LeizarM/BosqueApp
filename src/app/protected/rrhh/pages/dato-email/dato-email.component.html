@@ -1,4 +1,3 @@
-
 <p-toast></p-toast>
 <p-toast position="top-left" key="tl"></p-toast>
 <p-toast position="top-center" key="tc"></p-toast>
@@ -32,18 +31,20 @@
           <input class="col-7" pInputText formControlName="email" placeholder="Nuevo Email">
 
           <button pButton class="col-4 mx-1 p-button-danger" type="button" label="Eliminar"
-            (click)="eliminarRegistro($event, i, lstFormEmail().controls[i].value.codEmail)" icon="pi pi-trash"></button>
+            (click)="eliminarRegistro($event, i, lstFormEmail().controls[i].value.codEmail)"
+            icon="pi pi-trash"></button>
         </div>
 
       </div>
 
     </div>
     <hr>
-    <button pButton class="p-button-success" icon="pi pi-save" type="submit" label="Guardar" [disabled]="!formEmail.valid"></button>
+    <button pButton class="p-button-success" icon="pi pi-save" type="submit" label="Guardar"
+      [disabled]="!formEmail.valid"></button>
   </form>
 
 
- <!--  <span>Valid</span>
+  <!--  <span>Valid</span>
   <pre>{{ formEmail.valid }}</pre>
   <br>
 

@@ -13,6 +13,7 @@ export interface EmpleadoCargo {
    * Variables de apoyo
    */
   cargoPlanilla       ?: string;
+  existe              ?: number;
 }
 
 // Converts JSON strings to/from your types

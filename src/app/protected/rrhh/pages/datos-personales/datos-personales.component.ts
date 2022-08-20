@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import maplibregl, { Marker, Popup } from 'maplibre-gl';
 import { Persona } from '../../../interfaces/Persona';
 import { Empleado } from '../../../interfaces/Empleado';
 import { lstSexo, Tipos, lstEstadoCivil, lstDocumentoExpedido } from '../../../interfaces/Tipos';
@@ -9,7 +10,6 @@ import { Zona } from '../../../interfaces/Zona';
 import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
 import { PaisService } from '../../../pais/services/pais.service';
-import maplibregl, { Marker, Popup } from 'maplibre-gl';
 import { Feature } from '../../../interfaces/Lugares';
 
 

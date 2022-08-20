@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Empleado } from '../../../interfaces/Empleado';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
 import { Empresa } from '../../../interfaces/Empresa';
 import { EmpresaService } from '../../../empresas/services/empresa.service';
@@ -356,7 +356,7 @@ export class DatosEmpleadoComponent implements OnInit {
 
 
 
-
+      empleadoCargo.existe = 1;// funciona como un flag para actualizar
       const registroEmpleadoCargo = this.rrhhService.registrarInfoEmpleadoCargo(empleadoCargo)
         .pipe(finalize(() => registroRelEmp))
         .subscribe((resp) => {
