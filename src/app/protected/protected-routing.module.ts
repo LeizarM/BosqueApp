@@ -8,6 +8,7 @@ import { FamiliasComponent } from './precios/pages/familias/familias.component';
 import { EmpleadosComponent } from './rrhh/pages/empleados/empleados.component';
 import { DetalleEmpleadoComponent } from './rrhh/pages/detalle-empleado/detalle-empleado.component';
 import { RegistroEmpleadoComponent } from './rrhh/pages/registro-empleado/registro-empleado.component';
+import { FichaTrabajadorComponent } from './ficha-trabajador/pages/ficha-trabajador/ficha-trabajador.component';
 
  const routes: Routes = [
   {
@@ -41,6 +42,10 @@ import { RegistroEmpleadoComponent } from './rrhh/pages/registro-empleado/regist
       {
         path: 'tbEmpleado/empleados/registro-empleado',
         component: RegistroEmpleadoComponent
+      },
+      {
+        path: 'tftFichaTrabajador/ficha',
+        component: FichaTrabajadorComponent
       },
       {
         path: '**',

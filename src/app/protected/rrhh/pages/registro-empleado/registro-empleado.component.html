@@ -139,6 +139,8 @@
 
         <button pButton class="mx-1" label="-"></button>
 
+        <button pButton class="mx-1 p-button-success" icon="pi pi-plus" label="Agregar Marcardor"></button>
+
         <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
           <div #mapReg class="col-12" style="height: 250px;">
 
@@ -148,6 +150,8 @@
       </div>
     </div>
   </p-panel>
+
+  {{formDatosPersona.value | json}}
 </div>
 <!-- FIN DATOS PERSONALES-->
 
@@ -340,12 +344,12 @@
             <tr [formGroupName]="i">
               <td>
 
-                <p-dropdown appendTo="body" [options]="lstFormacion" formControlName="descripcion" optionLabel="nombre"
+                <p-dropdown appendTo="body" [options]="lstFormacion" formControlName="tipoFormacion" optionLabel="nombre"
                   optionValue="codTipos"></p-dropdown>
 
               </td>
               <td>
-                <input type="text" formControlName="tipoFormacion" class="form-control" />
+                <input type="text" formControlName="descripcion" class="form-control" />
               </td>
               <td>
                 <input type="text" formControlName="duracion" class="form-control" />

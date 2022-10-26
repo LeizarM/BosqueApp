@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PreciosModule } from './precios/precios.module';
 import { DocumentoComponent } from './cartas-cite/pages/documento/documento.component';
 import { RrhhModule } from './rrhh/rrhh.module';
+import { FichaTrabajadorModule } from './ficha-trabajador/ficha-trabajador.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { RrhhModule } from './rrhh/rrhh.module';
 		ProtectedRoutingModule,
 		SharedModule,
 		PreciosModule,
-    RrhhModule
+    RrhhModule,
+    FichaTrabajadorModule
 
 	]
 })

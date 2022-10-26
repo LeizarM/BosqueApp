@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { finalize, tap, map } from 'rxjs/operators';
 import maplibregl, { Marker, Popup } from 'maplibre-gl';
@@ -24,11 +24,11 @@ import { EmpleadoCargo } from 'src/app/protected/interfaces/EmpleadoCargo';
   templateUrl: './registro-empleado.component.html',
   styleUrls: ['./registro-empleado.component.css']
 })
-export class RegistroEmpleadoComponent implements OnInit {
+export class RegistroEmpleadoComponent implements OnInit, OnDestroy {
 
   //Traqbajando con mapas
   @ViewChild('mapReg') mapReg !: ElementRef;
-  private markers: Marker[] = [];
+
   mapa            !: maplibregl.Map;
   center: [number, number] = [-68.13539986925227, -16.51605372184381];
 
@@ -99,24 +99,31 @@ export class RegistroEmpleadoComponent implements OnInit {
 
 
   }
+  ngOnDestroy(): void {
+    this.mapa.off('move', () => { });
+    this.mapa.off('dragend', () => { });
+  }
 
 
   ngOnInit(): void {
     this.formDatosPersona = this.fb.group({
 
-      nombres: ['', [Validators.required, Validators.minLength(3)]],
-      apPaterno: ['', [Validators.required, Validators.minLength(3)]],
-      apMaterno: ['', [Validators.required, Validators.minLength(3)]],
-      sexo: ['', [Validators.required, Validators.minLength(1)]],
-      ciNumero: ['', [Validators.required, Validators.minLength(5)]],
-      ciExpedido: ['', [Validators.required, Validators.minLength(1)]],
+      nombres           : ['', [Validators.required, Validators.minLength(3)]],
+      apPaterno         : ['', [Validators.required, Validators.minLength(3)]],
+      apMaterno         : ['', [Validators.required, Validators.minLength(3)]],
+      sexo              : ['', [Validators.required, Validators.minLength(1)]],
+      ciNumero          : ['', [Validators.required, Validators.minLength(5)]],
+      ciExpedido        : ['', [Validators.required, Validators.minLength(1)]],
       ciFechaVencimiento: ['', [Validators.required, Validators.nullValidator]],
-      fechaNacimiento: ['', [Validators.required, Validators.nullValidator]],
-      nacionalidad: ['', [Validators.required, Validators.min(1)]],
-      lugarNacimiento: ['', [Validators.required, Validators.minLength(3)]],
-      codZona: [0, [Validators.required, Validators.min(1)]],
-      direccion: ['', [Validators.required, Validators.minLength(5)]],
-      estadoCivil: ['', [Validators.required, Validators.minLength(2)]]
+      fechaNacimiento   : ['', [Validators.required, Validators.nullValidator]],
+      nacionalidad      : ['', [Validators.required, Validators.min(1)]],
+      lugarNacimiento   : ['', [Validators.required, Validators.minLength(3)]],
+      codZona           : [0, [Validators.required, Validators.min(1)]],
+      direccion         : ['', [Validators.required, Validators.minLength(5)]],
+      estadoCivil       : ['', [Validators.required, Validators.minLength(2)]],
+      lng               : [ 0 ],
+      lat               : [ 0 ]
+
 
     });
     // form datos empleado
@@ -135,7 +142,11 @@ export class RegistroEmpleadoComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+
+
     this.mapaLectura(-68.13539986925227, -16.51605372184381);
+
+
   }
 
   /**
@@ -149,6 +160,20 @@ export class RegistroEmpleadoComponent implements OnInit {
       style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
       center: [lat, lng],
       zoom: 16,
+    });
+    const  marker = new maplibregl.Marker(
+      {
+        draggable: true,
+      }
+    )
+    .setLngLat( this.center )
+    .addTo(this.mapa);
+
+    marker.on('dragend', (ev) => {
+      const { lng, lat } = ev.target._lngLat;
+      // Se invierten la latitud y longitud
+      this.formDatosPersona.controls['lng'].setValue(lat);
+      this.formDatosPersona.controls['lat'].setValue(lng);
     });
   }
 
@@ -494,12 +519,10 @@ export class RegistroEmpleadoComponent implements OnInit {
 
     const registroPersona = this.rrhhService.registrarInfoPersona(persona)
       .subscribe((resp) => {
-
         if (resp?.ok === 'ok' && resp) {
-
           const codUltimoPer = this.rrhhService.obtenerUltimoCodigoPersona()
             .pipe(
-              tap(() => registroPersona))
+            tap(() => registroPersona))
             .subscribe((resp) => {
 
               if (resp) {
@@ -547,7 +570,7 @@ export class RegistroEmpleadoComponent implements OnInit {
 
                         this.rrhhService.registrarInfoEmpleadoCargo(empCargo)
                           .pipe(
-                            tap(() => codUltimoPer))
+                            finalize(() => codUltimoPer))
                           .subscribe
                           ((resp) => {
                             if (resp) {
@@ -667,9 +690,6 @@ export class RegistroEmpleadoComponent implements OnInit {
               console.log(err);
               this.regPersona = {};
             });
-
-
-
 
         } else {
           console.log(resp);
