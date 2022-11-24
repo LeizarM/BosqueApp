@@ -7,6 +7,9 @@ import { DatosPersonalesComponent } from './pages/datos-personales/datos-persona
 import { DatoEsposoConvivienteComponent } from './pages/dato-esposo-conviviente/dato-esposo-conviviente.component';
 import { DatoEducacionComponent } from './pages/dato-educacion/dato-educacion.component';
 import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.component';
+import { GeneroPipe } from './pipes/genero.pipe';
+import { DependienteComponent } from './pages/dependiente/dependiente.component';
+import { GaranteReferenciaComponent } from './pages/garante-referencia/garante-referencia.component';
 
 
 
@@ -17,7 +20,14 @@ import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.co
     DatosPersonalesComponent,
     DatoEsposoConvivienteComponent,
     DatoFormacionComponent,
-    DatoEducacionComponent
+    DatoEducacionComponent,
+    DependienteComponent,
+
+
+    //Pipes
+    GeneroPipe,
+      GaranteReferenciaComponent,
+
   ],
   imports: [
     CommonModule,
@@ -25,7 +35,7 @@ import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.co
     ReactiveFormsModule
   ],
   exports: [
-
+    GeneroPipe
   ]
 })
 export class FichaTrabajadorModule { }

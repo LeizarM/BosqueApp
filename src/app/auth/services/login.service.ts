@@ -137,8 +137,25 @@ export class LoginService {
     let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-    return JSON.parse(jsonPayload).jti
+    return JSON.parse(jsonPayload).jti;
   }
+
+  /**
+   * Para obtener el codigo de Empleado desde el token de la parte del payload
+   */
+   get codEmpleado() : number {
+
+    let token =  this.obtenerToken;
+    if(token == null || token == undefined || token == '') return -1;
+
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload).codEmpleado;
+  }
+
 
   /**
    * Obtendra el tipo de rol del usuario

@@ -22,7 +22,6 @@ export class DetalleEmpleadoComponent implements OnInit {
 
     this.activeRoute.queryParams.subscribe(params => {
       this.obtenerDetalleEmpleado( params.codEmpleado );
-
     }
   );
 
@@ -41,7 +40,10 @@ export class DetalleEmpleadoComponent implements OnInit {
     this.rrhhService.obtenerDetalleEmpleado(  codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
-        this.obtenerDatosPersonales( this.regEmp.codPersona! );
+        if(this.regEmp.codPersona){
+          this.obtenerDatosPersonales( this.regEmp.codPersona );
+        }
+
       }
     }, (err) => {
       console.log(err);

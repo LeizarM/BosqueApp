@@ -1,0 +1,33 @@
+<br/>
+<h3>GARANTES Y REFERENCIAS</h3>
+<hr>
+<br/>
+<p-table [value]="lstGaranteReferencia"  responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>Nombre Completo</th>
+          <th>Direccion Trabajo</th>
+          <th>Empresa Trabajo</th>
+          <th>Tipo</th>
+          <th>Observacion</th>
+          <th>Tipo Laboral/Personal</th>
+          <th>Accion</th>
+
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-gr>
+
+    <tr>
+      <td>{{ gr.nombreCompleto }}</td>
+      <td>{{ gr.direccionTrabajo }}</td>
+      <td>{{ gr.empresaTrabajo }}</td>
+      <td>{{ gr.tipo }}</td>
+      <td>{{ gr.observacion }}</td>
+      <td>{{ gr.esEmpleado }}</td>
+      <td>
+        <button pButton type="button" label="Detalle" icon="pi pi-list" class="p-button-success"></button>
+      </td>
+    </tr>
+
+  </ng-template>
+</p-table>

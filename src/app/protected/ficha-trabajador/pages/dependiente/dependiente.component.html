@@ -1,0 +1,83 @@
+<h3>DEPENDIENTES</h3>
+<hr>
+<br />
+<!-- Data table para mostrar los dependientes disponibles -->
+<p-table [value]="lstDependientes" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nombre Completo</th>
+      <th>Descripcion</th>
+      <th>Edad</th>
+      <th>Accion</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-dep>
+
+    <tr>
+      <td>{{ dep.nombreCompleto }}</td>
+      <td>{{ dep.descripcion }}</td>
+      <td>{{ dep.edad }}</td>
+      <td>
+        <button pButton type="button" label="Detalle" (click)="cargarDatosDependiente( dep.codPersona ) "
+          icon="pi pi-list" class="p-button-success"></button>
+      </td>
+    </tr>
+
+  </ng-template>
+</p-table>
+
+<!-- Modal para cargar datos de un dependiente -->
+<p-dialog header="Información Personal" [(visible)]="displayDialog" [breakpoints]="{'960px': '75vw'}"
+  [style]="{width: '50vw'}" [draggable]="true" [resizable]="true" [modal]="true" position="top">
+
+  <br>
+
+  <form autocomplete="off" [formGroup]="formDatosPersonalesDep" (ngSubmit)="guardar()">
+
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label for="firstname6">Firstname</label>
+        <input id="firstname6" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="lastname6">Lastname</label>
+        <input id="lastname6" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+      <div class="field col-12">
+        <label for="address">Address</label>
+        <textarea id="address" type="text" rows="4"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="city">City</label>
+        <input id="city" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+      <div class="field col-12 md:col-3">
+        <label for="state">State</label>
+        <select id="state"
+          class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
+          style="appearance: auto">
+          <option>Arizona</option>
+          <option>California</option>
+          <option>Florida</option>
+          <option>Ohio</option>
+          <option>Washington</option>
+        </select>
+      </div>
+      <div class="field col-12 md:col-3">
+        <label for="zip">Zip</label>
+        <input id="zip" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+    </div>
+    <button pButton class="p-button-success" icon="pi pi-save" type="submit" label="Guardar">
+
+    </button>
+  </form>
+  <hr>
+
+
+</p-dialog>

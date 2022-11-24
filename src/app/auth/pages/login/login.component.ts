@@ -69,6 +69,7 @@ export class LoginComponent {
    * @returns
    */
   esValido( campo: string ): boolean | null {
+
     return this.frmLogin.controls[campo].errors && this.frmLogin.controls[campo].touched;
   }
 

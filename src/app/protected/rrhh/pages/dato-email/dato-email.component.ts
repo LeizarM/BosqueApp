@@ -2,9 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Email } from '../../../interfaces/Email';
 import { Empleado } from '../../../interfaces/Empleado';
 import { RrhhService } from '../../services/rrhh.service';
-import { LoginService } from '../../../../auth/services/login.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 
@@ -27,7 +25,6 @@ export class DatoEmailComponent implements OnInit{
 
   constructor(private rrhhService: RrhhService,
     private fb: FormBuilder,
-    private login: LoginService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService) {
 
