@@ -12,11 +12,13 @@ import { RrhhModule } from './rrhh/rrhh.module';
 import { FichaTrabajadorModule } from './ficha-trabajador/ficha-trabajador.module';
 
 
+
 @NgModule({
 	declarations: [
 		LayoutComponent,
 		DashboardComponent,
 		DocumentoComponent,
+
 
 
 	],

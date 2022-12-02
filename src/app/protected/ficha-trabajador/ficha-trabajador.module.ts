@@ -10,6 +10,8 @@ import { DatoFormacionComponent } from './pages/dato-formacion/dato-formacion.co
 import { GeneroPipe } from './pipes/genero.pipe';
 import { DependienteComponent } from './pages/dependiente/dependiente.component';
 import { GaranteReferenciaComponent } from './pages/garante-referencia/garante-referencia.component';
+import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
+import { PaisPipe } from './pipes/pais.pipe';
 
 
 
@@ -22,11 +24,13 @@ import { GaranteReferenciaComponent } from './pages/garante-referencia/garante-r
     DatoFormacionComponent,
     DatoEducacionComponent,
     DependienteComponent,
-
+    GaranteReferenciaComponent,
 
     //Pipes
     GeneroPipe,
-      GaranteReferenciaComponent,
+    CiExpedidoPipe,
+    PaisPipe,
+
 
   ],
   imports: [
@@ -35,7 +39,8 @@ import { GaranteReferenciaComponent } from './pages/garante-referencia/garante-r
     ReactiveFormsModule
   ],
   exports: [
-    GeneroPipe
+    GeneroPipe,
+
   ]
 })
 export class FichaTrabajadorModule { }

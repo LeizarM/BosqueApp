@@ -32,39 +32,34 @@
       <div class="col-12">
         <div class="grid">
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Codigo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp?.codEmpleado }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.codEmpleado }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Cedula de Identidad:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciNumero}} {{ regPer?.ciExpedido | ciExpedido
-            }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.ciNumero}} {{ regPer.ciExpedido | ciExpedido }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Pais de Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.nacionalidad | pais }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.nacionalidad | pais }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Sexo:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.sexo | genero }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.sexo | genero }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Vencimiento CI:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.ciFechaVencimiento | date: 'dd/MM/yyyy'
-            }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.ciFechaVencimiento | date: 'dd/MM/yyyy'}}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Fecha Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.fechaNacimiento | date: 'dd/MM/yyyy'
-            }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.fechaNacimiento | date: 'dd/MM/yyyy' }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Lugar Nacimiento:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.lugarNacimiento }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.lugarNacimiento }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Estado Civi: </label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.estadoCivil | estadoCivil }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer.estadoCivil | estadoCivil }}</label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Ubicacion:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer?.pais?.pais }}, {{ regPer.ciudad?.ciudad }},
-            {{
-            regPer?.zona?.zona }} </label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regPer.pais?.pais }}, {{ regPer.ciudad?.ciudad }},{{ regPer.zona?.zona }} </label>
 
           <label class="col-12 md:col-3 lg:col-3 text-orange-500  ajustar-text">Direccion:</label>
-          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer?.direccion }}</label>
+          <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regPer.direccion }}</label>
 
         </div>
       </div>
@@ -141,7 +136,7 @@
       <div class="field col-12 md:col-3">
         <label for="paisRes">Pais Residencia: </label>
         <p-dropdown id="paisRes" [options]="lstPais" optionLabel="pais" optionValue="codPais" class="inputfield w-full"
-          formControlName="codPais" placeholder="Seleccione Pais" (onChange)="cargarCiudades($event)">
+          formControlName="codPais" placeholder="Seleccione Pais" (onChange)="cargarCiudades($event)" appendTo="body">
         </p-dropdown>
       </div>
 

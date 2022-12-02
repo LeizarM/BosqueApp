@@ -441,3 +441,35 @@ export function lstTipoLicencia():Tipos[]{
 
   return lstTemp;
 }
+/**
+ * Devolvera una lista de dependientes
+ * @returns []
+ */
+export function lstTipoDependientes(): Tipos[]{
+
+  const lstTemp: Tipos[] = [];
+  lstTemp.push(
+    {
+      codTipos: 'hij',
+      nombre: 'Hijo(a)',
+      codGrupo: 5,
+    },
+    {
+      codTipos: 'pad',
+      nombre: 'Padre',
+      codGrupo: 5,
+    },
+    {
+      codTipos: 'mad',
+      nombre: 'Madre',
+      codGrupo: 5,
+    },
+    {
+      codTipos: 'ben',
+      nombre: 'Beneficiario(a)',
+      codGrupo: 5,
+    }
+  );
+  return lstTemp;
+
+}

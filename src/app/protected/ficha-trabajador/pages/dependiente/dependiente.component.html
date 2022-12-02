@@ -1,14 +1,20 @@
 <h3>DEPENDIENTES</h3>
 <hr>
-<br />
+<br/>
+<button pButton type="button" label="Nuevo Dependiente" (click)="cargarDatosDependiente()" icon="pi pi-plus"
+  class="p-button-success">
+</button>
+
+<br/>
 <!-- Data table para mostrar los dependientes disponibles -->
 <p-table [value]="lstDependientes" responsiveLayout="scroll">
   <ng-template pTemplate="header">
+
     <tr>
       <th>Nombre Completo</th>
       <th>Descripcion</th>
       <th>Edad</th>
-      <th>Accion</th>
+
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-dep>
@@ -17,67 +23,126 @@
       <td>{{ dep.nombreCompleto }}</td>
       <td>{{ dep.descripcion }}</td>
       <td>{{ dep.edad }}</td>
-      <td>
-        <button pButton type="button" label="Detalle" (click)="cargarDatosDependiente( dep.codPersona ) "
-          icon="pi pi-list" class="p-button-success"></button>
-      </td>
+
     </tr>
 
   </ng-template>
 </p-table>
 
-<!-- Modal para cargar datos de un dependiente -->
-<p-dialog header="Información Personal" [(visible)]="displayDialog" [breakpoints]="{'960px': '75vw'}"
-  [style]="{width: '50vw'}" [draggable]="true" [resizable]="true" [modal]="true" position="top">
+<!-- Modal para cargar datos de un nuevo dependiente -->
+<p-dialog header="Registrar Datos Dependiente" [(visible)]="displayModal" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+  [style]="{width: '80vw'}" [modal]="true" [draggable]="true">
 
-  <br>
-
-  <form autocomplete="off" [formGroup]="formDatosPersonalesDep" (ngSubmit)="guardar()">
-
+  <form [formGroup]="formDatosDependiente" autocomplete="off" (ngSubmit)="guardar()">
     <div class="formgrid grid">
-      <div class="field col-12 md:col-6">
-        <label for="firstname6">Firstname</label>
-        <input id="firstname6" type="text"
+
+
+      <div class="field col-12 md:col-4">
+        <label for="nombres">Nombres</label>
+        <input pInputText id="nombres" type="text" formControlName="nombres"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
       </div>
-      <div class="field col-12 md:col-6">
-        <label for="lastname6">Lastname</label>
-        <input id="lastname6" type="text"
+
+      <div class="field col-12 md:col-4">
+        <label for="apPaterno">Apellido Paterno</label>
+        <input pInputText id="apPaterno" type="text" formControlName="apPaterno"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
       </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="apMaterno">Apellido Materno</label>
+        <input pInputText id="apMaterno" type="text" formControlName="apMaterno"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+
+     <div class="field col-12 md:col-4">
+        <label for="sexo">Sexo</label>
+        <p-dropdown id="sexo" [options]="lstGenero" formControlName="sexo" optionValue="codTipos" optionLabel="nombre" class="flex">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="fecNac">Fecha Nacimiento</label>
+        <p-calendar id="fecNac" appendTo="body" formControlName="fecNac"
+          class="border-round appearance-none outline-none  w-full" dateFormat="dd/mm/yy">
+        </p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="lugarNacimiento">Lugar de Nacimiento</label>
+        <input id="lugarNacimiento" type="text" formControlName="lugarNacimiento"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="ci">Cedula de Indentidad</label>
+        <input id="ci" type="text" formControlName="ci"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="expedido">Expedido en</label>
+        <p-dropdown id="expedido" [options]="lstExpedido" formControlName="expedido" optionValue="codTipos" optionLabel="nombre" class="flex">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="ciVenci">CI Vencimiento</label>
+        <p-calendar id="ciVenci" appendTo="body" formControlName="ciVenci"
+          class="border-round appearance-none outline-none  w-full" dateFormat="dd/mm/yy">
+        </p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <label for="estCivil">Estado Civil</label>
+        <p-dropdown id="estCivil" [options]="lstEstadoCivil" formControlName="estCivil" optionLabel="nombre" optionValue="codTipos"
+          class="flex"></p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="nacionalidad">Nacionalidad</label>
+        <p-dropdown id="nacionalidad" class="inputfield w-full" [options]="lstPais" optionLabel="pais"
+          optionValue="codPais" formControlName="nacionalidad"></p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="parentesco">Tipo Dependinte</label>
+        <p-dropdown id="parentesco" class="inputfield w-full" [options]="lstTipoDependientes" optionLabel="nombre"
+          optionValue="codTipos" formControlName="parentesco"></p-dropdown>
+      </div>
+
       <div class="field col-12">
-        <label for="address">Address</label>
-        <textarea id="address" type="text" rows="4"
+        <label for="direccion">Direccion</label>
+        <textarea id="direccion" type="text" rows="4" formControlName="direccion"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
       </div>
-      <div class="field col-12 md:col-6">
-        <label for="city">City</label>
-        <input id="city" type="text"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+      <div class="field col-12 md:col-4">
+        <label for="pais">Pais Residencia</label>
+        <p-dropdown id="pais" formControlName="codPais" placeholder="Seleccione Pais" [options]="lstPais" optionLabel="pais" optionValue="codPais" class="flex"
+          (onChange)="cargarCiudades($event.value)" appendTo="body">
+        </p-dropdown>
       </div>
-      <div class="field col-12 md:col-3">
-        <label for="state">State</label>
-        <select id="state"
-          class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
-          style="appearance: auto">
-          <option>Arizona</option>
-          <option>California</option>
-          <option>Florida</option>
-          <option>Ohio</option>
-          <option>Washington</option>
-        </select>
+
+      <div class="field col-12 md:col-4">
+        <label for="estCivil">Ciudad Residencia</label>
+        <p-dropdown id="pais" formControlName="ciudad" placeholder="Seleccione Ciudad" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad" class="flex"
+          (onChange)="cargarZonas($event.value)" appendTo="body">
+        </p-dropdown>
       </div>
-      <div class="field col-12 md:col-3">
-        <label for="zip">Zip</label>
-        <input id="zip" type="text"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+
+      <div class="field col-12 md:col-4">
+        <label for="zonaRe">Zona Residencia</label>
+        <p-dropdown id="zonaRe" formControlName="zonaRe" placeholder="Seleccione Zona" [options]="lstZona" optionValue="codZona"
+          optionLabel="zona" class="flex" appendTo="body">
+        </p-dropdown>
       </div>
+
+      <button pButton type="submit" icon="pi pi-save" label="Guardar" class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
+
     </div>
-    <button pButton class="p-button-success" icon="pi pi-save" type="submit" label="Guardar">
-
-    </button>
   </form>
-  <hr>
 
+  {{ formDatosDependiente.value | json }}
 
 </p-dialog>

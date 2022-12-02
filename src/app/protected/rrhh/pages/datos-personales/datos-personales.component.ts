@@ -41,12 +41,12 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
 
   registroPersona: Persona = {};
 
-  lstGenero: Tipos[] = [];
-  lstPais: Pais[] = [];
-  lstCiudad: Ciudad[] = [];
-  lstZona: Zona[] = [];
-  lstEstadoCivil: Tipos[] = [];
-  lstCiExpedido: Tipos[] = [];
+  lstGenero       : Tipos[] = [];
+  lstPais         : Pais[]  = [];
+  lstCiudad       : Ciudad[] = [];
+  lstZona         : Zona[]  = [];
+  lstEstadoCivil  : Tipos[] = [];
+  lstCiExpedido   : Tipos[] = [];
 
   formDatosPersonales: FormGroup = new FormGroup({});
 

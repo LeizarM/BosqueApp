@@ -6,9 +6,10 @@ export interface Dependiente {
   codEmpleado?:    number;
   parentesco?:     string;
   esActivo?:       string;
+  audUsuario?:     number;
 
   nombreCompleto?: string;
   descripcion?:    string;
   edad?:           number;
-  audUsuario?:     number;
+
 }

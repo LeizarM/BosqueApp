@@ -1,0 +1,10 @@
+
+.separadorHorizontal{
+    display: block;
+    height: 10px;
+}
+.separadorVertical{
+    display: inline-block;
+    width: 10px;
+    
+}

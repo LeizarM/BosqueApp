@@ -6,6 +6,8 @@ import { Dependiente } from '../../interfaces/Dependiente';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
+import { map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,28 @@ export class FichaTrabajadorService {
           }
           return throwError(e);
         })
+      );
+
+  }
+
+  /**
+   * Para el registro de Dependiente
+   * @param dependiente
+   * @returns
+   */
+  registrarInfoPersona(dependiente: Dependiente) {
+
+    const url = `${this.baseUrl}/fichaTrabajador/registrarDependiente`;
+
+    return this.http.post<Dependiente>(url, dependiente)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
