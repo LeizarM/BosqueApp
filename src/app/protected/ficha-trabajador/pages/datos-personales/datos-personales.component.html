@@ -84,7 +84,7 @@
 </div>
 
 
-<!-- Modal para cargar la informacion personal para poder editarlo -->
+<!-- Dialog o modal para cargar la informacion personal para poder editarlo -->
 <p-dialog header="Informacion Personal" [(visible)]="displayModal" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
   [style]="{width: '80vw'}" [modal]="true" [draggable]="true">
 
@@ -186,6 +186,8 @@
           optionLabel="zona" class="flex" appendTo="body">
         </p-dropdown>
       </div>
+
+
 
       <button pButton type="submit" icon="pi pi-save" label="Guardar" class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
 

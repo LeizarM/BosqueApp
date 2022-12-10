@@ -69,7 +69,9 @@ export class FichaTrabajadorService {
     return this.http.post<GaranteReferencia[]>(url, garRef)
       .pipe(
         catchError(e => {
-          if (e.status == 401) {
+          console.log(e);
+          if (e.status === 401) {
+
             return throwError(e);
           }
           if (e.ok === false) {

@@ -473,3 +473,27 @@ export function lstTipoDependientes(): Tipos[]{
   return lstTemp;
 
 }
+
+
+/**
+ * Devolvera una lista si es dependiente o referencia
+ * @returns []
+ */
+export function lstGaranteYReferencia(): Tipos[]{
+
+  const lstTemp: Tipos[] = [];
+  lstTemp.push(
+    {
+      codTipos: 'gar',
+      nombre: 'Garante',
+      codGrupo: 12,
+    },
+    {
+      codTipos: 'ref',
+      nombre: 'Referencia',
+      codGrupo: 12,
+    },
+  );
+  return lstTemp;
+
+}

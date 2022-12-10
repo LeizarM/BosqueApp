@@ -11,7 +11,6 @@ import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
 import { Zona } from 'src/app/protected/interfaces/Zona';
 import { PaisService } from 'src/app/protected/pais/services/pais.service';
 import { MessageService } from 'primeng/api';
-import { finalize, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dependiente',
@@ -36,8 +35,6 @@ export class DependienteComponent implements OnInit {
 
   //Objetos
   datoPersonaDep  : Persona = {};
-  datoDependiente : Dependiente = {};
-
   //variables
   codEmpleado     : number = 0;
   displayModal   : boolean = false;
@@ -76,24 +73,25 @@ export class DependienteComponent implements OnInit {
    */
    cargarFormulario(): void {
 
+
     this.formDatosDependiente = this.fb.group({
 
-      nombres         : [ , [ Validators.required, Validators.minLength(3) ] ],
-      apPaterno       : [ , [ Validators.required, Validators.minLength(3) ] ],
-      apMaterno       : [ , [ Validators.required, Validators.minLength(3) ] ],
-      sexo            : [ , [ Validators.required, Validators.minLength(1) ] ],
+      nombres         : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      apPaterno       : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      apMaterno       : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      sexo            : [ 'M', [ Validators.required, Validators.minLength(1) ] ],
       fecNac          : [ , [ Validators.required, Validators.nullValidator ]],
       lugarNacimiento : [ , [ Validators.required, Validators.minLength(3) ] ],
       ci              : [ , [ Validators.required, Validators.minLength(5) ] ],
       expedido        : [ , [ Validators.required, Validators.minLength(1) ] ],
       ciVenci         : [ , [ Validators.required, Validators.nullValidator ]],
-      estCivil        : [ , [ Validators.required, Validators.minLength(2) ]],
+      estCivil        : [ 'cas', [ Validators.required, Validators.minLength(2) ]],
       direccion       : [ , [ Validators.required, Validators.minLength(3) ]],
       zonaRe          : [ , [ Validators.required ]],
       codPais         : [ , [ Validators.required ]],
-      nacionalidad    : [ , [ Validators.required ]],
+      nacionalidad    : [ 1, [ Validators.required ]],
       ciudad          : [ , [ Validators.required ]],
-      parentesco      : [ , [ Validators.required ]],
+      parentesco      : [ 'hij', [ Validators.required ]],
 
     });
   }
@@ -136,11 +134,12 @@ export class DependienteComponent implements OnInit {
    */
   cargarDatosDependiente( ) : void {
 
+    this.formDatosDependiente.reset();
     this.displayModal = true;
 
   }
   /**
-   * Procedimiento
+   * Procedimiento para obtener los datos personales de la persona
    * @param codPersona
    */
   obtenerDatosPersonales( codPersona: number ) {
@@ -217,7 +216,7 @@ export class DependienteComponent implements OnInit {
   /**
    * Para guardar la informacion
    */
-  guardar(){
+  guardar():void{
 
     const {codPersona, nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, estCivil, direccion, zonaRe, nacionalidad, parentesco } = this.formDatosDependiente.value;
 
@@ -241,17 +240,10 @@ export class DependienteComponent implements OnInit {
       }
 
       this.rrhhService.registrarInfoPersona(regPersona)
-      .pipe(
-
-       )
       .subscribe(( resp )=>{
-        if(resp && resp?.ok === "ok"){
+        if( resp && resp?.ok === "ok" ){
 
-          //this.obtenerUltimoCodPersona();
-
-          console.log("el codPersona es= ",this.datoDependiente.codPersona);
           const tempDep : Dependiente = {
-            codPersona : this.datoDependiente.codPersona,
             codEmpleado : this.codEmpleado,
             parentesco,
             esActivo : 'SI',// por defecto es activo
@@ -266,27 +258,13 @@ export class DependienteComponent implements OnInit {
 
         }
       },(err) => {
-        console.log("Error General...");
-        console.log(err);
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error al Registrar la Persona', detail: "Error al General " + err  });
       });
 
-      this.cargarListaDependientes( this.codEmpleado );
+
 
   };
 
-  obtenerUltimoCodPersona() : void{
-    this.rrhhService.obtenerUltimoCodigoPersona()
-    .subscribe((resp)=>{
-      if( resp && resp.codPersona ){
-         this.datoPersonaDep.codPersona = resp.codPersona;
-         console.log("🚀 ~ file: dependiente.component.ts:281 ~ DependienteComponent ~ this.rrhhService.obtenerUltimoCodigoPersona ~ this.datoPersonaDep.codPersona", this.datoPersonaDep.codPersona)
-
-      }else{
-         this.datoPersonaDep.codPersona = 0;
-      }
-    });
-
-  }
 
   /**
    * Para registrar Los dependientes
@@ -295,14 +273,14 @@ export class DependienteComponent implements OnInit {
    registrarDependiente(tempDep : Dependiente): void {
 
     this.fichaTrabajadorService.registrarInfoPersona( tempDep )
-    .pipe(
-      ( finalize(() => this.obtenerUltimoCodPersona ) )
-    )
     .subscribe(( resp ) => {
 
       if(resp && resp?.ok === "ok"){
+
         this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: resp.msg });
         this.displayModal = false;
+        this.cargarListaDependientes( this.codEmpleado );
+
       }else{
         console.error("no se registro el dependiente");
       }
@@ -310,6 +288,15 @@ export class DependienteComponent implements OnInit {
     });
 
 
+  }
+
+  /**
+   * Procedimiento para validar los campos
+   * @param campo
+   * @returns
+   */
+   esValido( campo: string ): boolean | null {
+    return this.formDatosDependiente.controls[campo].errors && this.formDatosDependiente.controls[campo].touched;
   }
 
 }
