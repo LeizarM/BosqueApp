@@ -89,7 +89,7 @@ export class FichaTrabajadorService {
    * @param dependiente
    * @returns
    */
-  registrarInfoPersona(dependiente: Dependiente) {
+  registrarInfoDependiente(dependiente: Dependiente) {
 
     const url = `${this.baseUrl}/fichaTrabajador/registrarDependiente`;
 
@@ -102,6 +102,28 @@ export class FichaTrabajadorService {
         }),
         map(resp => resp),
         catchError(err => of(err.error))
+      );
+
+  }
+
+  /**
+   * Para el registro de Garante y Referencia
+   * @param garanteReferencia
+   * @returns
+   */
+  registrarInfoGaranteReferencia( garanteReferencia : GaranteReferencia ){
+
+    const url = `${this.baseUrl}/fichaTrabajador/registrarGaranteReferencia`;
+
+    return this.http.post<GaranteReferencia>( url, garanteReferencia )
+      .pipe(
+        tap( resp => {
+          if( !resp ){
+            console.log(resp);
+          }
+        }),
+        map(resp => resp ),
+        catchError( err => of(err.error))
       );
 
   }

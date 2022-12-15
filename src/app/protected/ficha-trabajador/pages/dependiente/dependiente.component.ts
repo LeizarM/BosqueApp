@@ -272,7 +272,7 @@ export class DependienteComponent implements OnInit {
    */
    registrarDependiente(tempDep : Dependiente): void {
 
-    this.fichaTrabajadorService.registrarInfoPersona( tempDep )
+    this.fichaTrabajadorService.registrarInfoDependiente( tempDep )
     .subscribe(( resp ) => {
 
       if(resp && resp?.ok === "ok"){

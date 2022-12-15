@@ -23,7 +23,7 @@
       <th>Tipo</th>
       <th>Observacion</th>
       <th>Tipo Laboral/Personal</th>
-      <th>Accion</th>
+     <!--  <th>Accion</th> -->
 
     </tr>
   </ng-template>
@@ -36,9 +36,9 @@
       <td>{{ gr.tipo }}</td>
       <td>{{ gr.observacion }}</td>
       <td>{{ gr.esEmpleado }}</td>
-      <td>
+      <!-- <td>
         <button pButton type="button" label="Detalle" icon="pi pi-list" class="p-button-success"></button>
-      </td>
+      </td> -->
     </tr>
 
   </ng-template>
@@ -198,7 +198,7 @@
       </div>
 
 
-      <button pButton type="submit" icon="pi pi-save" label="Guardar" class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
+      <button pButton type="submit" icon="pi pi-save" [disabled]="!formDatosGaranYRef.valid" label="Guardar" class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
 
     </div>
   </form>

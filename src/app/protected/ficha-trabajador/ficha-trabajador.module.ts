@@ -12,6 +12,8 @@ import { DependienteComponent } from './pages/dependiente/dependiente.component'
 import { GaranteReferenciaComponent } from './pages/garante-referencia/garante-referencia.component';
 import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { PaisPipe } from './pipes/pais.pipe';
+import { DatoIngresoComponent } from './pages/dato-ingreso/dato-ingreso.component';
+import { DatoExperienciaComponent } from './pages/dato-experiencia/dato-experiencia.component';
 
 
 
@@ -30,6 +32,8 @@ import { PaisPipe } from './pipes/pais.pipe';
     GeneroPipe,
     CiExpedidoPipe,
     PaisPipe,
+    DatoIngresoComponent,
+    DatoExperienciaComponent,
 
 
   ],

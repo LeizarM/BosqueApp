@@ -122,7 +122,7 @@ export class GaranteReferenciaComponent implements OnInit {
 
     const { nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, direccion, zonaRe, nacionalidad, direccionTrabajo, empresaTrabajo, tipo, obs } = this.formDatosGaranYRef.value;
 
-    const datoPersona : Persona = {
+    const regPersona : Persona = {
       nombres,
       apPaterno,
       apMaterno,
@@ -134,20 +134,66 @@ export class GaranteReferenciaComponent implements OnInit {
       ciFechaVencimiento : ciVenci,
       direccion,
       codZona : zonaRe,
-      nacionalidad
+      nacionalidad,
+      audUsuarioI : this.loginService.codUsuario
 
     };
 
     const datoGaranteReferencia : GaranteReferencia = {
+      codEmpleado : this.codEmpleado,
       direccionTrabajo,
       empresaTrabajo,
       tipo,
-      observacion : obs
+      observacion : obs,
+      audUsuario : this.loginService.codUsuario
     };
 
-    console.log("🚀 ~ file: garante-referencia.component.ts:126 ~ GaranteReferenciaComponent ~ guardar ~ datoPersona", datoPersona)
-    console.log("🚀 ~ file: garante-referencia.component.ts:142 ~ GaranteReferenciaComponent ~ guardar ~ datoGaranteReferencia", datoGaranteReferencia)
+    console.log("🚀 ~ file: garante-referencia.component.ts:126 ~ GaranteReferenciaComponent ~ guardar ~ datoPersona", regPersona);
+
+    this.rrhhService.registrarInfoPersona(regPersona)
+    .subscribe(( resp )=>{
+      if( resp && resp?.ok === "ok" ){
+
+          console.log("🚀 ~ file: garante-referencia.component.ts:142 ~ GaranteReferenciaComponent ~ guardar ~ datoGaranteReferencia", datoGaranteReferencia);
+          this.registrarGaranteReferencia( datoGaranteReferencia );
+
+
+        }else{
+          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error al Registrar la Persona', detail: resp.msg  });
+
+        }
+      },(err) => {
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error al Registrar la Persona', detail: "Error al General " + err  });
+      });
+
+
   }
+
+  /**
+   * Para registrar Los dependientes
+   * @param tempDep
+   */
+  registrarGaranteReferencia(tempGarRef : GaranteReferencia): void {
+
+    this.fichaTrabajadorService.registrarInfoGaranteReferencia( tempGarRef )
+    .subscribe(( resp ) => {
+
+      if(resp && resp?.ok === "ok"){
+
+        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: resp.msg });
+        this.displayModal = false;
+        this.cargarGaranteReferencia( this.codEmpleado );
+
+      }else{
+        console.error("no se registro el garante o referencia");
+      }
+
+    });
+
+
+  }
+
+
 
   /**
   * Procedimiento para obtener Paises
