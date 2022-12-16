@@ -306,9 +306,8 @@ export class RrhhService {
    * @param persona
    * @returns
    */
-  registrarInfoPersona(persona: Persona) {
+  registrarInfoPersona(persona: Persona): Observable<any> {
 
-    console.log(persona);
     const url = `${this.baseUrl}/rrhh/registroPersona`;
 
     return this.http.post<Persona>(url, persona)
@@ -580,7 +579,8 @@ export class RrhhService {
    * @param fr
    * @returns
    */
-  registrarFormacion(fr: Formacion): Observable<Formacion> {
+  registrarFormacion(fr: Formacion): Observable<any> {
+
     const url = `${this.baseUrl}/rrhh/registrarFormacion`;
 
     return this.http.post<Formacion>(url, fr)

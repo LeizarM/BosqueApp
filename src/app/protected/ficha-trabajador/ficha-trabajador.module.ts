@@ -14,6 +14,8 @@ import { CiExpedidoPipe } from './pipes/ci-expedido.pipe';
 import { PaisPipe } from './pipes/pais.pipe';
 import { DatoIngresoComponent } from './pages/dato-ingreso/dato-ingreso.component';
 import { DatoExperienciaComponent } from './pages/dato-experiencia/dato-experiencia.component';
+import { FormacionPipe } from './pipes/formacion.pipe';
+import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
 
 
 
@@ -34,6 +36,8 @@ import { DatoExperienciaComponent } from './pages/dato-experiencia/dato-experien
     PaisPipe,
     DatoIngresoComponent,
     DatoExperienciaComponent,
+    FormacionPipe,
+    TipoDuracionPipe,
 
 
   ],
