@@ -98,7 +98,25 @@ export class DatoFormacionComponent implements OnInit {
       console.log(err);
     });
   }
+  /**
+   * Para crear un nuevo registro
+   */
+  nuevoRegistro():void{
+    this.formFormacion.reset();
 
+    this.formFormacion = this.fb.group({
+      codFormacion    : [ 0 ],
+      codEmpleado     : [ this.codEmpleado ],
+      descripcion     : [ '' ],
+      duracion        : [ 0 ],
+      tipoDuracion    : [ 0 ],
+      tipoFormacion   : [ '' ],
+      fechaFormacion  : [ 0 ],
+      audUsuario      : [ this.loginService.codUsuario ]
+    });
+
+    this.displayModal = true;
+  }
 
   /**
    * Para capturar el registro

@@ -6,7 +6,7 @@
 <h3>FORMACION</h3>
 <hr>
 <br/>
-<button pButton icon="pi pi-plus" class="p-button-success" label="Nuevo Registro"></button>
+<button pButton icon="pi pi-plus" class="p-button-success" label="Nuevo Registro" (click)="nuevoRegistro()"></button>
 
 <!-- Tabla para desplegar la formacion de una persona -->
 <p-table [value]="lstFormacion" responsiveLayout="scroll">
@@ -66,12 +66,12 @@
     <div class="field col-6">
       <label for="tipoDuracion">Medicion : </label>
       <p-dropdown id="tipoDuracion" [options]="lstMedicion" optionLabel="nombre" optionValue="codTipos"
-        class="inputfield w-full" formControlName="tipoDuracion" placeholder="Seleccione Medicion">
+        class="inputfield w-full flex" formControlName="tipoDuracion" placeholder="Seleccione Medicion">
       </p-dropdown>
     </div>
     <div class="field col-12">
       <label for="fechaFormacion">Fecha Culminacion : </label>
-      <p-calendar id="fechaFormacion"  formControlName="fechaFormacion" dateFormat="dd/mm/yy"></p-calendar>
+      <p-calendar id="fechaFormacion" appendTo="body" formControlName="fechaFormacion" dateFormat="dd/mm/yy"></p-calendar>
     </div>
 
   </div>
