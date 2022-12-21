@@ -75,7 +75,7 @@ export class GaranteReferenciaComponent implements OnInit {
       fecNac           : [ , [ Validators.required, Validators.nullValidator ]],
       lugarNacimiento  : [ , [ Validators.required, Validators.minLength(3) ] ],
       ci               : [ , [ Validators.required, Validators.minLength(5) ] ],
-      expedido         : [ , [ Validators.required, Validators.minLength(1) ] ],
+      expedido         : [ 'lp', [ Validators.required, Validators.minLength(1) ] ],
       ciVenci          : [ , [ Validators.required, Validators.nullValidator ]],
       estCivil         : [ 'cas', [ Validators.required, Validators.minLength(2) ]],
       direccion        : [ , [ Validators.required, Validators.minLength(3) ]],
@@ -148,7 +148,6 @@ export class GaranteReferenciaComponent implements OnInit {
       audUsuario : this.loginService.codUsuario
     };
 
-    console.log("🚀 ~ file: garante-referencia.component.ts:126 ~ GaranteReferenciaComponent ~ guardar ~ datoPersona", regPersona);
 
     this.rrhhService.registrarInfoPersona(regPersona)
     .subscribe(( resp )=>{

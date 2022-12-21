@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AccordionModule } from 'primeng/accordion';
 import { BlockUIModule } from 'primeng/blockui';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -7,6 +8,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -21,18 +23,20 @@ import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
+import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-
 
 
 @NgModule({
 
   exports: [
+    AccordionModule,
     PanelMenuModule,
     MessagesModule,
     MessageModule,
     ToolbarModule,
+    TabViewModule,
     ButtonModule,
     SplitButtonModule,
     TableModule,
@@ -52,7 +56,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     BlockUIModule,
     ConfirmPopupModule,
     StepsModule,
-    DividerModule
+    DividerModule,
+    FileUploadModule
 
   ]
 })

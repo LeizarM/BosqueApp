@@ -16,6 +16,7 @@ import { DatoIngresoComponent } from './pages/dato-ingreso/dato-ingreso.componen
 import { DatoExperienciaComponent } from './pages/dato-experiencia/dato-experiencia.component';
 import { FormacionPipe } from './pipes/formacion.pipe';
 import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
+import { EstadoCivilPipe } from './pipes/estado-civil.pipe';
 
 
 
@@ -38,6 +39,7 @@ import { TipoDuracionPipe } from './pipes/tipo-duracion.pipe';
     DatoExperienciaComponent,
     FormacionPipe,
     TipoDuracionPipe,
+    EstadoCivilPipe,
 
 
   ],

@@ -493,6 +493,16 @@ export function lstGaranteYReferencia(): Tipos[]{
       nombre: 'Referencia',
       codGrupo: 12,
     },
+    {
+      codTipos: 'esp',
+      nombre: 'Esposo(a)',
+      codGrupo: 12,
+    },
+    {
+      codTipos: 'cnv',
+      nombre: 'Conviviente',
+      codGrupo: 12,
+    },
   );
   return lstTemp;
 

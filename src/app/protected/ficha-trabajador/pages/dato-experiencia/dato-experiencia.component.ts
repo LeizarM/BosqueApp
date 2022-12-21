@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { LoginService } from 'src/app/auth/services/login.service';
 import { ExperienciaLaboral } from 'src/app/protected/interfaces/ExperienciaLaboral';
 import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
-import { LoginService } from 'src/app/auth/services/login.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Utiles } from '../../../Utiles/Utiles';
 
 @Component({
   selector: 'app-dato-experiencia',
   templateUrl: './dato-experiencia.component.html',
-  styleUrls: ['./dato-experiencia.component.css']
+  styleUrls: ['./dato-experiencia.component.css'],
+  providers: [ MessageService ]
 })
 export class DatoExperienciaComponent implements OnInit {
 
@@ -24,9 +27,10 @@ export class DatoExperienciaComponent implements OnInit {
   lstExperienciaLaboral : ExperienciaLaboral[] = [];
 
   constructor(
-    private rrhhService  : RrhhService,
-    private loginService : LoginService,
-    private fb           : FormBuilder
+    private rrhhService   : RrhhService,
+    private loginService  : LoginService,
+    private fb            : FormBuilder,
+    private messageService: MessageService
   ) {
     this.codEmpleado = this.loginService.codEmpleado;
     this.obtenerExperienciaLaboral( this.codEmpleado );
@@ -71,16 +75,93 @@ export class DatoExperienciaComponent implements OnInit {
   }
 
   /**
-   * Para cargar el registro
+   * Para preparar un nuevo registro
    */
-  cargarRegistro():void {
+  nuevoRegistro():void {
+
     this.displayModal = true;
+    this.iniciarFormulario();
+
   }
+
+  /**
+   * Cargara un registro para poder editar la informacion
+   * @param expLab
+   */
+  cargarRegistro( expLab : ExperienciaLaboral ):void {
+
+    if(!expLab){
+      return;
+    }
+
+    this.displayModal = true;
+
+
+    expLab.fechaInicio = new Utiles().fechaTStoPrimeNG(expLab.fechaInicio!);
+    expLab.fechaFin = new Utiles().fechaTStoPrimeNG(expLab.fechaFin!);
+
+    this.formExperiencia = this.fb.group({
+
+      codExperienciaLaboral : [ expLab.codExperienciaLaboral ],
+      codEmpleado           : [ expLab.codEmpleado ],
+      nombreEmpresa         : [ expLab.nombreEmpresa , [ Validators.required, Validators.minLength(3)] ],
+      cargo                 : [ expLab.cargo , [ Validators.required, Validators.minLength(3)] ],
+      descripcion           : [ expLab.descripcion , [ Validators.required, Validators.minLength(3)] ],
+      fechaInicio           : [ expLab.fechaInicio,  [ Validators.required, Validators.nullValidator] ],
+      fechaFin              : [ expLab.fechaFin,  [ Validators.required, Validators.nullValidator] ],
+      nroReferencia         : [ expLab.nroReferencia, [ Validators.min(1) ] ],
+      audUsuario            : [ this.loginService.codUsuario ]
+
+    });
+
+  }
+
+
+
 
   /**
    * Procedimiento para guardar la informacion para la experiencia laboral
    */
   guardar():void{
 
+    const { codExperienciaLaboral, codEmpleado, nombreEmpresa, cargo, descripcion, fechaInicio, fechaFin, nroReferencia, audUsuario  } = this.formExperiencia.value;
+
+    const regExpLab : ExperienciaLaboral = {
+
+      codExperienciaLaboral,
+      codEmpleado,
+      nombreEmpresa,
+      cargo,
+      descripcion,
+      fechaInicio,
+      fechaFin,
+      nroReferencia,
+      audUsuario
+
+    };
+
+    this.rrhhService.registrarExperienciaLaboral(regExpLab).subscribe((resp) => {
+      if (resp) {
+        this.displayModal = false;
+        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
+        this.obtenerExperienciaLaboral( regExpLab.codEmpleado! );
+      } else {
+        console.log(resp);
+        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
+      }
+    }, (err) => {
+      console.log("Error General");
+      console.log(err);
+    });
+
+  }
+
+  /**
+   * Procedimiento para validar los campos
+   * @param campo
+   * @returns
+   */
+  esValido( campo: string ): boolean | null {
+    return this.formExperiencia.controls[campo].errors && this.formExperiencia.controls[campo].touched;
   }
 }

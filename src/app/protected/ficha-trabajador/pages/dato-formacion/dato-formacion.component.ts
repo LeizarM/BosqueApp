@@ -52,13 +52,13 @@ export class DatoFormacionComponent implements OnInit {
   iniciarFormulario(): void {
     this.formFormacion = this.fb.group({
       codFormacion    : [ 0 ],
-      codEmpleado     : [ 0 ],
-      descripcion     : [ '' ],
-      duracion        : [ 0 ],
-      tipoDuracion    : [ 0 ],
-      tipoFormacion   : [ '' ],
-      fechaFormacion  : [ 0 ],
-      audUsuario      : [ 0 ]
+      codEmpleado     : [ this.codEmpleado ],
+      descripcion     : [ '',  [ Validators.required, Validators.minLength(3)] ],
+      duracion        : [ 0 ,   [Validators.required]],
+      tipoDuracion    : [ 'hrs', [ Validators.required  ] ],
+      tipoFormacion   : [ 'cur', [ Validators.required  ] ],
+      fechaFormacion  : [ 0, [Validators.required] ],
+      audUsuario      : [ this.loginService.codUsuario ]
     });
   }
 
@@ -107,11 +107,11 @@ export class DatoFormacionComponent implements OnInit {
     this.formFormacion = this.fb.group({
       codFormacion    : [ 0 ],
       codEmpleado     : [ this.codEmpleado ],
-      descripcion     : [ '' ],
-      duracion        : [ 0 ],
-      tipoDuracion    : [ 0 ],
-      tipoFormacion   : [ '' ],
-      fechaFormacion  : [ 0 ],
+      descripcion     : [ '',  [ Validators.required, Validators.minLength(3)] ],
+      duracion        : [ 0 ,   [Validators.required]],
+      tipoDuracion    : [ 'hrs', [ Validators.required  ] ],
+      tipoFormacion   : [ 'cur', [ Validators.required  ] ],
+      fechaFormacion  : [ 0, [Validators.required] ],
       audUsuario      : [ this.loginService.codUsuario ]
     });
 
@@ -125,9 +125,7 @@ export class DatoFormacionComponent implements OnInit {
   capturarRegistro( form : Formacion ): void {
     let temp : Formacion = {...form };
 
-    temp.fechaFormacion = new Utiles().fechaPrimeNGtoTS( temp.fechaFormacion! );
-    //temp.fechaFormacion.setDate(temp.fechaFormacion.getDate() + 1);
-
+    temp.fechaFormacion = new Utiles().fechaTStoPrimeNG( temp.fechaFormacion! );
 
 
     this.formFormacion = this.fb.group({
@@ -143,6 +141,15 @@ export class DatoFormacionComponent implements OnInit {
 
     this.displayModal = true;
 
+  }
+
+  /**
+   * Procedimiento para validar los campos
+   * @param campo
+   * @returns
+   */
+  esValido( campo: string ): boolean | null {
+    return this.formFormacion.controls[campo].errors && this.formFormacion.controls[campo].touched;
   }
 
 }

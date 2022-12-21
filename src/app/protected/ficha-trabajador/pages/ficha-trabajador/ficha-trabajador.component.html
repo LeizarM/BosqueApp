@@ -1,22 +1,99 @@
-
-<br/>
+<br />
 <div align="center">
   <h1>FICHA DEL TRABAJADOR</h1>
 </div>
 <hr>
 <br/>
 
+<!-- Para desplegar la foto -->
+<!-- <h5>Basic</h5>
+<p-fileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*"  (onUpload)="onBasicUpload($event)"></p-fileUpload>
 
-<app-datos-personales></app-datos-personales>
+ -->
+<!-- Panel que mostrara los datos-->
+<p-accordion [multiple]="true">
 
-<app-dato-ingreso></app-dato-ingreso>
+  <p-accordionTab header="DATOS PERSONALES">
+    <app-datos-personales></app-datos-personales>
+  </p-accordionTab>
 
-<app-dato-esposo-conviviente></app-dato-esposo-conviviente>
+  <p-accordionTab header="DATOS INGRESO">
+    <app-dato-ingreso></app-dato-ingreso>
+  </p-accordionTab>
 
-<app-dependiente></app-dependiente>
+ <!--  <p-accordionTab header="ESPOSO(A) O CONVIVIENTE">
+    <app-dato-esposo-conviviente></app-dato-esposo-conviviente>
+  </p-accordionTab> -->
 
-<app-garante-referencia></app-garante-referencia>
+  <p-accordionTab header="DEPENDIENTES">
+    <app-dependiente></app-dependiente>
+  </p-accordionTab>
 
-<app-dato-formacion></app-dato-formacion>
+  <p-accordionTab header="GARANTES O REFERENCIAS">
+    <app-garante-referencia></app-garante-referencia>
+  </p-accordionTab>
 
-<app-dato-experiencia></app-dato-experiencia>
+  <p-accordionTab header="FORMACION">
+    <app-dato-formacion></app-dato-formacion>
+  </p-accordionTab>
+
+  <p-accordionTab header="EXPERIENCIA LABORAL">
+    <app-dato-experiencia></app-dato-experiencia>
+  </p-accordionTab>
+
+
+</p-accordion>
+
+
+<!-- <p-tabView styleClass="tabview-custom">
+
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-user"></i>
+      <span>DATOS PERSONALES</span>
+    </ng-template>
+    <app-datos-personales></app-datos-personales>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-calendar"></i>
+      <span>DATOS INGRESO</span>
+    </ng-template>
+    <app-dato-ingreso></app-dato-ingreso>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-users"></i>
+      <span>DEPENDIENTES</span>
+    </ng-template>
+    <app-dependiente></app-dependiente>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-users"></i>
+      <span>GARANTES O REFERENCIAS</span>
+    </ng-template>
+    <app-garante-referencia></app-garante-referencia>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate = "header">
+        <i class="pi pi-briefcase"></i>
+        <span>FORMACION</span>
+    </ng-template>
+    <app-dato-formacion></app-dato-formacion>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate = "header">
+        <i class="pi pi-folder-open"></i>
+        <span>EXPERIENCIA LABORAL</span>
+
+    </ng-template>
+    <app-dato-experiencia></app-dato-experiencia>
+  </p-tabPanel>
+
+</p-tabView> -->
