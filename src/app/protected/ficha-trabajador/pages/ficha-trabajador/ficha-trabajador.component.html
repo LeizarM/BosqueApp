@@ -1,15 +1,41 @@
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
 <br />
 <div align="center">
   <h1>FICHA DEL TRABAJADOR</h1>
 </div>
 <hr>
-<br/>
+<br />
 
-<!-- Para desplegar la foto -->
-<!-- <h5>Basic</h5>
-<p-fileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*"  (onUpload)="onBasicUpload($event)"></p-fileUpload>
 
- -->
+<div class="flex justify-content-center flex-wrap card-container">
+  <div class="flex align-items-center justify-content-center w-70rem h-70rem border-round m-2">
+    <!-- <p-image src="../../../../../assets/img/personas/user.jpg" alt="user" width="250" height="250"></p-image> -->
+    <p-image src="http://localhost:9223/fichaTrabajador/uploads/img/{{codEmpleado}}.jpg" styleClass="p-image-preview-container"  alt="foto-usuario"  width="250" height="250"></p-image>
+
+  </div>
+</div>
+
+<br />
+
+<div class="flex align-items-center justify-content-center w-70rem h-70rem border-round m-2">
+  <div class="grid">
+    <div class="custom-file">
+      <input (change)="seleccionarFoto($event)"  type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+      <label class="custom-file-label" for="inputGroupFile04"></label>
+    </div>
+    <div class="input-group-append">
+      <button (click)="subirFoto()" [disabled]="!fotoSeleccionada"  class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Subir</button>
+    </div>
+  </div>
+</div>
+
+<br />
+
+
 <!-- Panel que mostrara los datos-->
 <p-accordion [multiple]="true">
 
@@ -21,7 +47,7 @@
     <app-dato-ingreso></app-dato-ingreso>
   </p-accordionTab>
 
- <!--  <p-accordionTab header="ESPOSO(A) O CONVIVIENTE">
+  <!--  <p-accordionTab header="ESPOSO(A) O CONVIVIENTE">
     <app-dato-esposo-conviviente></app-dato-esposo-conviviente>
   </p-accordionTab> -->
 

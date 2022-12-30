@@ -128,5 +128,21 @@ export class FichaTrabajadorService {
 
   }
 
+  /**
+   * Metodo para subir o enviar imagenes al servidor por empleado
+   * @param file
+   * @param codEmpleado
+   * @returns
+   */
+  subirFoto(file : File, codEmpleado : any){
+    const url = `${this.baseUrl}/fichaTrabajador/upload`;
+
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("codEmpleado", codEmpleado);
+
+    return this.http.post(url, formData);
+
+  }
 
 }
