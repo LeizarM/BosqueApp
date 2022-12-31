@@ -124,6 +124,14 @@ export class DatoExperienciaComponent implements OnInit {
    */
   guardar():void{
 
+
+    if(!this.formExperiencia.valid){
+      this.formExperiencia.markAllAsTouched();
+      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "Asegurese de que tenga los campos obligatorios" });
+      return;
+    }
+
+
     const { codExperienciaLaboral, codEmpleado, nombreEmpresa, cargo, descripcion, fechaInicio, fechaFin, nroReferencia, audUsuario  } = this.formExperiencia.value;
 
     const regExpLab : ExperienciaLaboral = {
