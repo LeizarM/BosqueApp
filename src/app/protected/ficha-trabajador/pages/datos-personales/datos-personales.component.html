@@ -80,7 +80,36 @@
   <div class="field col-12 md:col-4">
     <div class="col-12 text-orange-500">Ciudad Residencia</div>
     <div class="col-12">{{ regPer.ciudad?.ciudad }}</div>
+
+
   </div>
+
+  <hr>
+
+  <app-dato-telefonos *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona" class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-telefonos>
+  <app-dato-email *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona" class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-email>
+
+  <hr>
+
+  <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+    <label> CROQUIS </label>
+    <br>
+
+    <div class="card">
+      <div class="flex flex-row flex-wrap card-container blue-container">
+          <button class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2" (click)="zoomIn()"> + </button>
+          <button class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2" (click)="zoomOut()"> - </button>
+
+      </div>
+  </div>
+
+    <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+      <div #mapR class="col-12" style="height: 250px;">
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 
@@ -110,9 +139,10 @@
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
       </div>
 
-     <div class="field col-12 md:col-4">
+      <div class="field col-12 md:col-4">
         <label for="sexo">Sexo</label>
-        <p-dropdown id="sexo" [options]="lstGenero" formControlName="sexo" optionValue="codTipos" optionLabel="nombre" class="flex">
+        <p-dropdown id="sexo" [options]="lstGenero" formControlName="sexo" optionValue="codTipos" optionLabel="nombre"
+          class="flex">
         </p-dropdown>
       </div>
 
@@ -137,7 +167,8 @@
 
       <div class="field col-12 md:col-4">
         <label for="expedido">Expedido en</label>
-        <p-dropdown id="expedido" [options]="lstExpedido" formControlName="expedido" optionValue="codTipos" optionLabel="nombre" class="flex">
+        <p-dropdown id="expedido" [options]="lstExpedido" formControlName="expedido" optionValue="codTipos"
+          optionLabel="nombre" class="flex">
         </p-dropdown>
       </div>
 
@@ -150,8 +181,8 @@
 
       <div class="field col-12 md:col-4">
         <label for="estCivil">Estado Civil</label>
-        <p-dropdown id="estCivil" [options]="lstEstadoCivil" formControlName="estCivil" optionLabel="nombre" optionValue="codTipos"
-          class="flex"></p-dropdown>
+        <p-dropdown id="estCivil" [options]="lstEstadoCivil" formControlName="estCivil" optionLabel="nombre"
+          optionValue="codTipos" class="flex"></p-dropdown>
       </div>
 
       <div class="field col-12 md:col-3">
@@ -168,23 +199,37 @@
 
       <div class="field col-12 md:col-4">
         <label for="pais">Pais Residencia</label>
-        <p-dropdown id="pais" formControlName="codPais" placeholder="Seleccione Pais" [options]="lstPais" optionLabel="pais" optionValue="codPais" class="flex"
-          (onChange)="cargarCiudades($event.value)" appendTo="body">
+        <p-dropdown id="pais" formControlName="codPais" placeholder="Seleccione Pais" [options]="lstPais"
+          optionLabel="pais" optionValue="codPais" class="flex" (onChange)="cargarCiudades($event.value)"
+          appendTo="body">
         </p-dropdown>
       </div>
 
       <div class="field col-12 md:col-4">
         <label for="estCivil">Ciudad Residencia</label>
-        <p-dropdown id="pais" formControlName="ciudad" placeholder="Seleccione Ciudad" [options]="lstCiudad" optionLabel="ciudad" optionValue="codCiudad" class="flex"
-          (onChange)="cargarZonas($event.value)" appendTo="body">
+        <p-dropdown id="pais" formControlName="ciudad" placeholder="Seleccione Ciudad" [options]="lstCiudad"
+          optionLabel="ciudad" optionValue="codCiudad" class="flex" (onChange)="cargarZonas($event.value)"
+          appendTo="body">
         </p-dropdown>
       </div>
 
       <div class="field col-12 md:col-4">
         <label for="zonaRe">Zona Residencia</label>
-        <p-dropdown id="zonaRe" formControlName="zonaRe" placeholder="Seleccione Zona" [options]="lstZona" optionValue="codZona"
-          optionLabel="zona" class="flex" appendTo="body">
+        <p-dropdown id="zonaRe" formControlName="zonaRe" placeholder="Seleccione Zona" [options]="lstZona"
+          optionValue="codZona" optionLabel="zona" class="flex" appendTo="body">
         </p-dropdown>
+      </div>
+
+      <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+        <label> CROQUIS </label>
+        <br>
+
+        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
+          <div #mapE class="col-12" style="height: 250px;">
+
+          </div>
+        </div>
+
       </div>
 
 

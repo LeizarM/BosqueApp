@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { environment } from 'src/environments/environment';
 import { LoginService } from '../../../../auth/services/login.service';
 import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
 
@@ -15,6 +16,7 @@ export class FichaTrabajadorComponent implements OnInit {
   codEmpleado: number = 0;
   uploadedFiles: any[] = [];
   fotoSeleccionada !: File;
+  baseUrl: string = environment.baseUrl;
 
   constructor(
     private messageService: MessageService,

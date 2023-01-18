@@ -1,17 +1,17 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import maplibregl, { Marker } from 'maplibre-gl';
+import { MessageService } from 'primeng/api';
+import { LoginService } from 'src/app/auth/services/login.service';
 import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
 import { Empleado } from 'src/app/protected/interfaces/Empleado';
-import { LoginService } from 'src/app/auth/services/login.service';
-import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, Tipos } from '../../../interfaces/Tipos';
-import { MessageService } from 'primeng/api';
 import { Pais } from 'src/app/protected/interfaces/Pais';
-import { PaisService } from 'src/app/protected/pais/services/pais.service';
 import { Persona } from 'src/app/protected/interfaces/Persona';
+import { Zona } from 'src/app/protected/interfaces/Zona';
+import { PaisService } from 'src/app/protected/pais/services/pais.service';
 import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
 import { Utiles } from 'src/app/protected/Utiles/Utiles';
-import { Zona } from 'src/app/protected/interfaces/Zona';
+import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, Tipos } from '../../../interfaces/Tipos';
 
 
 @Component({
@@ -20,12 +20,22 @@ import { Zona } from 'src/app/protected/interfaces/Zona';
   styleUrls: ['./datos-personales.component.css'],
   providers: [ MessageService ]
 })
-export class DatosPersonalesComponent implements OnInit {
+export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
   regEmp              : Empleado = {};
   regPer              : Persona = {};
   regPerEditar        : Persona = {};
   formDatosPersonales : FormGroup = new FormGroup({});
+
+  @ViewChild('mapR') mapR !: ElementRef; //map read
+  @ViewChild('mapE') mapE !: ElementRef; //map Edit
+
+  private markers: Marker[] = [];
+  center: [number, number] = [-68.13539986925227, -16.51605372184381];
+
+
+  mapa            !: maplibregl.Map;
+  mapaEdit        !: maplibregl.Map;
 
   lstGenero           : Tipos[] = [];
   lstExpedido         : Tipos[] = [];
@@ -53,16 +63,23 @@ export class DatosPersonalesComponent implements OnInit {
 
     this.obtenerPaises();
 
-
-
    }
+
+  ngOnDestroy(): void {
+    this.mapa.off('move', () => { });
+    this.mapa.off('load', () => { });
+    this.mapa.off('dragend', () => { });
+
+
+  }
+
 
   ngOnInit(): void {
 
     this.cargarFormulario();
 
-
   }
+
 
   /**
    * Metodo para iniciarliar el formulario
@@ -83,6 +100,8 @@ export class DatosPersonalesComponent implements OnInit {
       estCivil        : [ ],
       direccion       : [ ],
       zonaRe          : [ ],
+      lat             : [ ],
+      lng             : [ ],
 
       codPais         : [ ],
       nacionalidad    : [ ],
@@ -90,6 +109,26 @@ export class DatosPersonalesComponent implements OnInit {
     });
   }
 
+
+
+
+
+  /**
+   * Para desplegar el mapa y cargar datos
+   * @param lat
+   * @param lng
+   */
+  mapaLectura(lat: number, lng: number): void {
+    this.mapa = new maplibregl.Map({
+      container: this.mapR.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: [lat, lng],
+      zoom: 16,
+    });
+
+    // Agregando marcador
+    new maplibregl.Marker().setLngLat([lat, lng]).addTo(this.mapa);
+  }
 
   /**
    * Procedimiento para obtener informacion del empleado
@@ -118,6 +157,8 @@ export class DatosPersonalesComponent implements OnInit {
     this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.regPer = resp;
+        this.mapaLectura(this.regPer.lat!, this.regPer.lng!);
+
       }
     }, (err) => {
       console.log(err);
@@ -158,12 +199,50 @@ export class DatosPersonalesComponent implements OnInit {
       estCivil        : [ this.regPerEditar.estadoCivil ],
       direccion       : [ this.regPerEditar.direccion ],
       zonaRe          : [ this.regPerEditar.codZona ],
+      lat             : [ this.regPerEditar.lat ],
+      lng             : [ this.regPerEditar.lng ],
+
 
       codPais         : [ this.regPerEditar.ciudad?.codPais],
       nacionalidad    : [ this.regPerEditar.nacionalidad ],
       ciudad          : [ this.regPerEditar.ciudad?.codCiudad ]
 
     });
+
+
+    this.center = [this.regPerEditar.lat!, this.regPerEditar.lng!];
+
+    this.mapaEdit = new maplibregl.Map({
+      container: this.mapE.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: this.center,
+      zoom: 18,
+
+    });
+
+    this.mapaEdit.once('load', () => {
+      this.mapaEdit.resize();
+    })
+
+    this.mapaEdit.on('move', (event) => {
+      const { lat, lng, } = event.target.getCenter();
+      this.center = [lat, lng];
+    });
+
+    // Agregando marcador para editar
+    const markEdit = new maplibregl.Marker(
+      {
+        draggable: true,
+      }
+    ).setLngLat(this.center).addTo(this.mapaEdit);
+
+    markEdit.on('dragend', (ev) => {
+      const { lng, lat } = ev.target._lngLat;
+      // Se invierten la latitud y longitud
+      this.formDatosPersonales.controls['lng'].setValue(lat);
+      this.formDatosPersonales.controls['lat'].setValue(lng);
+    });
+
 
   }
 
@@ -245,7 +324,7 @@ export class DatosPersonalesComponent implements OnInit {
      */
     guardar():void{
 
-      const {codPersona, nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, estCivil, direccion, zonaRe, nacionalidad } = this.formDatosPersonales.value;
+      const {codPersona, nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, estCivil, direccion, zonaRe, nacionalidad, lat, lng } = this.formDatosPersonales.value;
 
       const regPersona : Persona = {
         codPersona,
@@ -261,7 +340,9 @@ export class DatosPersonalesComponent implements OnInit {
         estadoCivil : estCivil,
         direccion,
         codZona : zonaRe,
-        nacionalidad
+        nacionalidad,
+        lat,
+        lng
 
       }
 
@@ -284,6 +365,23 @@ export class DatosPersonalesComponent implements OnInit {
       // Actualizamos la lista
       this.obtenerDetalleEmpleado( this.codEmpleado );
 
+      this.mapaEdit.off('load', () => { });
+      this.mapaEdit.off('dragend', () => { });
+      this.mapaEdit.off('move', () => { });
+
+    }
+
+    /**
+     * para hacer zoom al mapa
+     */
+    zoomIn():void{
+      this.mapa.zoomIn();
+    }
+    /**
+     * Para alejar el zoom al mapa
+     */
+    zoomOut():void{
+      this.mapa.zoomOut();
     }
 
 }

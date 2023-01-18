@@ -14,15 +14,13 @@
     <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.numCuenta }} </label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Empresa:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{
-      regEmp.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresa }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.nombreEmpresa }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Sucursal:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.sucursal
-      }}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.sucursal }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">Cargo:</label>
-    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.descripcion}}</label>
+    <label class="col-12 md:col-3 lg:col-3 ajustar-text">{{ regEmp.empleadoCargo?.cargoSucursal?.cargo?.descripcion }}</label>
 
     <label class="col-12 md:col-3 lg:col-3 text-orange-500 ajustar-text">A Partir de:</label>
     <label class="col-12 md:col-3 lg:col-3 ajustar-text"> {{ regEmp.empleadoCargo?.fechaInicio | date: 'dd/MM/yyyy' }}</label>

@@ -1,38 +1,50 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Email } from '../../../interfaces/Email';
-import { Empleado } from '../../../interfaces/Empleado';
-import { RrhhService } from '../../services/rrhh.service';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { LoginService } from 'src/app/auth/services/login.service';
+import { Email } from 'src/app/protected/interfaces/Email';
+import { RrhhService } from '../../../rrhh/services/rrhh.service';
 
 @Component({
   selector: 'app-dato-email',
   templateUrl: './dato-email.component.html',
   styleUrls: ['./dato-email.component.css'],
-  providers: [ConfirmationService, MessageService],
+  providers: [ ConfirmationService, MessageService ],
 })
-export class DatoEmailComponent implements OnInit{
+export class DatoEmailComponent implements OnInit {
 
-  @Input() regEmp !: Empleado;
-  emails: Email[] = [];
-  lstEmail: Email[] = [];
-  displayModal: boolean = false;
+  //varibale de entrada del padre al componente hijo
+  @Input() codPersona : number = 0;
+
+  //variables
+  displayModal : boolean = false;
+
   //Inicializando el Formulario
   formEmail: FormGroup = this.fb.group({
     emailArr: this.fb.array([])
   });
 
-  constructor(private rrhhService: RrhhService,
-    private fb: FormBuilder,
+  //Listas
+  lstEmail : Email[] = [];
+  emails   : Email[] = [];
+
+  constructor(
+    private rrhhService  : RrhhService,
+    private fb           : FormBuilder,
+    private loginService : LoginService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService) {
+    private messageService: MessageService
+  ) {
+
 
   }
+
   ngOnInit(): void {
-    this.obtenerEmails(this.regEmp.codPersona!);
+
+    this.obtenerEmails( this.codPersona );
 
   }
+
 
   /**
    *  Procedimiento para obtener los correos de una persona
@@ -41,19 +53,20 @@ export class DatoEmailComponent implements OnInit{
   obtenerEmails(codPersona: number): void {
     this.rrhhService.obtenerDatosEmail(codPersona).subscribe((resp) => {
       if (resp) {
-        this.emails = resp;
+        this.lstEmail = resp;
       }
     }, (err) => {
-      this.emails = [];
+      this.lstEmail = [];
       console.log(err);
     });
   }
 
   /**
-   * Procedimiento para  capturar los datos de los emails en el form Array
+   * Metodo para cargr los Emails y luego editar la informacion
    */
-  cargarEmails():void {
-    this.lstEmail = [...this.emails];
+  cargarEmails():void{
+
+    this.emails = [...this.lstEmail];
 
     this.formEmail = this.fb.group({
       emailArr: this.fb.array(
@@ -65,14 +78,6 @@ export class DatoEmailComponent implements OnInit{
   }
 
   /**
-   * Desplegara los datos del formulario
-   * @returns
-   */
-  lstFormEmail(): FormArray {
-    return this.formEmail.get('emailArr') as FormArray;
-  }
-
-  /**
    * Llenar Formulario
    * @param e
    * @returns
@@ -81,17 +86,26 @@ export class DatoEmailComponent implements OnInit{
     return new FormGroup({
       codEmail    : new FormControl(e.codEmail, [Validators.required]),
       codPersona  : new FormControl(e.codPersona, [Validators.required]),
-      email       : new FormControl(e.email, [Validators.required]),
+      email       : new FormControl(e.email, [Validators.required, Validators.email]),
       audUsuario  : new FormControl(e.audUsuario, [Validators.required]),
     });
   }
 
   /**
-   * Para agregar nuevo registro a la lista
+   * Desplegara los datos del formulario
+   * @returns
    */
-  agregarNuevoRegistro(): void {
+  lstFormEmail(): FormArray {
+    return this.formEmail.get('emailArr') as FormArray;
+  }
+
+  /**
+   * Agregara un nuevo registro
+   */
+  agregarNuevoRegistro():void{
     this.lstFormEmail().push(this.crearNuevoRegistro());
   }
+
   /**
    * Crear nuevo registro
    * @returns
@@ -99,11 +113,12 @@ export class DatoEmailComponent implements OnInit{
   crearNuevoRegistro(): FormGroup {
     return this.fb.group({
       codEmail    : new FormControl(0),
-      codPersona  : new FormControl(this.regEmp.codPersona!),
-      email       : new FormControl('', [Validators.required]),
+      codPersona  : new FormControl(this.codPersona!),
+      email       : new FormControl('', [Validators.required, Validators.email]),
       audUsuario  : new FormControl(34)
     });
   }
+
   /**
    * Procedimiento para eliminar un Email por empleado
    * @param event
@@ -129,7 +144,7 @@ export class DatoEmailComponent implements OnInit{
               if (resp) {
                 console.log("bien");
                 this.displayModal = false;
-                this.obtenerEmails(this.regEmp.codPersona!);
+                this.obtenerEmails(this.codPersona);
                 this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Eliminado' });
 
               } else {
@@ -152,10 +167,9 @@ export class DatoEmailComponent implements OnInit{
 
 
   /**
-   * Para guadar la lista de emails
+   * Metodo para guardar los Emails
    */
-  guardarEmails(): void {
-
+  guardarEmails():void {
 
     this.lstFormEmail().controls.map(e => {
       //console.log(e.value);
@@ -180,4 +194,5 @@ export class DatoEmailComponent implements OnInit{
     });
 
   }
+
 }
