@@ -8,6 +8,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Persona } from '../../interfaces/Persona';
 
 @Injectable({
   providedIn: 'root'
@@ -142,6 +143,24 @@ export class FichaTrabajadorService {
     formData.append("codEmpleado", codEmpleado);
 
     return this.http.post(url, formData);
+
+  }
+
+  descargarFicha( codEmpleado : number ) {
+
+    const url = `${this.baseUrl}/fichaTrabajador/pdf`;
+
+    let persona : Persona ={
+      codPersona : codEmpleado
+    };
+
+    return this.http.post<any>(url, persona)
+    .pipe(map((response) => {
+      return {
+        filename: 'report.pdf',
+        data: new Blob([response], { type: 'application/pdf' })
+      };
+    }));
 
   }
 

@@ -14,7 +14,6 @@ import { FichaTrabajadorService } from '../../services/ficha-trabajador.service'
 export class FichaTrabajadorComponent implements OnInit {
 
   codEmpleado: number = 0;
-  uploadedFiles: any[] = [];
   fotoSeleccionada !: File;
   baseUrl: string = environment.baseUrl;
 
@@ -49,20 +48,37 @@ export class FichaTrabajadorComponent implements OnInit {
     if (!this.fotoSeleccionada) {
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'No se selecciono ninguna imagen' });
     } else {
-      this.fichaTrabajadorService.subirFoto(this.fotoSeleccionada, this.codEmpleado).subscribe((resp) => {
-        console.log("La foto se subio correctamente");
-        location.reload();
+      this.fichaTrabajadorService.subirFoto(this.fotoSeleccionada, this.codEmpleado).subscribe(() => {
 
-        setTimeout(() => {
-          this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Se actualizo la foto o imagen del empleado' });
-        }, 5000);
+        location.reload();
 
       });
     }
 
-
-
   }
 
+  descargarFichaTrabajador() : void{
 
+    console.log("el cod empleado es ", this.codEmpleado );
+
+    this.fichaTrabajadorService.descargarFicha(this.codEmpleado).subscribe((resp)=>{
+
+
+      console.log(resp);
+
+      let url = window.URL.createObjectURL(resp.data);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.setAttribute('target', 'blank');
+      a.href = url;
+      a.download = resp.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    }, error => {
+      console.log(error);
+    });
+
+  }
 }
