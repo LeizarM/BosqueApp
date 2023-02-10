@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Dependiente } from '../../interfaces/Dependiente';
 import { catchError } from 'rxjs/internal/operators/catchError';
@@ -146,7 +146,12 @@ export class FichaTrabajadorService {
 
   }
 
-  descargarFicha( codEmpleado : number ) {
+  /**
+   * Procedimiento para descargar y preparar el PDF
+   * @param codEmpleado
+   * @returns
+   */
+   descargarFicha( codEmpleado : number ) {
 
     const url = `${this.baseUrl}/fichaTrabajador/pdf`;
 
@@ -154,10 +159,14 @@ export class FichaTrabajadorService {
       codPersona : codEmpleado
     };
 
-    return this.http.post<any>(url, persona)
+    let headers = new HttpHeaders();
+    headers.append('Accept', 'application/pdf');
+    let requestOptions: any = { headers: headers, responseType: 'blob' };
+
+    return this.http.post(url, persona, requestOptions)
     .pipe(map((response) => {
       return {
-        filename: 'report.pdf',
+        filename: 'RptPrueba.pdf',
         data: new Blob([response], { type: 'application/pdf' })
       };
     }));

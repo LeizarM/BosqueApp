@@ -9,20 +9,21 @@ import { RrhhService } from '../../../rrhh/services/rrhh.service';
   selector: 'app-dato-telefonos',
   templateUrl: './dato-telefonos.component.html',
   styleUrls: ['./dato-telefonos.component.css'],
-  providers: [ ConfirmationService, MessageService ],
+  providers: [ConfirmationService, MessageService],
 })
 export class DatoTelefonosComponent implements OnInit {
 
   //varibale de entrada del padre al componente hijo
-  @Input() codPersona : number = 0;
+  @Input() codPersona: number = 0;
 
   //variables
-  displayModal : boolean = false;
+  displayModal: boolean = false;
+  codUsuario: number = 0;
 
 
   //Listas
-  lstTelefono : Telefono[] = [];
-  telefonos    : Telefono[] = [];
+  lstTelefono: Telefono[] = [];
+  telefonos: Telefono[] = [];
 
   //formularios
   formTelefono: FormGroup = this.fb.group({
@@ -30,15 +31,17 @@ export class DatoTelefonosComponent implements OnInit {
   });
 
   constructor(
-    private rrhhService : RrhhService,
-    private loginService : LoginService,
+    private rrhhService: RrhhService,
+    private loginService: LoginService,
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) { }
+  ) {
+    this.codUsuario = this.loginService.codUsuario;
+  }
 
   ngOnInit(): void {
-    this.obtenerTelefonos( this.codPersona );
+    this.obtenerTelefonos(this.codPersona);
   }
 
 
@@ -46,7 +49,7 @@ export class DatoTelefonosComponent implements OnInit {
    * Procedimiento para Obtener telefonos por persona
    * @param codPersona
    */
-  obtenerTelefonos( codPersona: number ) {
+  obtenerTelefonos(codPersona: number) {
     this.rrhhService.obtenerDatosTelefono(codPersona).subscribe((resp) => {
       if (resp) {
         this.telefonos = resp;
@@ -60,7 +63,7 @@ export class DatoTelefonosComponent implements OnInit {
    * Procedimiento para capturar datos de los telefonos en el Form arra
    */
   cargarTelefonos(): void {
-    this.lstTelefono  = [...this.telefonos];
+    this.lstTelefono = [...this.telefonos];
 
     this.formTelefono = this.fb.group({
       telArr: this.fb.array(
@@ -76,11 +79,11 @@ export class DatoTelefonosComponent implements OnInit {
    */
   preCargarFormulario(t: Telefono): FormGroup {
     return new FormGroup({
-      codTelefono : new FormControl(t.codTelefono),
-      codPersona  : new FormControl(t.codPersona),
-      codTipoTel  : new FormControl(t.codTipoTel),
-      telefono    : new FormControl(t.telefono, [Validators.required]),
-      audUsuario  : new FormControl(t.audUsuario)
+      codTelefono: new FormControl(t.codTelefono),
+      codPersona: new FormControl(t.codPersona),
+      codTipoTel: new FormControl(t.codTipoTel),
+      telefono: new FormControl(t.telefono, [Validators.required]),
+      audUsuario: new FormControl(t.audUsuario)
     });
   }
 
@@ -109,7 +112,7 @@ export class DatoTelefonosComponent implements OnInit {
       codPersona: new FormControl(this.codPersona),
       codTipoTel: new FormControl(1),
       telefono: new FormControl('', [Validators.required]),
-      audUsuario: new FormControl(34)
+      audUsuario: new FormControl(this.codUsuario)
     });
   }
 
@@ -150,7 +153,7 @@ export class DatoTelefonosComponent implements OnInit {
 
     if (codTelefono === 0) {
       this.lstFormTel().removeAt(index);
-    }else {
+    } else {
       this.confirmationService.confirm({
         target: event.target!,
         message: '¿Esta Seguro(a) de eliminar este registro del sistema?',
@@ -165,7 +168,7 @@ export class DatoTelefonosComponent implements OnInit {
               if (resp) {
                 console.log("bien");
                 this.displayModal = false;
-                this.obtenerTelefonos( this.codPersona );
+                this.obtenerTelefonos(this.codPersona);
                 this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Eliminado' });
 
               } else {
@@ -185,5 +188,6 @@ export class DatoTelefonosComponent implements OnInit {
       });
     }
   }
+
 
 }

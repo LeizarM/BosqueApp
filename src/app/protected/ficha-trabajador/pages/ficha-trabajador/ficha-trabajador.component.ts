@@ -57,7 +57,10 @@ export class FichaTrabajadorComponent implements OnInit {
 
   }
 
-  descargarFichaTrabajador() : void{
+   /**
+    * Procedimiento para cargar y descargar la ficha del trabajador
+    */
+   descargarFichaTrabajador() : void{
 
     console.log("el cod empleado es ", this.codEmpleado );
 

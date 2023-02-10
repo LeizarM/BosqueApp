@@ -9,7 +9,7 @@ import { EmpresaService } from '../../empresas/services/empresa.service';
 })
 export class DropdownEmpresaComponent implements OnInit {
 
-
+/*
   @Output() cambioEmpresa: EventEmitter<number> = new EventEmitter();
 
   lstEmpresas: Empresa[] = [];
@@ -17,16 +17,16 @@ export class DropdownEmpresaComponent implements OnInit {
 
   constructor(private empresaService: EmpresaService) {
 
-  }
+  } */
 
   ngOnInit(): void {
-    this.obtenerEmpresas();
+    //this.obtenerEmpresas();
   }
 
 
   /**
    * Procedimiento para obtener Empresas registradas
-   */
+
   obtenerEmpresas(): void {
     this.empresaService.obtenerEmpresas().subscribe((resp) => {
       if (resp) {
@@ -36,13 +36,13 @@ export class DropdownEmpresaComponent implements OnInit {
       this.lstEmpresas = [];
       console.log(err);
     });
-  }
+  }*/
 
   /**
    * Procedimiento para cambio de empresa
-  */
+
   cambioCodEmpresa(event: any): void {
     this.cambioEmpresa.emit(event.value);
-  }
+  }*/
 
 }
