@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
-import { Dependiente } from '../../interfaces/Dependiente';
-import { catchError } from 'rxjs/internal/operators/catchError';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
-import { map, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Persona } from '../../interfaces/Persona';
+import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { Dependiente } from '../../interfaces/Dependiente';
+import { Empleado } from '../../interfaces/Empleado';
+import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class FichaTrabajadorService {
    * @param codEmpleado
    * @returns
    */
-  obtenerDependientes( codEmpleado: number ): Observable<Dependiente[]> {
+  obtenerDependientes(codEmpleado: number): Observable<Dependiente[]> {
     const url = `${this.baseUrl}/fichaTrabajador/dependientes`;
 
     const dep: Dependiente = {
@@ -59,12 +59,12 @@ export class FichaTrabajadorService {
    * @param codEmpleado
    * @returns
    */
-  obtenerGaranteYReferencias( codEmpleado: number ): Observable<GaranteReferencia[]> {
+  obtenerGaranteYReferencias(codEmpleado: number): Observable<GaranteReferencia[]> {
 
     const url = `${this.baseUrl}/fichaTrabajador/garanteReferencia`;
 
     const garRef: GaranteReferencia = {
-      codEmpleado : codEmpleado
+      codEmpleado: codEmpleado
     };
 
     return this.http.post<GaranteReferencia[]>(url, garRef)
@@ -112,19 +112,19 @@ export class FichaTrabajadorService {
    * @param garanteReferencia
    * @returns
    */
-  registrarInfoGaranteReferencia( garanteReferencia : GaranteReferencia ){
+  registrarInfoGaranteReferencia(garanteReferencia: GaranteReferencia) {
 
     const url = `${this.baseUrl}/fichaTrabajador/registrarGaranteReferencia`;
 
-    return this.http.post<GaranteReferencia>( url, garanteReferencia )
+    return this.http.post<GaranteReferencia>(url, garanteReferencia)
       .pipe(
-        tap( resp => {
-          if( !resp ){
+        tap(resp => {
+          if (!resp) {
             console.log(resp);
           }
         }),
-        map(resp => resp ),
-        catchError( err => of(err.error))
+        map(resp => resp),
+        catchError(err => of(err.error))
       );
 
   }
@@ -135,7 +135,7 @@ export class FichaTrabajadorService {
    * @param codEmpleado
    * @returns
    */
-  subirFoto(file : File, codEmpleado : any){
+  subirFoto(file: File, codEmpleado: any) {
     const url = `${this.baseUrl}/fichaTrabajador/upload`;
 
     let formData = new FormData();
@@ -151,26 +151,31 @@ export class FichaTrabajadorService {
    * @param codEmpleado
    * @returns
    */
-   descargarFicha( codEmpleado : number ) {
+  descargarFicha(codEmpleado: number) {
 
     const url = `${this.baseUrl}/fichaTrabajador/pdf`;
 
-    let persona : Persona ={
-      codPersona : codEmpleado
+    const nombreReporte: string = "RptFichaTrabajador";
+
+    let empleado: Empleado = {
+      codEmpleado: codEmpleado
     };
+
 
     let headers = new HttpHeaders();
     headers.append('Accept', 'application/pdf');
     let requestOptions: any = { headers: headers, responseType: 'blob' };
 
-    return this.http.post(url, persona, requestOptions)
-    .pipe(map((response) => {
-      return {
-        filename: 'RptPrueba.pdf',
-        data: new Blob([response], { type: 'application/pdf' })
-      };
-    }));
+    return this.http.post(url, empleado, requestOptions)
+      .pipe(map((response) => {
+        return {
+          filename: `${nombreReporte}_${codEmpleado}`,
+          data: new Blob([response], { type: 'application/pdf' })
+        };
+      }));
 
   }
+
+
 
 }

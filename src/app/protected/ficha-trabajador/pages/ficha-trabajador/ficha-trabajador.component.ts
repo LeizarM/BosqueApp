@@ -34,7 +34,7 @@ export class FichaTrabajadorComponent implements OnInit {
    */
   seleccionarFoto(event: any) {
     this.fotoSeleccionada = event.target.files[0];
-    if(this.fotoSeleccionada.type.indexOf('image') < 0){//validando que sea una imagen
+    if (this.fotoSeleccionada.type.indexOf('image') < 0) {//validando que sea una imagen
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Error', detail: 'El archivo seleccionado no es una imagen' });
       this.fotoSeleccionada = null!;
     }
@@ -57,28 +57,18 @@ export class FichaTrabajadorComponent implements OnInit {
 
   }
 
-   /**
-    * Procedimiento para cargar y descargar la ficha del trabajador
-    */
-   descargarFichaTrabajador() : void{
+  /**
+   * Procedimiento para cargar y descargar la ficha del trabajador
+   */
+  descargarFichaTrabajador(): void {
 
-    console.log("el cod empleado es ", this.codEmpleado );
-
-    this.fichaTrabajadorService.descargarFicha(this.codEmpleado).subscribe((resp)=>{
-
-
-      console.log(resp);
-
-      let url = window.URL.createObjectURL(resp.data);
-      let a = document.createElement('a');
-      document.body.appendChild(a);
-      a.setAttribute('style', 'display: none');
-      a.setAttribute('target', 'blank');
-      a.href = url;
-      a.download = resp.filename;
-      a.click();
+    this.fichaTrabajadorService.descargarFicha(this.codEmpleado).subscribe((resp) => {
+      const url = window.URL.createObjectURL(resp.data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', resp.filename);
+      link.click();
       window.URL.revokeObjectURL(url);
-      a.remove();
     }, error => {
       console.log(error);
     });

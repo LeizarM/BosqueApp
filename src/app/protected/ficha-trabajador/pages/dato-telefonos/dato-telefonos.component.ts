@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { of } from 'rxjs/internal/observable/of';
+import { catchError } from 'rxjs/operators';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Telefono } from '../../../interfaces/Telefono';
 import { RrhhService } from '../../../rrhh/services/rrhh.service';
@@ -49,7 +51,7 @@ export class DatoTelefonosComponent implements OnInit {
    * Procedimiento para Obtener telefonos por persona
    * @param codPersona
    */
-  obtenerTelefonos(codPersona: number) {
+  obtenerTelefonos(codPersona: number): void {
     this.rrhhService.obtenerDatosTelefono(codPersona).subscribe((resp) => {
       if (resp) {
         this.telefonos = resp;
@@ -149,45 +151,84 @@ export class DatoTelefonosComponent implements OnInit {
    * @param index
    * @param codTelefono
    */
+  /*   eliminarRegistro(event: Event, index: number, codTelefono: number): void {
+  
+      if (codTelefono === 0) {
+        this.lstFormTel().removeAt(index);
+      } else {
+        this.confirmationService.confirm({
+          target: event.target!,
+          message: '¿Esta Seguro(a) de eliminar este registro del sistema?',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            let tel: Telefono = {
+              codTelefono: codTelefono
+            };
+  
+            this.rrhhService.eliminarTelefono(tel).subscribe(
+              (resp) => {
+                if (resp) {
+                  console.log("bien");
+                  this.displayModal = false;
+                  this.obtenerTelefonos(this.codPersona);
+                  this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Eliminado' });
+  
+                } else {
+                  console.log(resp);
+                  this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Eliminar el Email" });
+                }
+              }, (err) => {
+                console.log("Error General");
+                console.log(err);
+              }
+            );
+  
+          },
+          reject: () => {
+            console.log("No se hace nada");
+          }
+        });
+      }
+    }
+  
+   */
   eliminarRegistro(event: Event, index: number, codTelefono: number): void {
-
     if (codTelefono === 0) {
       this.lstFormTel().removeAt(index);
-    } else {
-      this.confirmationService.confirm({
-        target: event.target!,
-        message: '¿Esta Seguro(a) de eliminar este registro del sistema?',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          let tel: Telefono = {
-            codTelefono: codTelefono
-          };
-
-          this.rrhhService.eliminarTelefono(tel).subscribe(
-            (resp) => {
-              if (resp) {
-                console.log("bien");
-                this.displayModal = false;
-                this.obtenerTelefonos(this.codPersona);
-                this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Eliminado' });
-
-              } else {
-                console.log(resp);
-                this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Eliminar el Email" });
-              }
-            }, (err) => {
-              console.log("Error General");
-              console.log(err);
-            }
-          );
-
-        },
-        reject: () => {
-          console.log("No se hace nada");
-        }
-      });
+      return;
     }
+
+    this.confirmationService.confirm({
+      target: event.target!,
+      message: '¿Está seguro(a) de eliminar este registro del sistema?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        let tel: Telefono = {
+          codTelefono: codTelefono
+        };
+
+        this.rrhhService.eliminarTelefono(tel)
+          .pipe(
+            catchError(err => {
+              console.log('Error general: ', err);
+              this.messageService.add({ key: 'bc', severity: 'error', summary: 'Acción inválida', detail: "No se pudo eliminar el registro" });
+              return of(null);
+            })
+          )
+          .subscribe(resp => {
+            if (resp) {
+              this.displayModal = false;
+              this.obtenerTelefonos(this.codPersona);
+              this.messageService.add({ key: 'bc', severity: 'success', summary: 'Acción realizada', detail: 'Registro eliminado' });
+            } else {
+              console.log(resp);
+              this.messageService.add({ key: 'bc', severity: 'error', summary: 'Acción inválida', detail: "No se pudo eliminar el registro" });
+            }
+          });
+      },
+      reject: () => {
+        console.log("No se hace nada");
+      }
+    });
   }
-
-
 }
