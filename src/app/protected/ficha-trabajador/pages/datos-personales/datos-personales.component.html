@@ -86,8 +86,10 @@
 
   <hr>
 
-  <app-dato-telefonos *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona" class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-telefonos>
-  <app-dato-email *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona" class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-email>
+  <app-dato-telefonos *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona"
+    class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-telefonos>
+  <app-dato-email *ngIf="regPer.codPersona" [codPersona]="regPer.codPersona"
+    class="col-12 md:col-6 lg:col-6 ajustar-text"></app-dato-email>
 
   <hr>
 
@@ -97,14 +99,18 @@
 
     <div class="card">
       <div class="flex flex-row flex-wrap card-container blue-container">
-          <button class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2" (click)="zoomIn()"> + </button>
-          <button class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2" (click)="zoomOut()"> - </button>
+        <button
+          class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2"
+          (click)="zoomIn()"> + </button>
+        <button
+          class="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2"
+          (click)="zoomOut()"> - </button>
 
       </div>
-  </div>
+    </div>
 
     <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-      <div #mapR class="col-12" style="height: 250px;">
+      <div #mapR class="col-12" style="height: 500px;">
       </div>
     </div>
 
@@ -178,6 +184,11 @@
           class="border-round appearance-none outline-none  w-full" dateFormat="dd/mm/yy">
         </p-calendar>
       </div>
+      <div class="field col-12 md:col-3">
+        <label for="nacionalidad">Nacionalidad</label>
+        <p-dropdown id="nacionalidad" class="inputfield w-full" [options]="lstPais" optionLabel="pais"
+          optionValue="codPais" formControlName="nacionalidad"></p-dropdown>
+      </div>
 
       <div class="field col-12 md:col-4">
         <label for="estCivil">Estado Civil</label>
@@ -185,11 +196,6 @@
           optionValue="codTipos" class="flex"></p-dropdown>
       </div>
 
-      <div class="field col-12 md:col-3">
-        <label for="nacionalidad">Nacionalidad</label>
-        <p-dropdown id="nacionalidad" class="inputfield w-full" [options]="lstPais" optionLabel="pais"
-          optionValue="codPais" formControlName="nacionalidad"></p-dropdown>
-      </div>
 
       <div class="field col-12">
         <label for="direccion">Direccion</label>
@@ -223,18 +229,34 @@
       <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
         <label> CROQUIS </label>
         <br>
+        <hr>
+        <label for="busador"> Buscar Ubicaciones: </label>
+        <div class="white-space-normal"></div>
+        <input #txtQuery (keyup)="onQueryChange(txtQuery.value)" pInputText
+          placeholder="Ingresa alguna ubicacion, calle, lugar o zona" type="text">
+
+        <ul class="list-group mt-2" *ngIf="lugares.length > 0">
+          <li *ngFor="let lugar of lugares" class="list-group-item list-group-item-action cursor-pointer"
+              [class.active]="selectedId === lugar.properties.place_id"
+              (click)="flyTo(lugar)">
+            <h6>
+              {{ lugar.properties.display_name }}
+            </h6>
+            <p>
+              {{ lugar.properties.address.country }}
+            </p>
+          </li>
+        </ul>
 
         <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-          <div #mapE class="col-12" style="height: 250px;">
-
+          <div #mapE class="col-12" style="height: 500px;">
           </div>
         </div>
 
       </div>
 
-
-
-      <button pButton type="submit" icon="pi pi-save" label="Guardar" class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
+      <button pButton type="submit" icon="pi pi-save" label="Guardar"
+        class="flex-1 m-15 px-5 py-3 flex align-items-center p-button-raised p-button-success"></button>
 
     </div>
   </form>

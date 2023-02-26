@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import maplibregl, { Marker } from 'maplibre-gl';
+import maplibregl, { Marker, Popup } from 'maplibre-gl';
 import { MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
@@ -11,7 +11,9 @@ import { Zona } from 'src/app/protected/interfaces/Zona';
 import { PaisService } from 'src/app/protected/pais/services/pais.service';
 import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
 import { Utiles } from 'src/app/protected/Utiles/Utiles';
+import { Feature } from '../../../interfaces/MapBoxLibre';
 import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, Tipos } from '../../../interfaces/Tipos';
+import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
 
 
 @Component({
@@ -23,9 +25,11 @@ import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, Tipos } from '../../../i
 export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
   regEmp              : Empleado = {};
+
   regPer              : Persona = {};
   regPerEditar        : Persona = {};
   formDatosPersonales : FormGroup = new FormGroup({});
+  isDisabled          : boolean = true;
 
   @ViewChild('mapR') mapR !: ElementRef; //map read
   @ViewChild('mapE') mapE !: ElementRef; //map Edit
@@ -43,16 +47,23 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
   lstPais             : Pais[]  = [];
   lstCiudad           : Ciudad[] = [];
   lstZona             : Zona[] = [];
+  lugares             : Feature[] = [];
 
   codEmpleado : number = 0;
   displayModal : boolean = false;
 
+  public selectedId : number = 0;
+
+  private debounceTimer  ?: NodeJS.Timeout;
+
+
   constructor(
-    private fb            : FormBuilder,
-    private messageService: MessageService,
-    private loginService  : LoginService,
-    private rrhhService   : RrhhService,
-    private paisService   : PaisService
+    private fb                     : FormBuilder,
+    private messageService         : MessageService,
+    private loginService           : LoginService,
+    private rrhhService            : RrhhService,
+    private paisService            : PaisService,
+    private fichaTrabajadorService : FichaTrabajadorService
   ) {
     this.codEmpleado = this.loginService.codEmpleado;
     this.obtenerDetalleEmpleado( this.codEmpleado );
@@ -87,16 +98,16 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
   cargarFormulario(): void {
 
     this.formDatosPersonales = this.fb.group({
-      codPersona      : [ ],
-      nombres         : [ ],
-      apPaterno       : [ ],
-      apMaterno       : [ ],
-      sexo            : [ ],
-      fecNac          : [ ],
-      lugarNacimiento : [ ],
-      ci              : [ ],
-      expedido        : [ ],
-      ciVenci         : [ ],
+      codPersona      : [ {value: '', disabled: this.isDisabled},],
+      nombres         : [ {value: '', disabled: this.isDisabled},],
+      apPaterno       : [ {value: '', disabled: this.isDisabled},],
+      apMaterno       : [ {value: '', disabled: this.isDisabled},],
+      sexo            : [ {value: '', disabled: this.isDisabled},],
+      fecNac          : [ {value: '', disabled: this.isDisabled},],
+      lugarNacimiento : [ {value: 0, disabled: this.isDisabled},],
+      ci              : [ {value: '', disabled: this.isDisabled},],
+      expedido        : [ {value: '', disabled: this.isDisabled},],
+      ciVenci         : [ {value: 0, disabled: this.isDisabled},],
       estCivil        : [ ],
       direccion       : [ ],
       zonaRe          : [ ],
@@ -104,7 +115,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
       lng             : [ ],
 
       codPais         : [ ],
-      nacionalidad    : [ ],
+      nacionalidad    : [ {value: 0, disabled: this.isDisabled}],
       ciudad          : [ ],
     });
   }
@@ -384,4 +395,67 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
       this.mapa.zoomOut();
     }
 
+    /**
+     * Para obtener lugares en el mapa de acuerdo al query
+     * @param query
+     */
+    onQueryChange( query : string = '' ): void{
+
+      if(this.debounceTimer) clearTimeout(this.debounceTimer);
+
+      this.debounceTimer = setTimeout(() => {
+
+        this.fichaTrabajadorService.obtenerLugares( query ).subscribe((resp)=>{
+            if(resp.features.length > 0){
+
+              this.lugares = resp.features;
+              this.crearMarcadoresDeLugares(this.lugares);
+            }else{
+              this.lugares = [];
+            }
+        });
+
+      }, 1000);
+
+    }
+    /**
+     * Para ir a la ubicacion
+     * @param lugar
+     */
+    flyTo(lugar : Feature){
+      this.selectedId = lugar.properties.place_id;
+    }
+
+    crearMarcadoresDeLugares(lugares : Feature[]){
+
+      if(!this.mapaEdit) throw Error("Mapa no encontrado");
+      this.markers.forEach(marker => marker.remove());
+      const newMarkers = [];
+      for( const lugar of this.lugares){
+        let center = [
+          lugar.bbox[0] +
+          (lugar.bbox[2] - lugar.bbox[0]) / 2,
+          lugar.bbox[1] +
+          (lugar.bbox[3] - lugar.bbox[1]) / 2
+          ];
+        const [lng, lat] = center;
+        const popup = new Popup().setHTML(
+          `
+          <h6>${ lugar.properties.display_name }</h6>
+          `
+        );
+        const newMarker = new Marker(
+          {
+            color: '#FF0000'
+          }
+        )
+        .setLngLat([lng,lat])
+        .setPopup( popup )
+        .addTo(this.mapaEdit);
+
+        newMarkers.push( newMarker );
+
+      }
+      this.markers = newMarkers;
+    }
 }

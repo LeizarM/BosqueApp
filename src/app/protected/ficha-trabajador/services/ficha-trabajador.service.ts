@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { Dependiente } from '../../interfaces/Dependiente';
 import { Empleado } from '../../interfaces/Empleado';
 import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
+import { MapBoxLibre } from '../../interfaces/MapBoxLibre';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ import { GaranteReferencia } from '../../interfaces/GaranteReferencia';
 export class FichaTrabajadorService {
 
   private baseUrl: string = environment.baseUrl;
+  private urlMap: string = 'https://nominatim.openstreetmap.org/search?q=';
+  private styleMap: string = '&format=geojson&polygon_geojson=1&addressdetails=1';
 
   constructor(private http: HttpClient) { }
 
@@ -177,5 +180,22 @@ export class FichaTrabajadorService {
   }
 
 
+  /**
+   * para obtener lugares de acuerdo a lo que escriba
+   * @param query
+   */
+  obtenerLugares(query: string = '') : Observable<MapBoxLibre>{
+
+    return this.http.get<MapBoxLibre>(`${this.urlMap}${query}${this.styleMap}`)
+      .pipe(
+        tap(resp => {
+          if (!resp) {
+            console.log(resp);
+          }
+        }),
+        map(resp => resp),
+        catchError(err => of(err.error))
+      );
+  }
 
 }
