@@ -226,32 +226,41 @@
         </p-dropdown>
       </div>
 
-      <div class="z-0 align-items-center justify-content-center  green-container col-12 md:col-12">
+      <div class="align-items-center justify-content-center  green-container col-12 md:col-12">
         <label> CROQUIS </label>
         <br>
         <hr>
-        <label for="busador"> Buscar Ubicaciones: </label>
-        <div class="white-space-normal"></div>
-        <input #txtQuery (keyup)="onQueryChange(txtQuery.value)" pInputText
-          placeholder="Ingresa alguna ubicacion, calle, lugar o zona" type="text">
 
-        <ul class="list-group mt-2" *ngIf="lugares.length > 0">
-          <li *ngFor="let lugar of lugares" class="list-group-item list-group-item-action cursor-pointer"
-              [class.active]="selectedId === lugar.properties.place_id"
-              (click)="flyTo(lugar)">
-            <h6>
-              {{ lugar.properties.display_name }}
-            </h6>
-            <p>
-              {{ lugar.properties.address.country }}
-            </p>
-          </li>
-        </ul>
+        <div class="grid">
 
-        <div class="my-5 border-round bg-green-100  font-bold p-3 flex align-items-center justify-content-center">
-          <div #mapE class="col-12" style="height: 500px;">
+          <div class="col-12 md:col-6 lg:col-3">
+            <label for="buscador"> Buscar Ubicaciones: </label>
+            <div class="white-space-normal"></div>
+
+            <input id="buscador" #txtQuery (keyup)="onQueryChange(txtQuery.value)" pInputText
+              placeholder="Ingresa alguna ubicacion, calle, lugar o zona" >
+            <p-scrollPanel [style]="{width: '100%', height: '400px'}" styleClass="custombar2">
+              <ul class="list-group mt-2 overflow-y: scroll;" *ngIf="lugares.length > 0">
+                <li *ngFor="let lugar of lugares" class="z-5 list-group-item list-group-item-action cursor-pointer"
+                  [class.active]="selectedId === lugar.properties.place_id" (click)="flyTo(lugar)">
+                  <h6>
+                    {{ lugar.properties.display_name }}
+                  </h6>
+                  <p>
+                    {{ lugar.properties.address.country }}
+                  </p>
+                </li>
+              </ul>
+            </p-scrollPanel>
+
           </div>
+
+          <div class="col-12 md:col-6 lg:col-9">
+            <div #mapE style="height: 500px;"></div>
+          </div>
+
         </div>
+
 
       </div>
 

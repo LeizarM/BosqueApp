@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Telefono } from '../../../interfaces/Telefono';
@@ -152,7 +152,7 @@ export class DatoTelefonosComponent implements OnInit {
    * @param codTelefono
    */
   /*   eliminarRegistro(event: Event, index: number, codTelefono: number): void {
-  
+
       if (codTelefono === 0) {
         this.lstFormTel().removeAt(index);
       } else {
@@ -164,7 +164,7 @@ export class DatoTelefonosComponent implements OnInit {
             let tel: Telefono = {
               codTelefono: codTelefono
             };
-  
+
             this.rrhhService.eliminarTelefono(tel).subscribe(
               (resp) => {
                 if (resp) {
@@ -172,7 +172,7 @@ export class DatoTelefonosComponent implements OnInit {
                   this.displayModal = false;
                   this.obtenerTelefonos(this.codPersona);
                   this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Eliminado' });
-  
+
                 } else {
                   console.log(resp);
                   this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Eliminar el Email" });
@@ -182,7 +182,7 @@ export class DatoTelefonosComponent implements OnInit {
                 console.log(err);
               }
             );
-  
+
           },
           reject: () => {
             console.log("No se hace nada");
@@ -190,7 +190,7 @@ export class DatoTelefonosComponent implements OnInit {
         });
       }
     }
-  
+
    */
   eliminarRegistro(event: Event, index: number, codTelefono: number): void {
     if (codTelefono === 0) {

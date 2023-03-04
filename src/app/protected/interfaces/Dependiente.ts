@@ -12,4 +12,7 @@ export interface Dependiente {
   descripcion?:    string;
   edad?:           number;
 
+  ok?:             string;
+  msg?:            string;
+
 }

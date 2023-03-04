@@ -1,8 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -105,7 +103,7 @@ export class FichaTrabajadorService {
           }
         }),
         map(resp => resp),
-        catchError(err => of(err.error))
+        catchError(err => throwError(err.error))
       );
 
   }
@@ -127,7 +125,7 @@ export class FichaTrabajadorService {
           }
         }),
         map(resp => resp),
-        catchError(err => of(err.error))
+        catchError(err => throwError(err.error))
       );
 
   }
@@ -194,7 +192,7 @@ export class FichaTrabajadorService {
           }
         }),
         map(resp => resp),
-        catchError(err => of(err.error))
+        catchError(err => throwError(err.error))
       );
   }
 

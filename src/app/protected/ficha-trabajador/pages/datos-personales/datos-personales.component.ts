@@ -187,6 +187,8 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
     this.regPerEditar.fechaNacimiento    = new Utiles().fechaTStoPrimeNG( this.regPerEditar.fechaNacimiento! );
     this.regPerEditar.ciFechaVencimiento = new Utiles().fechaTStoPrimeNG( this.regPerEditar.ciFechaVencimiento! );
 
+    // limpiando el input de busqueda
+    this.lugares = [];
 
     //cargando los combo
     this.obtenerCiudadesXPais( this.regPerEditar.ciudad?.codPais! );
@@ -409,6 +411,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
             if(resp.features.length > 0){
 
               this.lugares = resp.features;
+              console.log(this.lugares);
               this.crearMarcadoresDeLugares(this.lugares);
             }else{
               this.lugares = [];
@@ -424,20 +427,30 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
      */
     flyTo(lugar : Feature){
       this.selectedId = lugar.properties.place_id;
+      console.log(this.selectedId);
+      this.mapaEdit.flyTo({
+        center :[
+                  lugar.bbox[0] + ( lugar.bbox[2] - lugar.bbox[0] ) / 2,
+                  lugar.bbox[1] + ( lugar.bbox[3] - lugar.bbox[1] ) / 2
+                ]
+      });
     }
 
-    crearMarcadoresDeLugares(lugares : Feature[]){
+    /**
+     * Se crean marcadores de acuerdo
+     * @param lugares
+     * @returns
+     */
+    crearMarcadoresDeLugares(lugares : Feature[]): void {
 
       if(!this.mapaEdit) throw Error("Mapa no encontrado");
       this.markers.forEach(marker => marker.remove());
       const newMarkers = [];
-      for( const lugar of this.lugares){
+      for( const lugar of this.lugares ){
         let center = [
-          lugar.bbox[0] +
-          (lugar.bbox[2] - lugar.bbox[0]) / 2,
-          lugar.bbox[1] +
-          (lugar.bbox[3] - lugar.bbox[1]) / 2
-          ];
+                      lugar.bbox[0] + (lugar.bbox[2] - lugar.bbox[0]) / 2,
+                      lugar.bbox[1] +(lugar.bbox[3] - lugar.bbox[1]) / 2
+                      ];
         const [lng, lat] = center;
         const popup = new Popup().setHTML(
           `
@@ -457,5 +470,19 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
       }
       this.markers = newMarkers;
+
+      if(lugares.length === 0) return; // si no existen resultados de lugares, hasta aqui se detiene
+
+      //ajustamos el mapa hacia los resultados de los marcadores
+      const bounds = new maplibregl.LngLatBounds();
+
+      newMarkers.forEach(marker => bounds.extend( marker.getLngLat() )); //iteramos los marcadores
+      const [lat, lng] = this.center
+      bounds.extend([lng, lat]);
+      // agregando tambien la ubicacion actual de la persona
+
+      this.mapaEdit.fitBounds( bounds,{ //re ajustando el mapa para que encierre a todos los marcadores, incluyendo la ubicacion del empleado
+                                        padding: 100,
+                                      },  );
     }
 }
