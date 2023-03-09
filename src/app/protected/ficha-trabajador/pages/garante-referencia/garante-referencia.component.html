@@ -18,6 +18,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Nombre Completo</th>
+      <th>Direccion Domicilio</th>
       <th>Direccion Trabajo</th>
       <th>Empresa Trabajo</th>
       <th>Tipo</th>
@@ -31,14 +32,15 @@
 
     <tr>
       <td>{{ gr.nombreCompleto }}</td>
+      <td>{{ gr.direccionDomicilio }}</td>
       <td>{{ gr.direccionTrabajo }}</td>
       <td>{{ gr.empresaTrabajo }}</td>
       <td>{{ gr.tipo }}</td>
       <td>{{ gr.observacion }}</td>
       <td>{{ gr.esEmpleado }}</td>
-      <!-- <td>
+      <td>
         <button pButton type="button" label="Detalle" icon="pi pi-list" class="p-button-success"></button>
-      </td> -->
+      </td>
     </tr>
 
   </ng-template>
@@ -164,12 +166,52 @@
         </p-dropdown>
       </div>
 
+      <div class="align-items-center justify-content-center  green-container col-12 md:col-12">
+        <label> CROQUIS </label>
+        <br>
+        <hr>
+
+        <div class="grid">
+
+          <div class="col-12 md:col-6 lg:col-3">
+            <label for="buscador"> Buscar Ubicaciones: </label>
+            <div class="white-space-normal"></div>
+
+            <!--<input id="buscador" #txtQuery (keyup)="onQueryChange(txtQuery.value)" pInputText
+              placeholder="Ingresa alguna ubicacion, calle, lugar o zona" >
+             <p-scrollPanel [style]="{width: '100%', height: '400px'}" styleClass="custombar2">
+              <ul class="list-group mt-2 overflow-y: scroll;" *ngIf="lugares.length > 0">
+                <li *ngFor="let lugar of lugares" class="z-5 list-group-item list-group-item-action cursor-pointer"
+                  [class.active]="selectedId === lugar.properties.place_id" (click)="flyTo(lugar)">
+                  <h6>
+                    {{ lugar.properties.display_name }}
+                  </h6>
+                  <p>
+                    {{ lugar.properties.address.country }}
+                  </p>
+                </li>
+              </ul>
+            </p-scrollPanel> -->
+
+          </div>
+
+          <div class="col-12 md:col-6 lg:col-9">
+            <div #mapE style="height: 500px;"></div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
 
       <div class="field col-12">
         <p-divider align="center">
           <span class="p-tag">DATOS GARANTE O REFERENCIA </span>
         </p-divider>
       </div>
+
 
       <div class="field col-12">
         <label for="direccionTrabajo">Direccion Trabajo</label>

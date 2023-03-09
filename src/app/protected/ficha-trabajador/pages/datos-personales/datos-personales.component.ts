@@ -77,9 +77,14 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
    }
 
   ngOnDestroy(): void {
+
     this.mapa.off('move', () => { });
     this.mapa.off('load', () => { });
     this.mapa.off('dragend', () => { });
+
+    this.mapaEdit.off('move', () => { });
+    this.mapaEdit.off('load', () => { });
+    this.mapaEdit.off('dragend', () => { });
 
 
   }

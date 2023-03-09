@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import maplibregl, { Marker, Popup } from 'maplibre-gl';
-import { Persona } from '../../../interfaces/Persona';
-import { Empleado } from '../../../interfaces/Empleado';
-import { lstSexo, Tipos, lstEstadoCivil, lstDocumentoExpedido } from '../../../interfaces/Tipos';
-import { Pais } from '../../../interfaces/Pais';
-import { Ciudad } from '../../../interfaces/Ciudad';
-import { Zona } from '../../../interfaces/Zona';
-import { RrhhService } from '../../services/rrhh.service';
 import { MessageService } from 'primeng/api';
-import { PaisService } from '../../../pais/services/pais.service';
+import { Ciudad } from '../../../interfaces/Ciudad';
+import { Empleado } from '../../../interfaces/Empleado';
 import { Feature } from '../../../interfaces/Lugares';
+import { Pais } from '../../../interfaces/Pais';
+import { Persona } from '../../../interfaces/Persona';
+import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, Tipos } from '../../../interfaces/Tipos';
+import { Zona } from '../../../interfaces/Zona';
+import { PaisService } from '../../../pais/services/pais.service';
+import { RrhhService } from '../../services/rrhh.service';
 
 
 @Component({
@@ -272,14 +272,13 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
     this.rrhhService.registrarInfoPersona(persona).subscribe((resp) => {
 
       if (resp?.ok === 'ok' && resp) {
-        console.log("bien");
+
         this.displayModal = false;
         this.obtenerDatosPersonales(persona.codPersona!);
         this.mapaLectura(persona.lat!, persona.lng!);
         this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });
 
       } else {
-        console.log(resp);
         this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "No se pudo Actualizar la información" });
       }
     }, (err) => {
@@ -325,7 +324,6 @@ export class DatosPersonalesComponent implements OnInit, AfterViewInit, OnDestro
         newMarkers.push(newMarker);
       }
 
-      console.log("markers loaded");
       this.markers = newMarkers;
 
     }, 250);

@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import maplibregl, { Marker } from 'maplibre-gl';
 import { MessageService } from 'primeng/api';
 import { LoginService } from 'src/app/auth/services/login.service';
+import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
 import { Pais } from 'src/app/protected/interfaces/Pais';
+import { Persona } from 'src/app/protected/interfaces/Persona';
 import { lstDocumentoExpedido, lstEstadoCivil, lstGaranteYReferencia, lstSexo, Tipos } from 'src/app/protected/interfaces/Tipos';
+import { Zona } from 'src/app/protected/interfaces/Zona';
 import { PaisService } from 'src/app/protected/pais/services/pais.service';
+import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
 import { GaranteReferencia } from '../../../interfaces/GaranteReferencia';
 import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
-import { Persona } from 'src/app/protected/interfaces/Persona';
-import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
-import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
-import { Zona } from 'src/app/protected/interfaces/Zona';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { Zona } from 'src/app/protected/interfaces/Zona';
   styleUrls: ['./garante-referencia.component.css'],
   providers: [ MessageService ]
 })
-export class GaranteReferenciaComponent implements OnInit {
+export class GaranteReferenciaComponent implements OnInit, OnDestroy {
 
   //Formularios
   formDatosGaranYRef : FormGroup = new FormGroup({});
@@ -33,10 +34,15 @@ export class GaranteReferenciaComponent implements OnInit {
   lstCiudad            : Ciudad[] = [];
   lstZona              : Zona[] = [];
 
-
   //variables
   codEmpleado : number = 0;
   displayModal: boolean = false;
+
+  //Maps
+  @ViewChild('mapE') mapE !: ElementRef; //map Edit
+  mapaEdit !: maplibregl.Map;
+  private markers: Marker[] = [];
+  private center: [number, number]  = [-68.13539986925227, -16.51605372184381]; // coordenadas aleatorias
 
   constructor(
     private fb                     : FormBuilder,
@@ -49,9 +55,9 @@ export class GaranteReferenciaComponent implements OnInit {
       this.codEmpleado =  this.loginService.codEmpleado;
       this.cargarGaranteReferencia( this.codEmpleado );
 
-      this.lstGenero = lstSexo(); // para listar el genero
-      this.lstExpedido = lstDocumentoExpedido(); // para listar en donde fue expedido un CI
-      this.lstEstadoCivil =  lstEstadoCivil();  // para desplegar los estados civiles
+      this.lstGenero      = lstSexo(); // para listar el genero
+      this.lstExpedido    = lstDocumentoExpedido(); // para listar en donde fue expedido un CI
+      this.lstEstadoCivil = lstEstadoCivil();  // para desplegar los estados civiles
       this.lstGaranteYRef = lstGaranteYReferencia() // pàra desplegar si una persona sera referencia o garante
 
       this.obtenerPaises();
@@ -59,39 +65,74 @@ export class GaranteReferenciaComponent implements OnInit {
     }
 
   ngOnInit(): void {
+
     this.cargarFormulario();
+
+  }
+
+  ngOnDestroy(): void {
+
+    this.mapaEdit.off('move', () => { });
+    this.mapaEdit.off('load', () => { });
+    this.mapaEdit.off('dragend', () => { });
+
   }
 
   /**
    * Prepara el formulario para que se pueda agregar datos
    */
   cargarFormulario(): void {
+
     this.formDatosGaranYRef = this.fb.group({
 
-      nombres          : [ '', [ Validators.required, Validators.minLength(3) ] ],
-      apPaterno        : [ '', [ Validators.required, Validators.minLength(3) ] ],
-      apMaterno        : [ '', [ Validators.required, Validators.minLength(3) ] ],
-      sexo             : [ 'M', [ Validators.required, Validators.minLength(1) ] ],
-      fecNac           : [ , [ Validators.required, Validators.nullValidator ]],
-      lugarNacimiento  : [ , [ Validators.required, Validators.minLength(3) ] ],
-      ci               : [ , [ Validators.required, Validators.minLength(5) ] ],
-      expedido         : [ 'lp', [ Validators.required, Validators.minLength(1) ] ],
-      ciVenci          : [ , [ Validators.required, Validators.nullValidator ]],
-      estCivil         : [ 'cas', [ Validators.required, Validators.minLength(2) ]],
-      direccion        : [ , [ Validators.required, Validators.minLength(3) ]],
-      zonaRe           : [ , [ Validators.required ]],
-      codPais          : [ , [ Validators.required ]],
-      nacionalidad     : [ 1, [ Validators.required ]],
-      ciudad           : [ , [ Validators.required ]],
+      nombres            : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      apPaterno          : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      apMaterno          : [ '', [ Validators.required, Validators.minLength(3) ] ],
+      sexo               : [ 'M',[ Validators.required, Validators.minLength(1) ] ],
+      fecNac             : [ , [ Validators.required, Validators.nullValidator ]],
+      lugarNacimiento    : [ , [ Validators.required, Validators.minLength(3) ] ],
+      ci                 : [ , [ Validators.required, Validators.minLength(5) ] ],
+      expedido           : [ 'lp', [ Validators.required, Validators.minLength(1) ] ],
+      ciVenci            : [ , [ Validators.required, Validators.nullValidator ]],
+      estCivil           : [ 'cas', [ Validators.required, Validators.minLength(2) ]],
+      direccion          : [ , [ Validators.required, Validators.minLength(3) ]],
+      zonaRe             : [ , [ Validators.required ]],
+      codPais            : [ , [ Validators.required ]],
+      nacionalidad       : [ 1,[ Validators.required ]],
+      ciudad             : [ , [ Validators.required ]],
+      lat                : [ ],
+      lng                : [ ],
 
-      direccionTrabajo : ['', [Validators.required, Validators.minLength(5)] ],
-      empresaTrabajo   : ['', [Validators.required, Validators.minLength(3)] ],
-      tipo             : ['ref', [Validators.required, Validators.minLength(2)] ],
-      obs              : ['',]
+      direccionTrabajo   : ['', [Validators.required, Validators.minLength(5)] ],
+      empresaTrabajo     : ['', [Validators.required, Validators.minLength(3)] ],
+      tipo               : ['ref', [Validators.required, Validators.minLength(2)] ],
+      obs                : ['',]
 
     });
   }
 
+  /**
+   * Para desplegar el mapa y cargar datos
+   * @param lat
+   * @param lng
+   */
+  mapaLectura(lat: number = 0, lng: number = 0): void {
+
+    if(lat === null || lng === null || lat === undefined || lng === undefined || lng === 0 || lat === 0) {
+      [lat, lng] =  this.center;
+    }
+
+    this.mapaEdit = new maplibregl.Map({
+      container: this.mapE.nativeElement,
+      style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
+      center: [ lat, lng ],
+      zoom: 16,
+    });
+
+    this.mapaEdit.once('load', () => {
+      this.mapaEdit.resize();
+    })
+  }
   /**
    * Para cargar los garante y/o referencias por empleado
    * @param codEmpleado
@@ -113,6 +154,8 @@ export class GaranteReferenciaComponent implements OnInit {
    */
   prepararFormulario():void{
     this.displayModal =  true;
+    console.log("entro en preparar formulario");
+    this.mapaLectura();
   }
 
   /**
@@ -120,7 +163,7 @@ export class GaranteReferenciaComponent implements OnInit {
    */
   guardar():void{
 
-    const { nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, direccion, zonaRe, nacionalidad, direccionTrabajo, empresaTrabajo, tipo, obs } = this.formDatosGaranYRef.value;
+    const { nombres, apPaterno, apMaterno, sexo, fecNac, lugarNacimiento, ci, expedido, ciVenci, direccion, zonaRe, nacionalidad, direccionTrabajo, direccionDomicilio ,empresaTrabajo, tipo, obs } = this.formDatosGaranYRef.value;
 
     const regPersona : Persona = {
       nombres,
@@ -153,7 +196,7 @@ export class GaranteReferenciaComponent implements OnInit {
     .subscribe(( resp )=>{
       if( resp && resp?.ok === "ok" ){
 
-          console.log("🚀 ~ file: garante-referencia.component.ts:142 ~ GaranteReferenciaComponent ~ guardar ~ datoGaranteReferencia", datoGaranteReferencia);
+          //console.log("🚀 ~ file: garante-referencia.component.ts:142 ~ GaranteReferenciaComponent ~ guardar ~ datoGaranteReferencia", datoGaranteReferencia);
           this.registrarGaranteReferencia( datoGaranteReferencia );
 
 
