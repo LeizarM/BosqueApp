@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginService } from '../../../../auth/services/login.service';
 import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
@@ -11,11 +12,14 @@ import { FichaTrabajadorService } from '../../services/ficha-trabajador.service'
   providers: [MessageService]
 
 })
-export class FichaTrabajadorComponent implements OnInit {
+export class FichaTrabajadorComponent implements OnInit, OnDestroy {
 
   codEmpleado: number = 0;
   fotoSeleccionada !: File;
   baseUrl: string = environment.baseUrl;
+
+  //Suscriptions
+  fichaTrabajadorSuscription : Subscription = new Subscription();
 
   constructor(
     private messageService: MessageService,
@@ -23,6 +27,9 @@ export class FichaTrabajadorComponent implements OnInit {
     private fichaTrabajadorService: FichaTrabajadorService) {
 
     this.codEmpleado = this.loginService.codEmpleado;
+  }
+  ngOnDestroy(): void {
+    this.fichaTrabajadorSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -62,7 +69,7 @@ export class FichaTrabajadorComponent implements OnInit {
    */
   descargarFichaTrabajador(): void {
 
-    this.fichaTrabajadorService.descargarFicha(this.codEmpleado).subscribe((resp) => {
+    this.fichaTrabajadorSuscription = this.fichaTrabajadorService.descargarFicha(this.codEmpleado).subscribe((resp) => {
       const url = window.URL.createObjectURL(resp.data);
       const link = document.createElement('a');
       link.href = url;

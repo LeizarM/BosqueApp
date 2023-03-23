@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Formacion } from 'src/app/protected/interfaces/Formacion';
 import { lstTipoFormacion, lstTipoMedicion, Tipos } from 'src/app/protected/interfaces/Tipos';
@@ -13,7 +14,7 @@ import { Utiles } from 'src/app/protected/Utiles/Utiles';
   styleUrls: ['./dato-formacion.component.css'],
   providers: [ MessageService ]
 })
-export class DatoFormacionComponent implements OnInit {
+export class DatoFormacionComponent implements OnInit, OnDestroy {
 
   // Variables
   codEmpleado : number = 0;
@@ -26,6 +27,9 @@ export class DatoFormacionComponent implements OnInit {
 
   //Formularios
   formFormacion : FormGroup = new FormGroup({});
+
+  //Suscriptions
+  formacionSuscription : Subscription = new Subscription();
 
 
   constructor(
@@ -40,6 +44,9 @@ export class DatoFormacionComponent implements OnInit {
     this.lstMedicion  = lstTipoMedicion();
     this.lstMedicionDropDown =  lstTipoFormacion();
 
+  }
+  ngOnDestroy(): void {
+    this.formacionSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -68,7 +75,7 @@ export class DatoFormacionComponent implements OnInit {
    * @param codEmpleado
    */
   obtenerFormacion( codEmpleado: number ): void {
-    this.rrhhService.obtenerFormacion( codEmpleado ).subscribe((resp) => {
+    this.formacionSuscription = this.rrhhService.obtenerFormacion( codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.lstFormacion = resp;
       }
@@ -82,7 +89,7 @@ export class DatoFormacionComponent implements OnInit {
     let temp: Formacion = {};
     temp = this.formFormacion.value;
 
-    this.rrhhService.registrarFormacion(temp).subscribe((resp) => {
+    this.formacionSuscription = this.rrhhService.registrarFormacion(temp).subscribe((resp) => {
 
 
       if ( resp && resp.ok === 'ok') {

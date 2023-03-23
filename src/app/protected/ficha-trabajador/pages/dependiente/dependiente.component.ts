@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
-import { Dependiente } from '../../../interfaces/Dependiente';
-import { LoginService } from 'src/app/auth/services/login.service';
-import { Persona } from 'src/app/protected/interfaces/Persona';
-import { RrhhService } from '../../../rrhh/services/rrhh.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, lstTipoDependientes, Tipos } from 'src/app/protected/interfaces/Tipos';
-import { Pais } from 'src/app/protected/interfaces/Pais';
+import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { LoginService } from 'src/app/auth/services/login.service';
 import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
+import { Pais } from 'src/app/protected/interfaces/Pais';
+import { Persona } from 'src/app/protected/interfaces/Persona';
+import { lstDocumentoExpedido, lstEstadoCivil, lstSexo, lstTipoDependientes, Tipos } from 'src/app/protected/interfaces/Tipos';
 import { Zona } from 'src/app/protected/interfaces/Zona';
 import { PaisService } from 'src/app/protected/pais/services/pais.service';
-import { MessageService } from 'primeng/api';
+import { Dependiente } from '../../../interfaces/Dependiente';
+import { RrhhService } from '../../../rrhh/services/rrhh.service';
+import { FichaTrabajadorService } from '../../services/ficha-trabajador.service';
 
 @Component({
   selector: 'app-dependiente',
@@ -18,7 +19,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./dependiente.component.css'],
   providers: [ MessageService ]
 })
-export class DependienteComponent implements OnInit {
+export class DependienteComponent implements OnInit, OnDestroy {
 
   //Formularios
   formDatosDependiente : FormGroup = new FormGroup({});
@@ -39,6 +40,8 @@ export class DependienteComponent implements OnInit {
   codEmpleado     : number = 0;
   displayModal   : boolean = false;
 
+  //Suscriptions
+  dependienteSuscription : Subscription = new Subscription();
 
   constructor(
     private fb                     : FormBuilder,
@@ -60,6 +63,9 @@ export class DependienteComponent implements OnInit {
     this.obtenerPaises();
 
 
+  }
+  ngOnDestroy(): void {
+    this.dependienteSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -100,7 +106,7 @@ export class DependienteComponent implements OnInit {
   * Procedimiento para obtener Paises
   */
    obtenerPaises(): void {
-    this.paisService.obtenerPaises().subscribe((resp) => {
+    this.dependienteSuscription = this.paisService.obtenerPaises().subscribe((resp) => {
       if (resp) {
         this.lstPais = resp;
       }
@@ -115,7 +121,7 @@ export class DependienteComponent implements OnInit {
     * @param codEmpleado
     */
   cargarListaDependientes( codEmpleado : number): void {
-    this.fichaTrabajadorService.obtenerDependientes(codEmpleado).subscribe((resp) => {
+    this.dependienteSuscription = this.fichaTrabajadorService.obtenerDependientes(codEmpleado).subscribe((resp) => {
 
       if (resp) {
         this.lstDependientes = resp;
@@ -143,7 +149,7 @@ export class DependienteComponent implements OnInit {
    * @param codPersona
    */
   obtenerDatosPersonales( codPersona: number ) {
-    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
+    this.dependienteSuscription = this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.datoPersonaDep = resp;
       }
@@ -182,7 +188,7 @@ export class DependienteComponent implements OnInit {
    */
    obtenerCiudadesXPais( codPais: number ): void {
 
-    this.rrhhService.obtenerCiudadesXPais(codPais).subscribe((resp) => {
+    this.dependienteSuscription = this.rrhhService.obtenerCiudadesXPais(codPais).subscribe((resp) => {
       if (resp) {
         this.lstCiudad = resp;
         this.lstZona = [];
@@ -198,7 +204,7 @@ export class DependienteComponent implements OnInit {
    * @param codCiudad
    */
    obtenerZonaXCiudad(codCiudad: number): void {
-    this.rrhhService.obtenerZonaxCiudad(codCiudad).subscribe((resp) => {
+    this.dependienteSuscription = this.rrhhService.obtenerZonaxCiudad(codCiudad).subscribe((resp) => {
 
       if (resp.length > 0) {
         this.lstZona = resp;
@@ -239,7 +245,7 @@ export class DependienteComponent implements OnInit {
 
       }
 
-      this.rrhhService.registrarInfoPersona(regPersona)
+      this.dependienteSuscription = this.rrhhService.registrarInfoPersona(regPersona)
       .subscribe(( resp )=>{
         if( resp && resp?.ok === "ok" ){
 
@@ -272,7 +278,7 @@ export class DependienteComponent implements OnInit {
    */
    registrarDependiente(tempDep : Dependiente): void {
 
-    this.fichaTrabajadorService.registrarInfoDependiente( tempDep )
+    this.dependienteSuscription = this.fichaTrabajadorService.registrarInfoDependiente( tempDep )
     .subscribe(( resp ) => {
 
       if(resp && resp?.ok === "ok"){

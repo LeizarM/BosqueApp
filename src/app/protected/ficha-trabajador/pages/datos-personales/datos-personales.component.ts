@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormBuilder, FormGroup } from '@angular/forms';
 import maplibregl, { Marker, Popup } from 'maplibre-gl';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Ciudad } from 'src/app/protected/interfaces/Ciudad';
 import { Empleado } from 'src/app/protected/interfaces/Empleado';
@@ -56,6 +57,8 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
   private debounceTimer  ?: NodeJS.Timeout;
 
+  //Suscriptions
+  datoPersonalesSuscription : Subscription = new Subscription();
 
   constructor(
     private fb                     : FormBuilder,
@@ -78,13 +81,18 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
-    this.mapa.off('move', () => { });
-    this.mapa.off('load', () => { });
-    this.mapa.off('dragend', () => { });
+    if(this.mapa && this.mapaEdit){
 
-    this.mapaEdit.off('move', () => { });
-    this.mapaEdit.off('load', () => { });
-    this.mapaEdit.off('dragend', () => { });
+      this.mapa.off('move', () => { });
+      this.mapa.off('load', () => { });
+      this.mapa.off('dragend', () => { });
+
+      this.mapaEdit.off('move', () => { });
+      this.mapaEdit.off('load', () => { });
+      this.mapaEdit.off('dragend', () => { });
+    }
+
+    this.datoPersonalesSuscription.unsubscribe();
 
 
   }
@@ -151,7 +159,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
    */
    obtenerDetalleEmpleado( codEmpleado : number ): void {
 
-    this.rrhhService.obtenerDetalleEmpleado( codEmpleado ).subscribe((resp) => {
+     this.datoPersonalesSuscription = this.rrhhService.obtenerDetalleEmpleado( codEmpleado ).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
 
@@ -170,7 +178,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
    * @param codPersona
    */
    obtenerDatosPersonales(codPersona: number) {
-    this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
+    this.datoPersonalesSuscription = this.rrhhService.obtenerDatosPersonales(codPersona).subscribe((resp) => {
       if (resp) {
         this.regPer = resp;
         this.mapaLectura(this.regPer.lat!, this.regPer.lng!);
@@ -268,7 +276,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
   * Procedimiento para obtener Paises
   */
    obtenerPaises(): void {
-    this.paisService.obtenerPaises().subscribe((resp) => {
+    this.datoPersonalesSuscription = this.paisService.obtenerPaises().subscribe((resp) => {
       if (resp) {
         this.lstPais = resp;
       }
@@ -284,7 +292,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
    */
    obtenerCiudadesXPais( codPais: number ): void {
 
-    this.rrhhService.obtenerCiudadesXPais(codPais).subscribe((resp) => {
+    this.datoPersonalesSuscription = this.rrhhService.obtenerCiudadesXPais(codPais).subscribe((resp) => {
       if (resp) {
         this.lstCiudad = resp;
         this.lstZona = [];
@@ -323,7 +331,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
    * @param codCiudad
    */
     obtenerZonaXCiudad(codCiudad: number): void {
-      this.rrhhService.obtenerZonaxCiudad(codCiudad).subscribe((resp) => {
+      this.datoPersonalesSuscription = this.rrhhService.obtenerZonaxCiudad(codCiudad).subscribe((resp) => {
 
         if (resp.length > 0) {
           this.lstZona = resp;
@@ -364,7 +372,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
       }
 
-      this.rrhhService.registrarInfoPersona(regPersona).subscribe(( resp )=>{
+      this.datoPersonalesSuscription = this.rrhhService.registrarInfoPersona(regPersona).subscribe(( resp )=>{
 
         if(resp && resp?.ok === "ok"){
 
@@ -412,7 +420,7 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
 
       this.debounceTimer = setTimeout(() => {
 
-        this.fichaTrabajadorService.obtenerLugares( query ).subscribe((resp)=>{
+        this.datoPersonalesSuscription = this.fichaTrabajadorService.obtenerLugares( query ).subscribe((resp)=>{
             if(resp.features.length > 0){
 
               this.lugares = resp.features;
@@ -432,7 +440,6 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
      */
     flyTo(lugar : Feature){
       this.selectedId = lugar.properties.place_id;
-      console.log(this.selectedId);
       this.mapaEdit.flyTo({
         center :[
                   lugar.bbox[0] + ( lugar.bbox[2] - lugar.bbox[0] ) / 2,
@@ -449,8 +456,11 @@ export class DatosPersonalesComponent implements OnInit, OnDestroy {
     crearMarcadoresDeLugares(lugares : Feature[]): void {
 
       if(!this.mapaEdit) throw Error("Mapa no encontrado");
+
       this.markers.forEach(marker => marker.remove());
+
       const newMarkers = [];
+
       for( const lugar of this.lugares ){
         let center = [
                       lugar.bbox[0] + (lugar.bbox[2] - lugar.bbox[0]) / 2,

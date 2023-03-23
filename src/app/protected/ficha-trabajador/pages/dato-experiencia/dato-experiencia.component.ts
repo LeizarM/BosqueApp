@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { ExperienciaLaboral } from 'src/app/protected/interfaces/ExperienciaLaboral';
 import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
@@ -12,7 +13,7 @@ import { Utiles } from '../../../Utiles/Utiles';
   styleUrls: ['./dato-experiencia.component.css'],
   providers: [ MessageService ]
 })
-export class DatoExperienciaComponent implements OnInit {
+export class DatoExperienciaComponent implements OnInit, OnDestroy {
 
   //Formulario
   formExperiencia : FormGroup = new FormGroup({});
@@ -26,6 +27,9 @@ export class DatoExperienciaComponent implements OnInit {
   //Listas
   lstExperienciaLaboral : ExperienciaLaboral[] = [];
 
+  //Suscriptions
+  experienciaSuscription : Subscription =  new Subscription();
+
   constructor(
     private rrhhService   : RrhhService,
     private loginService  : LoginService,
@@ -34,6 +38,9 @@ export class DatoExperienciaComponent implements OnInit {
   ) {
     this.codEmpleado = this.loginService.codEmpleado;
     this.obtenerExperienciaLaboral( this.codEmpleado );
+  }
+  ngOnDestroy(): void {
+    this.experienciaSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -65,7 +72,8 @@ export class DatoExperienciaComponent implements OnInit {
    * @param codEmpleado
    */
   obtenerExperienciaLaboral(codEmpleado: number): void {
-    this.rrhhService.obtenerExperienciaLaboral(codEmpleado).subscribe((resp) => {
+
+    this.experienciaSuscription = this.rrhhService.obtenerExperienciaLaboral(codEmpleado).subscribe((resp) => {
       if (resp) {
         this.lstExperienciaLaboral = resp;
       }
@@ -124,7 +132,6 @@ export class DatoExperienciaComponent implements OnInit {
    */
   guardar():void{
 
-
     if(!this.formExperiencia.valid){
       this.formExperiencia.markAllAsTouched();
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Accion Invalida', detail: "Asegurese de que tenga los campos obligatorios" });
@@ -148,7 +155,7 @@ export class DatoExperienciaComponent implements OnInit {
 
     };
 
-    this.rrhhService.registrarExperienciaLaboral(regExpLab).subscribe((resp) => {
+    this.experienciaSuscription = this.rrhhService.registrarExperienciaLaboral(regExpLab).subscribe((resp) => {
       if (resp) {
         this.displayModal = false;
         this.messageService.add({ key: 'bc', severity: 'success', summary: 'Accion Realizada', detail: 'Registro Actualizado' });

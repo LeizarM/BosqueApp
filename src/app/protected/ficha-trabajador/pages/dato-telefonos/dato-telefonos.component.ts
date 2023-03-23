@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Telefono } from '../../../interfaces/Telefono';
@@ -13,7 +13,7 @@ import { RrhhService } from '../../../rrhh/services/rrhh.service';
   styleUrls: ['./dato-telefonos.component.css'],
   providers: [ConfirmationService, MessageService],
 })
-export class DatoTelefonosComponent implements OnInit {
+export class DatoTelefonosComponent implements OnInit, OnDestroy {
 
   //varibale de entrada del padre al componente hijo
   @Input() codPersona: number = 0;
@@ -32,6 +32,9 @@ export class DatoTelefonosComponent implements OnInit {
     telArr: this.fb.array([])
   });
 
+  //Suscriptions
+  telefonoSuscription : Subscription = new Subscription();
+
   constructor(
     private rrhhService: RrhhService,
     private loginService: LoginService,
@@ -40,6 +43,9 @@ export class DatoTelefonosComponent implements OnInit {
     private messageService: MessageService
   ) {
     this.codUsuario = this.loginService.codUsuario;
+  }
+  ngOnDestroy(): void {
+    this.telefonoSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -52,7 +58,7 @@ export class DatoTelefonosComponent implements OnInit {
    * @param codPersona
    */
   obtenerTelefonos(codPersona: number): void {
-    this.rrhhService.obtenerDatosTelefono(codPersona).subscribe((resp) => {
+    this.telefonoSuscription = this.rrhhService.obtenerDatosTelefono(codPersona).subscribe((resp) => {
       if (resp) {
         this.telefonos = resp;
       }
@@ -125,7 +131,7 @@ export class DatoTelefonosComponent implements OnInit {
     this.lstFormTel().controls.map(e => {
       //console.log(e.value);
       //let { codEmail, codPersona, email, audUsuario } = e.value;
-      this.rrhhService.registrarTelefono(e.value).subscribe(
+      this.telefonoSuscription = this.rrhhService.registrarTelefono(e.value).subscribe(
         (resp) => {
           if (resp) {
             console.log("bien");
@@ -207,7 +213,7 @@ export class DatoTelefonosComponent implements OnInit {
           codTelefono: codTelefono
         };
 
-        this.rrhhService.eliminarTelefono(tel)
+        this.telefonoSuscription = this.rrhhService.eliminarTelefono(tel)
           .pipe(
             catchError(err => {
               console.log('Error general: ', err);

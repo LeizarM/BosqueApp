@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Empleado } from 'src/app/protected/interfaces/Empleado';
+import { RrhhService } from 'src/app/protected/rrhh/services/rrhh.service';
 
 @Component({
   selector: 'app-dato-ingreso',
   templateUrl: './dato-ingreso.component.html',
   styleUrls: ['./dato-ingreso.component.css']
 })
-export class DatoIngresoComponent implements OnInit {
+export class DatoIngresoComponent implements OnInit, OnDestroy {
 
   // objectos
   regEmp : Empleado = {};
 
   //variables
   codEmpleado : number = 0;
+
+  //Suscriptions
+  ingresoSuscription : Subscription = new Subscription();
 
   constructor(
     private rrhhService   : RrhhService,
@@ -23,6 +27,9 @@ export class DatoIngresoComponent implements OnInit {
   {
     this.codEmpleado = this.loginService.codEmpleado;
     this.obtenerDatoEmpleado( this.codEmpleado );
+  }
+  ngOnDestroy(): void {
+    this.ingresoSuscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -34,7 +41,7 @@ export class DatoIngresoComponent implements OnInit {
    * @param codEmpleado
    */
   obtenerDatoEmpleado(codEmpleado: number) {
-    this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
+   this.ingresoSuscription = this.rrhhService.obtenerDetalleEmpleado(codEmpleado).subscribe((resp) => {
       if (resp) {
         this.regEmp = resp;
         console.log(this.regEmp);

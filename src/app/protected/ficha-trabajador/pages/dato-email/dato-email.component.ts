@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/auth/services/login.service';
 import { Email } from 'src/app/protected/interfaces/Email';
 import { RrhhService } from '../../../rrhh/services/rrhh.service';
@@ -11,7 +12,7 @@ import { RrhhService } from '../../../rrhh/services/rrhh.service';
   styleUrls: ['./dato-email.component.css'],
   providers: [ ConfirmationService, MessageService ],
 })
-export class DatoEmailComponent implements OnInit {
+export class DatoEmailComponent implements OnInit, OnDestroy {
 
   //varibale de entrada del padre al componente hijo
   @Input() codPersona : number = 0;
@@ -28,6 +29,9 @@ export class DatoEmailComponent implements OnInit {
   lstEmail : Email[] = [];
   emails   : Email[] = [];
 
+  //Suscripciones
+  emailSuscription !: Subscription;
+
   constructor(
     private rrhhService  : RrhhService,
     private fb           : FormBuilder,
@@ -36,6 +40,11 @@ export class DatoEmailComponent implements OnInit {
     private messageService: MessageService
   ) {
 
+
+  }
+  ngOnDestroy(): void {
+
+    this.emailSuscription.unsubscribe();
 
   }
 
@@ -51,7 +60,7 @@ export class DatoEmailComponent implements OnInit {
    * @param codPersona
    */
   obtenerEmails(codPersona: number): void {
-    this.rrhhService.obtenerDatosEmail(codPersona).subscribe((resp) => {
+    this.emailSuscription =  this.rrhhService.obtenerDatosEmail(codPersona).subscribe((resp) => {
       if (resp) {
         this.lstEmail = resp;
       }
@@ -139,7 +148,7 @@ export class DatoEmailComponent implements OnInit {
             codEmail: codEmail
           };
 
-          this.rrhhService.eliminarEmail(em).subscribe(
+          this.emailSuscription = this.rrhhService.eliminarEmail(em).subscribe(
             (resp) => {
               if (resp) {
                 console.log("bien");
@@ -174,7 +183,7 @@ export class DatoEmailComponent implements OnInit {
     this.lstFormEmail().controls.map(e => {
       //console.log(e.value);
       //let { codEmail, codPersona, email, audUsuario } = e.value;
-      this.rrhhService.registrarEmail(e.value).subscribe(
+      this.emailSuscription = this.rrhhService.registrarEmail(e.value).subscribe(
         (resp) => {
           if (resp) {
             console.log("bien");

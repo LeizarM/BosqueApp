@@ -14,8 +14,8 @@ import { MapBoxLibre } from '../../interfaces/MapBoxLibre';
 })
 export class FichaTrabajadorService {
 
-  private baseUrl: string = environment.baseUrl;
-  private urlMap: string = 'https://nominatim.openstreetmap.org/search?q=';
+  private baseUrl : string = environment.baseUrl;
+  private urlMap  : string = 'https://nominatim.openstreetmap.org/search?q=';
   private styleMap: string = '&format=geojson&polygon_geojson=1&addressdetails=1';
 
   constructor(private http: HttpClient) { }
